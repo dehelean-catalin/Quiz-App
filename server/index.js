@@ -7,7 +7,7 @@ api.get("/", function (request, response) {
 	response.json("NodeJS REST API");
 });
 
-api.get("/question", function (request, response) {
+api.get("/quizzes", function (request, response) {
 	response.json(getQuestion());
 });
 
@@ -42,8 +42,8 @@ api.post("/question", function (request, response) {
 	response.json(request.body);
 });
 
-api.listen(3000, function () {
-	console.log("Server running @ localhost:3000");
+api.listen(8080, function () {
+	console.log("Server running @ localhost:8080");
 });
 
 function getQuestion() {
