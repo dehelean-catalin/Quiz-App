@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { axiosInstance } from "../config/axios.config";
-
-// TODO: 1.CANCEL REQUEST IS component unmounted; 2. Adjust the error object and define an interface
 
 export default function useFetch<TData = unknown>(
 	url: string,
@@ -9,24 +7,36 @@ export default function useFetch<TData = unknown>(
 ) {
 	const [data, setData] = useState<TData | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState(false);
+	const [error, setError] = useState<Error | null>(null);
 
-	console.log(options);
+	const cancelRequest = useRef(false);
+
+	async function fetchData() {
+		setIsLoading(true);
+		try {
+			const response = await axiosInstance.get<TData>(url);
+
+			if (cancelRequest.current) return;
+
+			setData(response.data);
+		} catch (err) {
+			if (cancelRequest.current) return;
+			setError(err as Error);
+		} finally {
+			setIsLoading(false);
+		}
+	}
 
 	useEffect(() => {
-		async function fetchData() {
-			setIsLoading(true);
-			try {
-				const response = await axiosInstance.get<TData>(url);
+		if (!url) return;
 
-				setData(response.data);
-			} catch (err) {
-				setError(true);
-			} finally {
-				setIsLoading(false);
-			}
-		}
+		cancelRequest.current = false;
+
 		fetchData();
+
+		return () => {
+			cancelRequest.current = true;
+		};
 	}, [url]);
 
 	return { data, isLoading, error };

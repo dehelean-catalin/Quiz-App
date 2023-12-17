@@ -1,0 +1,29 @@
+#root {
+	min-width: 100%;
+}
+
+.container {
+	margin: 0 var(--m-3);
+}
+
+.card {
+	background-color: white;
+	border-radius: var(--border-3);
+	padding: var(--p-2) var(--p-4);
+
+	box-shadow: 0px 0px 5px -2px var(--tertiary-gray);
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.tag {
+	padding: var(--p-2);
+	margin-bottom: var(--m-1);
+	border-radius: var(--border-2);
+}
+
+.block {
+	display: block;
+}

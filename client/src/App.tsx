@@ -1,12 +1,22 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
-import { QuizDashboard } from "./features/quiz-dashboard/QuizDashboard/QuizDashboard";
+import "./Utility.css";
+import { ROUTES } from "./config/axios.config";
+import { Questions } from "./features/questions/Questions";
+import QuizOverview from "./features/quiz-overview/QuizOverview/QuizOverview";
+import { Quizzes } from "./features/quizzes/Quizzes/Quizzes";
+import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
+import { QuizLayout } from "./pages/QuizLayout/QuizLayout";
 
 function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/" element={<QuizDashboard />} />
+				<Route path={ROUTES.QUIZ} element={<QuizLayout />}>
+					<Route index element={<Quizzes />} />
+					<Route path=":id" element={<QuizOverview />} />
+					<Route path={`:id/${ROUTES.TEST}`} element={<Questions />} />
+				</Route>
+				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</BrowserRouter>
 	);

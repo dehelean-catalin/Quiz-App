@@ -1,0 +1,8 @@
+.container {
+	& label {
+		border: 1px solid var(--secondary-gray);
+	}
+	& label:has(input:checked) {
+		background-color: var(--primary-blue);
+	}
+}
