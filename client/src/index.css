@@ -30,6 +30,8 @@
 
 * {
 	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
 }
 
 html {
@@ -54,6 +56,11 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+#root {
+	min-width: 100%;
+	min-height: 100vh;
+}
+
 h1,
 h2,
 h3,
@@ -61,10 +68,6 @@ h4 {
 	color: var(--tertiary-gray);
 }
 
-p,
-span {
-	color: var(--secondary-gray);
-}
 a {
 	font-weight: 500;
 	color: #646cff;
@@ -76,18 +79,21 @@ a:hover {
 button {
 	border-radius: 8px;
 	border: 1px solid transparent;
-	padding: 0.6em 1.2em;
+	padding: var(--p-2) var(--p-4);
 	font-size: 1em;
 	font-weight: 500;
 	font-family: inherit;
-	background-color: #1a1a1a;
+	color: white;
+	background-color: var(--tertiary-blue);
 	cursor: pointer;
 	transition: border-color 0.25s;
 }
-button:hover {
-	border-color: #646cff;
+button:disabled {
+	cursor: default;
+	color: var(--primary-gray);
+	background-color: var(--secondary-gray);
 }
-button:focus,
+
 button:focus-visible {
 	outline: 4px auto -webkit-focus-ring-color;
 }

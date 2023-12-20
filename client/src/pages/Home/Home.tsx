@@ -4,6 +4,7 @@ export function Home() {
 	return (
 		<div className="App">
 			<Start />
+			Welcome to my app
 		</div>
 	);
 }

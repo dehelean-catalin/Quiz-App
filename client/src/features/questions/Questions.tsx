@@ -6,7 +6,7 @@ import { QuestionCard } from "./components/QuestionCard";
 import { Question } from "./types/quizTestTypes";
 
 export function Questions() {
-	const { data, isLoading, error } = useFetch<string[]>(ROUTES.TEST);
+	const { data, isLoading, error } = useFetch<string[]>(ROUTES.QUESTIONS);
 	const [question, setQuestion] = useState<Question | null>(null);
 	const [questionNumber, setQuestionNumber] = useState(0);
 
@@ -17,7 +17,7 @@ export function Questions() {
 
 		try {
 			const res = await axiosInstance.get<Question>(
-				`${ROUTES.TEST}/${data[questionNumber]}`
+				`${ROUTES.QUESTIONS}/${data[questionNumber]}`
 			);
 			setQuestion(res.data);
 		} catch (error) {
@@ -41,12 +41,12 @@ export function Questions() {
 	}
 
 	return (
-		<div>
-			{questionNumber + 1}/{data.length}
+		<>
 			<QuestionCard
 				value={question}
 				onNext={() => setQuestionNumber(questionNumber + 1)}
+				count={`${questionNumber + 1} of ${data.length}`}
 			/>
-		</div>
+		</>
 	);
 }

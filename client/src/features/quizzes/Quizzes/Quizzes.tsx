@@ -12,7 +12,7 @@ export function Quizzes() {
 	if (error) return <FetchError error={error} />;
 
 	return (
-		<div className={styles.quizzes}>
+		<div className={styles.container}>
 			<h1>Quizzes</h1>
 			<div className={styles.grid}>
 				{data?.map((quiz, key) => (

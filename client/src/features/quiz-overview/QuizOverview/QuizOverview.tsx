@@ -20,7 +20,7 @@ export default function QuizOverview() {
 	if (!data) return <>NO DATA</>;
 
 	return (
-		<article className="card pointer">
+		<article className="card pointer m-auto">
 			<h3>{data.title}</h3>
 			<p>{data.description}</p>
 

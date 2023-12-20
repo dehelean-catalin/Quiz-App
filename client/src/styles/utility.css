@@ -1,15 +1,12 @@
-#root {
-	min-width: 100%;
-}
-
 .container {
+	display: flex;
 	margin: 0 var(--m-3);
 }
 
 .card {
+	padding: var(--p-3) var(--p-4);
 	background-color: white;
 	border-radius: var(--border-3);
-	padding: var(--p-2) var(--p-4);
 
 	box-shadow: 0px 0px 5px -2px var(--tertiary-gray);
 }
@@ -20,10 +17,13 @@
 
 .tag {
 	padding: var(--p-2);
-	margin-bottom: var(--m-1);
 	border-radius: var(--border-2);
 }
 
 .block {
 	display: block;
+}
+
+.m-auto {
+	margin: auto;
 }

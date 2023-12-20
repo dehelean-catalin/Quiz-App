@@ -1,8 +1,38 @@
 .container {
+	--padding: var(--p-2) var(--p-6);
+	--border: 2px solid var(--primary-gray);
+	--gap: 0.5rem;
+
+	width: max(568px, 40%);
+	padding: 0 !important;
+
+	& h1 {
+		font-size: 1.25em;
+	}
 	& label {
-		border: 1px solid var(--secondary-gray);
+		border: var(--border);
 	}
 	& label:has(input:checked) {
-		background-color: var(--primary-blue);
+		border-color: var(--primary-blue);
+	}
+	& input {
+		margin-right: var(--p-2);
+	}
+	& header {
+		padding: var(--padding);
+		border-bottom: var(--border);
+	}
+	& section {
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap);
+		padding: var(--p-6);
+	}
+	& footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-top: var(--border);
+		padding: var(--p-2) var(--p-4);
 	}
 }
