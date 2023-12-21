@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ROUTES } from "./config/axios.config";
+import { CreateQuiz } from "./features/create-quiz/CreateQuiz";
 import { Questions } from "./features/questions/Questions";
 import QuizOverview from "./features/quiz-overview/QuizOverview/QuizOverview";
 import { Quizzes } from "./features/quizzes/Quizzes/Quizzes";
@@ -12,6 +13,7 @@ function App() {
 			<Routes>
 				<Route path={ROUTES.QUIZ} element={<QuizLayout />}>
 					<Route index element={<Quizzes />} />
+					<Route path="create" element={<CreateQuiz />} />
 					<Route path=":id" element={<QuizOverview />} />
 					<Route path={`:id/${ROUTES.QUESTIONS}`} element={<Questions />} />
 				</Route>

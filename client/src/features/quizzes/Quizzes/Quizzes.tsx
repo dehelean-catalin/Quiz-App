@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { FetchError } from "../../../components/FetchError/FetchError";
 import useFetch from "../../../hooks/useFetch";
 import { QuizCard } from "../components/QuizCard";
@@ -13,7 +14,11 @@ export function Quizzes() {
 
 	return (
 		<div className={styles.container}>
-			<h1>Quizzes</h1>
+			<header>
+				<h1>Quizzes</h1>
+				<NavLink to="create">Create</NavLink>
+			</header>
+
 			<div className={styles.grid}>
 				{data?.map((quiz, key) => (
 					<QuizCard key={key} value={quiz} />

@@ -1,7 +1,8 @@
 export type Question = {
 	id: string;
 	title: string;
-	options: QuestionOption[];
+	answers: QuestionOption[];
+	points: number;
 };
 
 type QuestionOption = {
