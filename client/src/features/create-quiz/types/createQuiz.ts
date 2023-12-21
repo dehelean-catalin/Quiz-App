@@ -11,6 +11,8 @@ export type CreateQuiz = {
 	difficulty: string;
 	duration: number;
 	questionsPerPage: number;
-	allowBack: boolean;
+	checkPrevious: boolean;
 	questions: CreateQuestion[];
+	categories: string[];
+	subCategories: string[];
 };
