@@ -1,13 +1,15 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-import styles from "./CreateQuiz.module.css";
-import { postQuiz } from "./services/postQuiz.service";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
-const INITIAL_QUESTION = {
-	title: "",
-	answers: [],
-	validAnswers: [],
-	points: 0,
-};
+import { ChangeEvent } from "react";
+import { useNavigate } from "react-router";
+import { ROUTES } from "../../config/axios.config";
+import styles from "./CreateQuiz.module.css";
+import { FieldArray } from "./components/FieldArray";
+import { FieldInput } from "./components/FieldInput";
+import { FieldTextarea } from "./components/FieldTextarea";
+import { QuizFormData, quizSchema } from "./schemas/quiz.schema";
+import { postQuiz } from "./services/postQuiz.service";
 
 enum Difficulty {
 	"Beginner",
@@ -16,87 +18,97 @@ enum Difficulty {
 	"Expert",
 }
 
+const DEFAULT_VALUES = {
+	duration: 5,
+	questionsPerPage: 2,
+	checkPrevious: false,
+	questions: [
+		{
+			title: "First question",
+			points: 1,
+			answers: ["Answer 1", "Answer 2", "Answer 3", "Answer 4"],
+			validAnswers: ["Answer 1"],
+		},
+	],
+};
+
 export function CreateQuiz() {
-	// const [questions, setQuestions] = useState<CreateQuestion[]>([
-	// 	INITIAL_QUESTION,
-	// ]);
-	const [difficulty, setDifficulty] = useState(Difficulty.Beginner);
+	const navigate = useNavigate();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		setValue,
+		reset,
+		control,
+	} = useForm<QuizFormData>({
+		resolver: yupResolver(quizSchema),
+		defaultValues: { ...DEFAULT_VALUES },
+	});
 
 	function handleChangeDifficulty(e: ChangeEvent<HTMLInputElement>) {
-		const input = e.target.value;
-		setDifficulty(input);
+		setValue("difficulty", Difficulty[Number(e.target.value)]);
 	}
-	// const ref = useRef()
+	function handleCheckChange(e: ChangeEvent<HTMLInputElement>) {
+		const input = e.target.value == "on" ? true : false;
 
-	// function handleClick() {
-	// 	setQuestions([...questions, INITIAL_QUESTION]);
-	// }
+		setValue("checkPrevious", input);
+	}
 
-	async function handleSubmit(e: FormEvent) {
-		e.preventDefault();
-
-		const formData = new FormData(e.target as HTMLFormElement);
-		const response = await postQuiz({
-			title: formData.get("title") as string,
-			description: formData.get("description") as string,
-			duration: Number(formData.get("duration")),
-			difficulty: formData.get("difficulty") as string,
-			questionsPerPage: Number(formData.get("question-pages")),
-			checkPrevious: formData.get("check-previous") == "on" ? true : false,
-			questions: [],
-			categories: [],
-			subCategories: [],
-		});
-
-		console.log(response);
+	async function onSubmit(data: QuizFormData) {
+		await postQuiz(data);
+		navigate(`/${ROUTES.QUIZ}`);
+		reset();
 	}
 
 	return (
-		<form className={styles.form} onSubmit={handleSubmit}>
-			<label htmlFor="title">Title*</label>
-			<input type="text" name="title" id="title" />
-
-			<label htmlFor="difficulty">Difficulty</label>
-			<input
-				value={difficulty}
-				onChange={handleChangeDifficulty}
-				type="range"
-				name="difficulty"
+		<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+			<FieldInput
+				label="Title *"
+				id="title"
+				register={register}
+				errorMessage={errors.title?.message}
+			/>
+			<FieldTextarea
+				id="description"
+				label="Description *"
+				register={register}
+				errorMessage={errors.description?.message}
+			/>
+			<FieldInput
+				label="Difficulty"
 				id="difficulty"
+				inputType="range"
 				min="0"
 				max="3"
+				onChange={handleChangeDifficulty}
 			/>
 
-			<label htmlFor="description">Description</label>
-			<textarea
-				name="description"
-				id="description"
-				cols={30}
-				rows={10}
-			></textarea>
-
-			{Difficulty[difficulty]}
-
-			<label htmlFor="duration">Duration (mins)</label>
-			<input type="number" name="duration" id="duration" defaultValue={5} />
-
-			<label htmlFor="question-pages">Questions per page</label>
-			<input
-				type="number"
-				name="question-pages"
-				id="question-pages"
-				defaultValue={2}
+			<FieldInput
+				label="Duration *"
+				id="duration"
+				inputType="number"
+				register={register}
+				errorMessage={errors.duration?.message}
 			/>
-
-			<label htmlFor="check-previous">Allow check previous questions</label>
-			<input type="radio" name="check-previous" id="check-previous" />
-
-			{/* {questions.map((question, index) => (
-				<QuestionField key={index} index={index} value={question} />
-			))} */}
-			{/* <button type="button" onClick={handleClick}>
-				Add new quiz
-			</button> */}
+			<FieldInput
+				label="Questions per page *"
+				id="questionsPerPage"
+				inputType="number"
+				register={register}
+				errorMessage={errors.questionsPerPage?.message}
+			/>
+			<FieldInput
+				label="Allow check previous questions"
+				id="checkPrevious"
+				inputType="checkbox"
+				onChange={handleCheckChange}
+				errorMessage={errors.checkPrevious?.message}
+			/>
+			<div>
+				Questions:
+				<FieldArray control={control} register={register} />
+			</div>
 
 			<button type="submit">Submit</button>
 		</form>

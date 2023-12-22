@@ -8,6 +8,10 @@
 	--secondary-gray: #6a7386;
 	--tertiary-gray: #222834;
 
+	--primary-white: #f4f4f4;
+
+	--primary-red: #ff3333;
+
 	--border-1: 2px;
 	--border-2: 4px;
 	--border-3: 8px;
@@ -41,7 +45,7 @@ html {
 body {
 	margin: 0;
 	min-height: 100vh;
-	background-color: var(--primary-gray);
+	background-color: var(--primary-white);
 	color: var(--secondary-gray);
 
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -66,6 +70,36 @@ h2,
 h3,
 h4 {
 	color: var(--tertiary-gray);
+}
+
+input,
+textarea {
+	color: var(--secondary-gray);
+	background-color: var(--primary-gray);
+
+	border: 1px solid transparent;
+	border-radius: var(--border-2);
+
+	padding: var(--p-3) !important;
+}
+
+input:focus,
+textarea:focus {
+	outline: 2px solid var(--secondary-blue);
+}
+input[type="range"] {
+	outline: none;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+	border-color: var(--primary-red);
+	color: var(--primary-red);
+}
+
+input[aria-invalid="true"]:focus,
+textarea[aria-invalid="true"]:focus {
+	outline: 1px solid var(--primary-red) !important;
 }
 
 a {
@@ -96,4 +130,8 @@ button:disabled {
 
 button:focus-visible {
 	outline: 4px auto -webkit-focus-ring-color;
+}
+
+textarea {
+	resize: none;
 }

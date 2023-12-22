@@ -27,3 +27,22 @@
 .m-auto {
 	margin: auto;
 }
+
+.error {
+	color: var(--primary-red);
+}
+
+.error-message {
+	min-height: 1.675rem;
+	margin-bottom: var(--m-1);
+	padding-top: var(--p-1);
+	font-size: 0.875em;
+}
+
+.flex {
+	display: flex;
+}
+
+.col {
+	flex-direction: column;
+}
