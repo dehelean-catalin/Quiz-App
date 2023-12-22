@@ -1,12 +1,19 @@
-import { Control, UseFormRegister, useFieldArray } from "react-hook-form";
+import {
+	Control,
+	FieldErrors,
+	UseFormRegister,
+	useFieldArray,
+} from "react-hook-form";
 import { QuizFormData } from "../schemas/quiz.schema";
+import { FieldInput } from "./FieldInput";
 
 type Props = {
 	register: UseFormRegister<QuizFormData>;
 	control: Control<QuizFormData>;
+	errors: FieldErrors<QuizFormData>;
 };
 
-export function FieldArray({ register, control }: Props) {
+export function FieldArray({ register, control, errors }: Props) {
 	const { fields, remove } = useFieldArray({
 		control,
 		name: "questions",
@@ -15,14 +22,32 @@ export function FieldArray({ register, control }: Props) {
 	return (
 		<>
 			{fields.map((field, index) => (
-				<details>
+				<details key={field.id}>
 					<summary>
 						{index + 1}. {field.title}
 						<button onClick={() => remove()}>Remove</button>
 					</summary>
-					<div key={field.id}>
-						<input {...register(`questions.${index}.title`)} />
-						<input type="number" {...register(`questions.${index}.points`)} />
+					<div>
+						<FieldInput
+							label={field.title}
+							id={`questions.${index}.title`}
+							errorMessage={
+								errors?.questions ? errors.questions[index]?.title?.message : ""
+							}
+							register={register}
+						/>
+
+						<FieldInput
+							label={"Points"}
+							inputType="number"
+							id={`questions.${index}.points`}
+							errorMessage={
+								errors?.questions
+									? errors.questions[index]?.points?.message
+									: ""
+							}
+							register={register}
+						/>
 					</div>
 				</details>
 			))}

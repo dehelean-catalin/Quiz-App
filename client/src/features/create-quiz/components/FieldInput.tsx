@@ -12,7 +12,7 @@ interface Props
 		HTMLInputElement
 	> {
 	label: string;
-	id: keyof QuizFormData;
+	id: keyof QuizFormData | any;
 	register?: UseFormRegister<QuizFormData>;
 	inputType?: HTMLInputTypeAttribute;
 	errorMessage?: string;
@@ -31,7 +31,9 @@ export function FieldInput({
 
 	return (
 		<div className="flex col">
-			<label htmlFor={id}>{label}</label>
+			<label htmlFor={id} className={errorMessage ? "error" : ""}>
+				{label}
+			</label>
 			<input
 				type={inputType}
 				id={id}

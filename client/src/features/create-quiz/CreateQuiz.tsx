@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import { ChangeEvent } from "react";
 import { useNavigate } from "react-router";
@@ -19,6 +19,7 @@ enum Difficulty {
 }
 
 const DEFAULT_VALUES = {
+	difficulty: "0",
 	duration: 5,
 	questionsPerPage: 2,
 	checkPrevious: false,
@@ -46,9 +47,9 @@ export function CreateQuiz() {
 		defaultValues: { ...DEFAULT_VALUES },
 	});
 
-	function handleChangeDifficulty(e: ChangeEvent<HTMLInputElement>) {
-		setValue("difficulty", Difficulty[Number(e.target.value)]);
-	}
+	// function handleChangeDifficulty(e: ChangeEvent<HTMLInputElement>) {
+	// 	setValue("difficulty", Difficulty[Number(e.target.value)]);
+	// }
 	function handleCheckChange(e: ChangeEvent<HTMLInputElement>) {
 		const input = e.target.value == "on" ? true : false;
 
@@ -56,6 +57,7 @@ export function CreateQuiz() {
 	}
 
 	async function onSubmit(data: QuizFormData) {
+		console.log("here");
 		await postQuiz(data);
 		navigate(`/${ROUTES.QUIZ}`);
 		reset();
@@ -75,13 +77,24 @@ export function CreateQuiz() {
 				register={register}
 				errorMessage={errors.description?.message}
 			/>
-			<FieldInput
-				label="Difficulty"
-				id="difficulty"
-				inputType="range"
-				min="0"
-				max="3"
-				onChange={handleChangeDifficulty}
+			<Controller
+				control={control}
+				name="difficulty"
+				render={({ field: { onChange, onBlur, value } }) => (
+					<div>
+						<FieldInput
+							label="Difficulty"
+							id="difficulty"
+							inputType="range"
+							min="0"
+							max="3"
+							defaultValue="0"
+							onChange={onChange}
+							onBlur={onBlur}
+						/>
+						{Difficulty[value]}
+					</div>
+				)}
 			/>
 
 			<FieldInput
@@ -107,7 +120,7 @@ export function CreateQuiz() {
 			/>
 			<div>
 				Questions:
-				<FieldArray control={control} register={register} />
+				<FieldArray control={control} register={register} errors={errors} />
 			</div>
 
 			<button type="submit">Submit</button>

@@ -101,7 +101,10 @@ input[aria-invalid="true"]:focus,
 textarea[aria-invalid="true"]:focus {
 	outline: 1px solid var(--primary-red) !important;
 }
-
+input[type="range"] {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
 a {
 	font-weight: 500;
 	color: #646cff;
