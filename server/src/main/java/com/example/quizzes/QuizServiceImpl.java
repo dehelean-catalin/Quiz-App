@@ -1,6 +1,7 @@
 package com.example.quizzes;
 
-import com.example.questions.QuestionRepo;
+import com.example.answers.Answer;
+import com.example.questions.Question;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,11 +11,9 @@ import java.util.Optional;
 public class QuizServiceImpl implements QuizService {
 
     private final QuizRepo quizRepo;
-    private final QuestionRepo questionRepo;
 
-    public QuizServiceImpl(QuizRepo quizRepo, QuestionRepo questionRepo) {
+    public QuizServiceImpl(QuizRepo quizRepo) {
         this.quizRepo = quizRepo;
-        this.questionRepo = questionRepo;
     }
 
     @Override
@@ -33,7 +32,27 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public String save(Quiz quiz) {
-        quizRepo.save(quiz);
+        Quiz newQuiz = new Quiz(quiz.getTitle(),
+                quiz.getDescription(),
+                quiz.getDifficulty(),
+                quiz.getDuration(),
+                quiz.getQuestionsPerPage(),
+                quiz.getCheckPrevious());
+
+        for (Question question : quiz.getQuestions()) {
+            Question newQuestion = new Question(question.getTitle(), question.getPoints());
+
+            for (Answer answer : question.getAnswers()) {
+                Answer newAnswer = new Answer(answer.getTitle(),
+                        answer.getIsValid());
+                newQuestion.addAnswer(newAnswer);
+            }
+
+            newQuiz.addQuestion(newQuestion);
+        }
+
+        quizRepo.save(newQuiz);
+
         return "Success";
     }
 }
