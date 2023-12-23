@@ -25,7 +25,8 @@ public class Quiz {
     @Column(nullable = false)
     private String description;
 
-    private String difficulty;
+    @Enumerated(EnumType.STRING)
+    private Difficulty difficulty;
 
     private Integer duration;
 
@@ -39,7 +40,8 @@ public class Quiz {
             orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
 
-    public Quiz(String title, String description, String difficulty, Integer duration, Integer questionsPerPage, Boolean checkPrevious) {
+    public Quiz(String title, String description, Difficulty difficulty,
+                Integer duration, Integer questionsPerPage, Boolean checkPrevious) {
         this.title = title;
         this.description = description;
         this.difficulty = difficulty;

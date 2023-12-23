@@ -8,18 +8,19 @@ import styles from "./CreateQuiz.module.css";
 import { FieldArray } from "./components/FieldArray";
 import { FieldInput } from "./components/FieldInput";
 import { FieldTextarea } from "./components/FieldTextarea";
+import { QuestionActionDialog } from "./components/QuestionActionDialog";
 import { QuizFormData, quizSchema } from "./schemas/quiz.schema";
 import { postQuiz } from "./services/postQuiz.service";
 
 enum Difficulty {
 	"Beginner",
 	"Intermediate",
-	"Advanced",
+	"Advance",
 	"Expert",
 }
 
 const DEFAULT_VALUES = {
-	difficulty: "0",
+	difficulty: "Beginner",
 	duration: 5,
 	questionsPerPage: 2,
 	checkPrevious: false,
@@ -59,7 +60,10 @@ export function CreateQuiz() {
 
 	async function onSubmit(data: QuizFormData) {
 		try {
-			const resp = await postQuiz(data);
+			const resp = await postQuiz({
+				...data,
+				difficulty: Difficulty[data.difficulty as "0"],
+			});
 			alert(resp);
 			navigate(`/${ROUTES.QUIZ}`);
 			reset();
@@ -97,7 +101,7 @@ export function CreateQuiz() {
 							onChange={onChange}
 							onBlur={onBlur}
 						/>
-						{Difficulty[value]}
+						{Difficulty[value as "0"]}
 					</div>
 				)}
 			/>
@@ -125,6 +129,7 @@ export function CreateQuiz() {
 			/>
 			<div>
 				Questions:
+				<QuestionActionDialog />
 				<FieldArray control={control} register={register} errors={errors} />
 			</div>
 

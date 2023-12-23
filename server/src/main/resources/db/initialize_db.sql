@@ -1,6 +1,6 @@
-INSERT INTO quiz (id,title, description) VALUES
+INSERT INTO quizzes (title, description, difficulty) VALUES
 (
-    'haha',
-    'HTML3',
-    'TESTT'
+    'HTML3D',
+    'TESTT',
+    'Expert'
 );

@@ -5,7 +5,6 @@ import {
 	useFieldArray,
 } from "react-hook-form";
 import { QuizFormData } from "../schemas/quiz.schema";
-import { FieldInput } from "./FieldInput";
 
 type Props = {
 	register: UseFormRegister<QuizFormData>;
@@ -13,7 +12,7 @@ type Props = {
 	errors: FieldErrors<QuizFormData>;
 };
 
-export function FieldArray({ register, control, errors }: Props) {
+export function FieldArray({ control }: Props) {
 	const { fields, remove } = useFieldArray({
 		control,
 		name: "questions",
@@ -24,11 +23,18 @@ export function FieldArray({ register, control, errors }: Props) {
 			{fields.map((field, index) => (
 				<details key={field.id}>
 					<summary>
-						{index + 1}. {field.title}
+						{index + 1}. {field.title} {field.points}
 						<button onClick={() => remove()}>Remove</button>
+						<button onClick={() => remove()}>Edit</button>
 					</summary>
-					<div>
-						<FieldInput
+					<div className="flex">
+						{field.answers?.map((answer) => (
+							<>
+								{answer.answer}
+								{answer.isValid}
+							</>
+						))}
+						{/* <FieldInput
 							label={field.title}
 							id={`questions.${index}.title`}
 							errorMessage={
@@ -36,7 +42,6 @@ export function FieldArray({ register, control, errors }: Props) {
 							}
 							register={register}
 						/>
-
 						<FieldInput
 							label={"Points"}
 							inputType="number"
@@ -47,7 +52,7 @@ export function FieldArray({ register, control, errors }: Props) {
 									: ""
 							}
 							register={register}
-						/>
+						/> */}
 					</div>
 				</details>
 			))}
