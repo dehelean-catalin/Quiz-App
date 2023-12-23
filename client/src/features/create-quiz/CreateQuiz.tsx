@@ -27,8 +27,12 @@ const DEFAULT_VALUES = {
 		{
 			title: "First question",
 			points: 1,
-			answers: ["Answer 1", "Answer 2", "Answer 3", "Answer 4"],
-			validAnswers: ["Answer 1"],
+			answers: [
+				{ answer: "Answer 1", isValid: false },
+				{ answer: "Answer 1", isValid: false },
+				{ answer: "Answer 1", isValid: false },
+				{ answer: "Answer 1", isValid: false },
+			],
 		},
 	],
 };
@@ -47,9 +51,6 @@ export function CreateQuiz() {
 		defaultValues: { ...DEFAULT_VALUES },
 	});
 
-	// function handleChangeDifficulty(e: ChangeEvent<HTMLInputElement>) {
-	// 	setValue("difficulty", Difficulty[Number(e.target.value)]);
-	// }
 	function handleCheckChange(e: ChangeEvent<HTMLInputElement>) {
 		const input = e.target.value == "on" ? true : false;
 
@@ -57,10 +58,14 @@ export function CreateQuiz() {
 	}
 
 	async function onSubmit(data: QuizFormData) {
-		console.log("here");
-		await postQuiz(data);
-		navigate(`/${ROUTES.QUIZ}`);
-		reset();
+		try {
+			const resp = await postQuiz(data);
+			alert(resp);
+			navigate(`/${ROUTES.QUIZ}`);
+			reset();
+		} catch (error) {
+			alert(JSON.stringify(error));
+		}
 	}
 
 	return (

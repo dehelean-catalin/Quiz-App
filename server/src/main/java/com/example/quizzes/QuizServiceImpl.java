@@ -1,5 +1,6 @@
 package com.example.quizzes;
 
+import com.example.questions.QuestionRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +10,11 @@ import java.util.Optional;
 public class QuizServiceImpl implements QuizService {
 
     private final QuizRepo quizRepo;
+    private final QuestionRepo questionRepo;
 
-    public QuizServiceImpl(QuizRepo quizRepo) {
+    public QuizServiceImpl(QuizRepo quizRepo, QuestionRepo questionRepo) {
         this.quizRepo = quizRepo;
+        this.questionRepo = questionRepo;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public String save(Quiz quiz) {
-        var response = quizRepo.save(quiz);
+        quizRepo.save(quiz);
         return "Success";
     }
 }

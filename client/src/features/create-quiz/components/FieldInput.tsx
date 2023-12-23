@@ -12,7 +12,7 @@ interface Props
 		HTMLInputElement
 	> {
 	label: string;
-	id: keyof QuizFormData | any;
+	id: keyof QuizFormData;
 	register?: UseFormRegister<QuizFormData>;
 	inputType?: HTMLInputTypeAttribute;
 	errorMessage?: string;
