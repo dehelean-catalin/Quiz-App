@@ -1,22 +1,37 @@
 .landing {
 	min-height: 100dvh;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap: var(--gap-3);
+	padding: 0 var(--p-4);
+	display: grid;
+	text-align: center;
+	gap: var(--gap-3) var(--gap-1);
+	grid-template-rows: 1fr auto auto 1fr;
+	grid-template-columns: 1fr 1fr;
 
 	& h1 {
+		grid-column: 1/-1;
+		align-self: flex-end;
 		font-size: clamp(1.5rem, 8vw, 3.5rem);
 		line-height: normal;
-		margin-top: auto;
 	}
+
 	& p {
-		max-width: 45%;
-		text-align: center;
+		grid-column: 1/-1;
+		max-width: var(--screen-sm);
+		margin: 0 auto;
 	}
+	& > button {
+		grid-column: 1/2;
+		flex: 1 0 50%;
+		justify-self: end;
+	}
+	& > a {
+		grid-column: 2/-1;
+		justify-self: start;
+	}
+
 	& footer {
-		margin: 10% 0;
+		grid-column: 1/-1;
+		align-self: center;
 	}
 
 	& span {

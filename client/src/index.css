@@ -30,6 +30,9 @@
 	--gap-1: 1rem;
 	--gap-2: 1.5rem;
 	--gap-3: 2rem;
+
+	--screen-sm: 640px;
+	--screen-md: 768px;
 }
 
 * {
@@ -113,9 +116,10 @@ a {
 
 button,
 .btn {
+	min-width: 155px;
 	border-radius: 8px;
 	border: 1px solid transparent;
-	padding: var(--p-2) var(--p-4);
+	padding: var(--p-3) var(--p-6);
 	font-size: 1em;
 	font-weight: 500;
 	font-family: inherit;

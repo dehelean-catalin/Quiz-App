@@ -10,12 +10,10 @@ export default function LandingPage() {
 				Dive into the world of software wizardry with our quiz app, where every
 				question unlocks a new level of programming prowess.
 			</p>
-			<div className="flex gap-1">
-				<button disabled={true}>Sign up</button>
-				<NavLink className="btn" to={ROUTES.QUIZ}>
-					For developers
-				</NavLink>
-			</div>
+			<button disabled={true}>Sign up</button>
+			<NavLink className="btn" to={ROUTES.QUIZ}>
+				For developers
+			</NavLink>
 			<footer>
 				<span>Developed by</span>
 				<a href="https://github.com/dehelean-catalin">
