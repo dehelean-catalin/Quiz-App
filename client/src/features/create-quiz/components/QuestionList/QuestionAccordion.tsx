@@ -13,12 +13,13 @@ export default function QuestionAccordion({
 		<details>
 			<summary>
 				{field.title} {field.points}
+				<button onClick={handleRemove}>Edit</button>
 				<button onClick={handleRemove}>Remove</button>
 			</summary>
 			{field.answers?.map((answer, key) => (
 				<div key={key}>
 					{answer.answer}
-					{answer.isValid}
+					{answer.isValid.toString()}
 				</div>
 			))}
 		</details>

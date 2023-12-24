@@ -5,6 +5,7 @@ import {
 	useFieldArray,
 } from "react-hook-form";
 import { QuizFormData } from "../../schemas/quiz.schema";
+import QuestionActionDialog from "../QuestionActionDialog/QuestionActionDialog";
 import QuestionAccordion from "./QuestionAccordion";
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
 	errors: FieldErrors<QuizFormData>;
 };
 
-export default function QuestionList({ control, register, errors }: Props) {
+export default function QuestionList({ control }: Props) {
 	const { fields, remove, append } = useFieldArray({
 		control,
 		name: "questions",
@@ -22,20 +23,12 @@ export default function QuestionList({ control, register, errors }: Props) {
 	return (
 		<div>
 			Questions:
-			{/* <QuestionActionDialog
-				onSubmit={() => append({})}
-				form={
-					<>
-						<input type="text" name="" id="" />
-						<input type="number" name="" id="" />
-					</>
-				}
-			/> */}
-			{fields.map((field) => (
+			<QuestionActionDialog concat={append} />
+			{fields.map((field, index) => (
 				<QuestionAccordion
 					key={field.id}
 					field={field}
-					onRemove={() => remove()}
+					onRemove={() => remove(index)}
 				/>
 			))}
 		</div>

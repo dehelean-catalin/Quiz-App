@@ -1,9 +1,10 @@
 .form {
-	margin-top: 60px;
-	width: 100%;
 	display: grid;
 	grid-template-columns: repeat(2, minmax(200px, 0.4fr)) 1fr;
 	gap: 0 var(--gap-1);
+
+	width: var(--screen-lg);
+	margin: 60px auto;
 
 	> :nth-child(1) {
 		grid-column: 1/3;

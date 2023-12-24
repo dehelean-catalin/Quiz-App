@@ -1,14 +1,13 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, useForm } from "react-hook-form";
-
 import { ChangeEvent } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { ROUTES } from "../../config/axios.config";
 import styles from "./CreateQuiz.module.css";
 import { FieldInput } from "./components/FieldInput";
 import { FieldTextarea } from "./components/FieldTextarea";
 import QuestionList from "./components/QuestionList/QuestionList";
-import { QuizFormData, quizSchema } from "./schemas/quiz.schema";
+import { QuizFormData, quizSchema } from "./schemas";
 import { postQuiz } from "./services/postQuiz.service";
 
 enum Difficulty {
@@ -23,18 +22,7 @@ const DEFAULT_VALUES = {
 	duration: 5,
 	questionsPerPage: 2,
 	checkPrevious: false,
-	questions: [
-		{
-			title: "First question",
-			points: 1,
-			answers: [
-				{ answer: "Answer 1", isValid: false },
-				{ answer: "Answer 1", isValid: false },
-				{ answer: "Answer 1", isValid: false },
-				{ answer: "Answer 1", isValid: false },
-			],
-		},
-	],
+	questions: [],
 };
 
 export function CreateQuiz() {

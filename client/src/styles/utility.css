@@ -49,6 +49,3 @@
 .gap-1 {
 	gap: var(--gap-1);
 }
-::backdrop {
-	backdrop-filter: blur(5px);
-}
