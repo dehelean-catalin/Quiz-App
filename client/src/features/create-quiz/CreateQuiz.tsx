@@ -5,10 +5,9 @@ import { ChangeEvent } from "react";
 import { useNavigate } from "react-router";
 import { ROUTES } from "../../config/axios.config";
 import styles from "./CreateQuiz.module.css";
-import { FieldArray } from "./components/FieldArray";
 import { FieldInput } from "./components/FieldInput";
 import { FieldTextarea } from "./components/FieldTextarea";
-import { QuestionActionDialog } from "./components/QuestionActionDialog";
+import QuestionList from "./components/QuestionList/QuestionList";
 import { QuizFormData, quizSchema } from "./schemas/quiz.schema";
 import { postQuiz } from "./services/postQuiz.service";
 
@@ -54,7 +53,6 @@ export function CreateQuiz() {
 
 	function handleCheckChange(e: ChangeEvent<HTMLInputElement>) {
 		const input = e.target.value == "on" ? true : false;
-
 		setValue("checkPrevious", input);
 	}
 
@@ -97,11 +95,11 @@ export function CreateQuiz() {
 							inputType="range"
 							min="0"
 							max="3"
-							defaultValue="0"
+							defaultValue={0}
 							onChange={onChange}
 							onBlur={onBlur}
 						/>
-						{Difficulty[value as "0"]}
+						{Difficulty[value as "0"] || "Beginner"}
 					</div>
 				)}
 			/>
@@ -127,11 +125,7 @@ export function CreateQuiz() {
 				onChange={handleCheckChange}
 				errorMessage={errors.checkPrevious?.message}
 			/>
-			<div>
-				Questions:
-				<QuestionActionDialog />
-				<FieldArray control={control} register={register} errors={errors} />
-			</div>
+			<QuestionList control={control} register={register} errors={errors} />
 
 			<button type="submit">Submit</button>
 		</form>

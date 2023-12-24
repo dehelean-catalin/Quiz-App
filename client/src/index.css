@@ -6,7 +6,7 @@
 
 	--primary-gray: #e9ebf2;
 	--secondary-gray: #6a7386;
-	--tertiary-gray: #222834;
+	--tertiary-gray: #41444a;
 
 	--primary-white: #f4f4f4;
 
@@ -69,7 +69,7 @@ h1,
 h2,
 h3,
 h4 {
-	color: var(--tertiary-gray);
+	color: var(--tertiary-gray) !important;
 }
 
 input,
@@ -110,10 +110,9 @@ a {
 	color: #646cff;
 	text-decoration: inherit;
 }
-a:hover {
-	color: #535bf2;
-}
-button {
+
+button,
+.btn {
 	border-radius: 8px;
 	border: 1px solid transparent;
 	padding: var(--p-2) var(--p-4);
@@ -125,13 +124,15 @@ button {
 	cursor: pointer;
 	transition: border-color 0.25s;
 }
-button:disabled {
+button:disabled,
+.btn:disabled {
 	cursor: default;
 	color: var(--primary-gray);
 	background-color: var(--secondary-gray);
 }
 
-button:focus-visible {
+button:focus-visible,
+.btn:disabled {
 	outline: 4px auto -webkit-focus-ring-color;
 }
 
