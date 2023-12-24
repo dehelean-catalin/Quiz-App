@@ -143,3 +143,8 @@ button:focus-visible,
 textarea {
 	resize: none;
 }
+
+h1 {
+	font-size: clamp(2rem, 8vw, 4rem);
+	line-height: normal;
+}

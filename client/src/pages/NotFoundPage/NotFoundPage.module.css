@@ -1,0 +1,38 @@
+.container {
+	min-height: 100dvh;
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	grid-auto-rows: 1fr auto 1fr;
+	gap: var(--gap-2);
+	padding: 0 var(--p-4);
+
+	& h1,
+	p,
+	button {
+		grid-column: 2/-1;
+		margin-right: auto;
+	}
+	& h1 {
+		align-self: flex-end;
+	}
+	& p {
+		max-width: var(--screen-sm);
+	}
+	& button {
+		align-self: flex-start;
+	}
+	& span {
+		color: var(--tertiary-blue);
+	}
+}
+
+@media (width< 768px) {
+	.container {
+		grid-template-columns: 1fr;
+		column-gap: 0;
+	}
+	svg {
+		display: none;
+	}
+}
