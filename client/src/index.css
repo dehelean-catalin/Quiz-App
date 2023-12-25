@@ -1,5 +1,5 @@
 :root {
-	--primary-blue: #9ba8f2;
+	--primary-blue: #bec7fc;
 	--secondary-blue: #8091f2;
 	--tertiary-blue: #5e75f2;
 	--quaternary-blue: #2540d9;
@@ -40,7 +40,7 @@ body {
 	min-height: 100vh;
 
 	background-color: var(--primary-white);
-	color: var(--secondary-gray);
+	color: var(--tertiary-gray);
 	color-scheme: light dark;
 
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -122,4 +122,14 @@ a {
 h1 {
 	font-size: clamp(2rem, 8vw, 4rem);
 	line-height: normal;
+}
+
+button {
+	border: 0;
+	padding: var(--p-2);
+	border-radius: var(--border-2);
+	cursor: pointer;
+}
+button:disabled {
+	cursor: default;
 }

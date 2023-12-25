@@ -1,0 +1,41 @@
+.details {
+	background-color: var(--primary-gray);
+	border-radius: var(--border-2);
+	padding: var(--p-2);
+	padding-bottom: 0px;
+
+	& summary {
+		line-height: 34px;
+		padding-bottom: var(--p-2);
+	}
+	& button {
+		float: right;
+		margin-left: var(--m-1);
+		background-color: var(--primary-blue);
+	}
+}
+
+.question {
+	display: flex;
+	justify-content: space-between;
+}
+
+.answer {
+	padding: var(--p-2);
+	margin-bottom: var(--m-1);
+
+	border-radius: var(--border-2);
+
+	border: 2px solid var(--primary-blue);
+
+	& svg {
+		margin-right: 4px;
+	}
+}
+
+.isValid {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: var(--primary-blue);
+}

@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { GoPlus } from "react-icons/go";
 import { QuestionFormData, questionSchema } from "../../schemas";
 import styles from "./QuestionActionDialog.module.css";
 
@@ -50,8 +51,9 @@ export default function QuestionActionDialog({ concat }: Props) {
 
 	return (
 		<>
-			<button type="button" onClick={handleOpen}>
-				Add
+			<button className={styles.iconBtn} type="button" onClick={handleOpen}>
+				<GoPlus size={20} />
+				<span>Create</span>
 			</button>
 			<dialog className={styles.container} open={isOpen}>
 				<label htmlFor="title">Quetion title</label>
