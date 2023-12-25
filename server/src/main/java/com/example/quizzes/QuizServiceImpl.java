@@ -2,10 +2,10 @@ package com.example.quizzes;
 
 import com.example.answers.Answer;
 import com.example.questions.Question;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class QuizServiceImpl implements QuizService {
@@ -23,11 +23,9 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Quiz findById(String id) {
-        Optional<Quiz> response = quizRepo.findById(id);
-        if (response.isEmpty()) {
-            throw new RuntimeException("Not found");
-        }
-        return response.get();
+        return quizRepo.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Quiz with id - " + id +
+                        " was not found"));
     }
 
     @Override

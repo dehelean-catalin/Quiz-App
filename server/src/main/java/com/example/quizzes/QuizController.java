@@ -1,6 +1,8 @@
 package com.example.quizzes;
 
-import org.springframework.http.ResponseEntity;
+import com.example.utils.ResponseMessage;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/quizzes")
+@Tag(name = "Quiz", description = "Quiz management apis")
 public class QuizController {
     private final QuizService quizService;
 
@@ -16,17 +19,18 @@ public class QuizController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Quiz>> findAll() {
-        return ResponseEntity.ok(quizService.findAll());
+    public List<Quiz> findAll() {
+        return quizService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Quiz> findById(@PathVariable String id) {
-        return ResponseEntity.ok(quizService.findById(id));
+    public Quiz findById(@PathVariable String id) {
+        return quizService.findById(id);
     }
 
     @PostMapping()
-    public ResponseEntity<String> save(@RequestBody Quiz quiz) {
-        return ResponseEntity.ok(quizService.save(quiz));
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseMessage save(@RequestBody Quiz quiz) {
+        return new ResponseMessage(quizService.save(quiz));
     }
 }
