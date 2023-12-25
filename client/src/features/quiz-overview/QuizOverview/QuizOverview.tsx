@@ -10,7 +10,7 @@ export default function QuizOverview() {
 	const { data, isLoading, error } = useFetch<Quiz>(`${ROUTES.QUIZ}/${id}`);
 
 	function handleClick() {
-		navigate(ROUTES.TEST);
+		navigate(ROUTES.QUESTIONS);
 	}
 
 	if (isLoading) return <>Loading</>;

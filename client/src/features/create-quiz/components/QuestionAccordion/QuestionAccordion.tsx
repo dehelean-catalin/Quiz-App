@@ -16,13 +16,16 @@ export default function QuestionAccordion({
 	return (
 		<details className={styles.details} open>
 			<summary>
-				{index + 1}. {field.title} <span>({field.points} points)</span>
 				<button onClick={handleRemove}>
 					<GoTrash size={16} />
 				</button>
 				<button onClick={handleRemove} disabled>
 					<GoPencil size={16} />
 				</button>
+				<span>
+					{index + 1}. {field.title}
+				</span>
+				<span className={styles.points}> ({field.points} points)</span>
 			</summary>
 			{field.answers?.map((answer, key) => (
 				<div

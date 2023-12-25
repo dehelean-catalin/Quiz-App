@@ -7,6 +7,6 @@ public interface QuizService {
 
     Quiz findById(String id);
 
-    String save(Quiz quiz);
+    String save(QuizDTO quiz);
 
 }

@@ -2,6 +2,7 @@ package com.example.quizzes;
 
 import com.example.questions.Question;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +20,11 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(nullable = false)
+    @NotEmpty
+    @Column(unique = true, nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @NotEmpty
     private String description;
 
     @Enumerated(EnumType.STRING)

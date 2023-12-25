@@ -29,7 +29,8 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public String save(Quiz quiz) {
+    public String save(QuizDTO quiz) {
+        
         Quiz newQuiz = new Quiz(quiz.getTitle(),
                 quiz.getDescription(),
                 quiz.getDifficulty(),

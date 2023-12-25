@@ -23,6 +23,11 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public Question findById(@PathVariable String id) {
+        return questionService.findById(id);
+    }
+
     @PostMapping("/")
     public ResponseEntity<String> save(@RequestBody Question question) {
         return ResponseEntity.ok(questionService.save(question));

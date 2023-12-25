@@ -7,12 +7,20 @@
 	& summary {
 		line-height: 34px;
 		padding-bottom: var(--p-2);
+		overflow: hidden;
+
+		& p {
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 
 		& span {
-			font-style: italic;
-			font-size: 0.75em;
+			/* float: left; */
+			overflow: hidden;
+			word-break: break-all;
 		}
 	}
+
 	& button {
 		float: right;
 		margin-left: var(--m-1);
@@ -43,4 +51,9 @@
 	justify-content: space-between;
 	align-items: center;
 	background-color: var(--primary-blue);
+}
+
+.points {
+	font-style: italic;
+	font-size: 0.75em;
 }

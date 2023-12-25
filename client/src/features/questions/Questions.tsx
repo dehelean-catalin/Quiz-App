@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { FetchError } from "../../components/FetchError/FetchError";
 import { ROUTES, axiosInstance } from "../../config/axios.config";
 import useFetch from "../../hooks/useFetch";
@@ -6,7 +7,10 @@ import { QuestionCard } from "./components/QuestionCard";
 import { Question } from "./types/quizTestTypes";
 
 export function Questions() {
-	const { data, isLoading, error } = useFetch<string[]>(ROUTES.QUESTIONS);
+	const { id } = useParams();
+	const { data, isLoading, error } = useFetch<string[]>(
+		ROUTES.QUESTIONS + "/" + id
+	);
 	const [question, setQuestion] = useState<Question | null>(null);
 	const [questionNumber, setQuestionNumber] = useState(0);
 

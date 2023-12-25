@@ -1,38 +1,33 @@
 package com.example.questions;
 
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
 
+import java.util.List;
 
 @Service
-public class QuestionServiceImpl implements QuestionService{
-
+public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepo questionRepo;
-    public QuestionServiceImpl(QuestionRepo questionRepo){
+
+    public QuestionServiceImpl(QuestionRepo questionRepo) {
         this.questionRepo = questionRepo;
     }
 
-   @Override
-    public List<Question> findAll(){
+    @Override
+    public List<Question> findAll() {
         return questionRepo.findAll();
     }
 
     @Override
     public Question findById(String id) {
-        Optional<Question> result = questionRepo.findById(id);
-
-        if(result.isEmpty()){
-            throw new RuntimeException("Question not found");
-        }
-
-        return result.get();
+        return questionRepo.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Questions not founded"));
     }
 
     @Override
-    public String save(Question question){
-         questionRepo.save(question);
-         return "Success";
+    public String save(Question question) {
+        questionRepo.save(question);
+        return "Success";
     }
 
     @Override

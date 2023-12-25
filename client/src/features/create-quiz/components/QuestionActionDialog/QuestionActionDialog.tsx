@@ -9,7 +9,14 @@ type Props = {
 	concat: (data: QuestionFormData) => void;
 };
 
-const DEFAULT_VALUES = { title: "", points: 1, answers: [] };
+const DEFAULT_VALUES: QuestionFormData = {
+	title: "",
+	points: 1,
+	answers: [
+		{ answer: "", isValid: false },
+		{ answer: "", isValid: false },
+	],
+};
 
 export default function QuestionActionDialog({ concat }: Props) {
 	const [isOpen, setIsOpen] = useState(false);
@@ -55,28 +62,42 @@ export default function QuestionActionDialog({ concat }: Props) {
 				<GoPlus size={20} />
 				<span>Create</span>
 			</button>
-			<dialog className={styles.container} open={isOpen}>
-				<label htmlFor="title">Quetion title</label>
-				<input id="title" type="text" {...register("title")} />
-				<span>{errors.title?.message}</span>
-				<label htmlFor="points">Points</label>
-				<input id="points" type="number" {...register("points")} />
-				<span>{errors.points?.message}</span>
+			<dialog className={styles.dialog} open={isOpen}>
+				<div className={styles.container}>
+					<label htmlFor="title">Title</label>
+					<textarea
+						id="title"
+						{...register("title")}
+						placeholder="Enter question title..."
+					/>
+					<span>{errors.title?.message}</span>
+
+					<label htmlFor="points">Points</label>
+					<input
+						id="points"
+						type="number"
+						{...register("points")}
+						placeholder="Enter number of points"
+					/>
+					<span>{errors.points?.message}</span>
+				</div>
 				<span>
 					{errors.answers?.root?.type == "min" && errors.answers.root.message}
 					{errors.answers?.type == "min" && errors.answers.message}
 				</span>
-				<button
-					type="button"
-					onClick={() => append({ answer: "", isValid: false })}
-				>
-					Add
-				</button>
 
 				{fields.map((field, index) => (
 					<div key={field.id}>
-						<input type="checkbox" {...register(`answers.${index}.isValid`)} />
-						<input type="text" {...register(`answers.${index}.answer`)} />
+						<input
+							type="checkbox"
+							{...register(`answers.${index}.isValid`)}
+							placeholder="Enter answer"
+						/>
+						<input
+							type="text"
+							{...register(`answers.${index}.answer`)}
+							placeholder="Enter answer"
+						/>
 						<span>
 							{errors.answers && errors.answers[index]?.answer?.message}
 						</span>
@@ -85,13 +106,20 @@ export default function QuestionActionDialog({ concat }: Props) {
 						</button>
 					</div>
 				))}
-
-				<button type="button" onClick={handleClose}>
-					Close
+				<button
+					type="button"
+					onClick={() => append({ answer: "", isValid: false })}
+				>
+					Add
 				</button>
-				<button type="button" onClick={handleSubmit(onSubmit)}>
-					Submit
-				</button>
+				<div>
+					<button type="button" onClick={handleClose}>
+						Close
+					</button>
+					<button type="button" onClick={handleSubmit(onSubmit)}>
+						Submit
+					</button>
+				</div>
 			</dialog>
 		</>
 	);
