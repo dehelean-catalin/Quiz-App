@@ -5,16 +5,18 @@ import styles from "./QuestionAccordion.module.css";
 type Props = {
 	field: QuestionFormData;
 	onRemove: () => void;
+	index: number;
 };
 
 export default function QuestionAccordion({
 	field,
 	onRemove: handleRemove,
+	index,
 }: Props) {
 	return (
 		<details className={styles.details} open>
 			<summary>
-				{field.points}. {field.title}
+				{index + 1}. {field.title} <span>({field.points} points)</span>
 				<button onClick={handleRemove}>
 					<GoTrash size={16} />
 				</button>
@@ -22,19 +24,15 @@ export default function QuestionAccordion({
 					<GoPencil size={16} />
 				</button>
 			</summary>
-			<ol type="A">
-				{field.answers?.map((answer, key) => (
-					<li
-						className={`${styles.answer} ${
-							answer.isValid ? styles.isValid : ""
-						}`}
-						key={key}
-					>
-						{answer.answer}
-						{answer.isValid ? <GoCheckCircleFill size={20} /> : ""}
-					</li>
-				))}
-			</ol>
+			{field.answers?.map((answer, key) => (
+				<div
+					className={`${styles.answer} ${answer.isValid ? styles.isValid : ""}`}
+					key={key}
+				>
+					{answer.answer}
+					{answer.isValid ? <GoCheckCircleFill size={20} /> : ""}
+				</div>
+			))}
 		</details>
 	);
 }

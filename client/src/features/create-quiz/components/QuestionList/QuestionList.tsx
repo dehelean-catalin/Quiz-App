@@ -32,6 +32,7 @@ export default function QuestionList({ control }: Props) {
 					fields.map((field, index) => (
 						<QuestionAccordion
 							key={field.id}
+							index={index}
 							field={field}
 							onRemove={() => remove(index)}
 						/>

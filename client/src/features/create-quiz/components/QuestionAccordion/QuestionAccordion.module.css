@@ -7,6 +7,11 @@
 	& summary {
 		line-height: 34px;
 		padding-bottom: var(--p-2);
+
+		& span {
+			font-style: italic;
+			font-size: 0.75em;
+		}
 	}
 	& button {
 		float: right;
@@ -26,7 +31,7 @@
 
 	border-radius: var(--border-2);
 
-	border: 2px solid var(--primary-blue);
+	border: 1px solid var(--secondary-gray);
 
 	& svg {
 		margin-right: 4px;
