@@ -3,6 +3,7 @@ package com.example.quizzes;
 import com.example.utils.ResponseMessage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class QuizController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseMessage save(@Valid @RequestBody QuizDTO quiz) {
+    public ResponseMessage save(@Valid @RequestBody QuizDTO quiz) throws BadRequestException {
 
         String message = quizService.save(quiz);
         return new ResponseMessage(message);

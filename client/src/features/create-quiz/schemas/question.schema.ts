@@ -9,6 +9,9 @@ const answerSchema = yup
 	)
 	.min(2, "At least two answers are required")
 	.max(8, "At most 8 answers are allowed")
+	.test("atLeastOneTrue", "At least one valid answer is required", (value) =>
+		value?.some((obj) => obj.isValid === true)
+	)
 	.required();
 
 export const questionSchema = yup

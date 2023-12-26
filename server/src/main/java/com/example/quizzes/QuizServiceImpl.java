@@ -2,6 +2,7 @@ package com.example.quizzes;
 
 import com.example.answers.Answer;
 import com.example.questions.Question;
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,8 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public String save(QuizDTO quiz) {
-        
+    public String save(QuizDTO quiz) throws BadRequestException {
+
         Quiz newQuiz = new Quiz(quiz.getTitle(),
                 quiz.getDescription(),
                 quiz.getDifficulty(),
@@ -40,6 +41,11 @@ public class QuizServiceImpl implements QuizService {
 
         for (Question question : quiz.getQuestions()) {
             Question newQuestion = new Question(question.getTitle(), question.getPoints());
+
+            if (!question.getAnswers().stream().anyMatch(answer -> answer.getIsValid() == true)) {
+                throw new BadRequestException("At least one valid answer is " +
+                        "required");
+            }
 
             for (Answer answer : question.getAnswers()) {
                 Answer newAnswer = new Answer(answer.getTitle(),

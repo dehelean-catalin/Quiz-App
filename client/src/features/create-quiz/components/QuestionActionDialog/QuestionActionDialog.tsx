@@ -58,7 +58,7 @@ export default function QuestionActionDialog({ concat }: Props) {
 		concat(data);
 		handleClose();
 	}
-
+	console.log(errors.root?.type);
 	return (
 		<>
 			<IconButton
@@ -111,14 +111,14 @@ export default function QuestionActionDialog({ concat }: Props) {
 						</div>
 					))}
 					<span className="error error-message">
-						{errors.answers?.root?.type == "min" && errors.answers.root.message}
+						{errors.answers?.root && errors.answers.root.message}
 						{errors.answers?.type == "min" && errors.answers.message}
 					</span>
 				</div>
 
 				<div className={styles.footer}>
 					<IconButton
-						disabled={fields.length > 8}
+						disabled={fields.length > 7}
 						text="Add answer"
 						icon={<GoPlus size={18} />}
 						onClick={() => append({ answer: "", isValid: false })}

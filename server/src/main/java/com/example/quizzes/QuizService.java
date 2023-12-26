@@ -1,5 +1,7 @@
 package com.example.quizzes;
 
+import org.apache.coyote.BadRequestException;
+
 import java.util.List;
 
 public interface QuizService {
@@ -7,6 +9,6 @@ public interface QuizService {
 
     Quiz findById(String id);
 
-    String save(QuizDTO quiz);
+    String save(QuizDTO quiz) throws BadRequestException;
 
 }
