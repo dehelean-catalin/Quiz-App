@@ -27,6 +27,9 @@
 .m-auto {
 	margin: auto;
 }
+.m-l-auto {
+	margin-left: auto;
+}
 
 .error {
 	color: var(--primary-red);

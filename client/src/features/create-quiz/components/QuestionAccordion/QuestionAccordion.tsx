@@ -1,4 +1,5 @@
 import { GoCheckCircleFill, GoPencil, GoTrash } from "react-icons/go";
+import { IconButton } from "../../../../components";
 import { QuestionFormData } from "../../schemas/quiz.schema";
 import styles from "./QuestionAccordion.module.css";
 
@@ -16,12 +17,19 @@ export default function QuestionAccordion({
 	return (
 		<details className={styles.details} open>
 			<summary>
-				<button onClick={handleRemove}>
-					<GoTrash size={16} />
-				</button>
-				<button onClick={handleRemove} disabled>
-					<GoPencil size={16} />
-				</button>
+				<IconButton
+					className={styles.btns}
+					onClick={handleRemove}
+					icon={<GoTrash size={16} />}
+					severity="info"
+				/>
+				<IconButton
+					className={styles.btns}
+					onClick={handleRemove}
+					icon={<GoPencil size={16} />}
+					severity="info"
+					disabled={true}
+				/>
 				<span>
 					{index + 1}. {field.title}
 				</span>
@@ -32,7 +40,7 @@ export default function QuestionAccordion({
 					className={`${styles.answer} ${answer.isValid ? styles.isValid : ""}`}
 					key={key}
 				>
-					{answer.answer}
+					<span>{answer.answer}</span>
 					{answer.isValid ? <GoCheckCircleFill size={20} /> : ""}
 				</div>
 			))}

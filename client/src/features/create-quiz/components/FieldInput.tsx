@@ -2,35 +2,39 @@ import {
 	DetailedHTMLProps,
 	HTMLInputTypeAttribute,
 	InputHTMLAttributes,
+	ReactNode,
 } from "react";
-import { UseFormRegister } from "react-hook-form";
-import { QuizFormData } from "../schemas/quiz.schema";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import { QuizFormData } from "../schemas";
 
-interface Props
+interface Props<T extends FieldValues = QuizFormData>
 	extends DetailedHTMLProps<
 		InputHTMLAttributes<HTMLInputElement>,
 		HTMLInputElement
 	> {
 	label: string;
-	id: keyof QuizFormData;
-	register?: UseFormRegister<QuizFormData>;
+	id: Path<T>;
+	register?: UseFormRegister<T>;
 	inputType?: HTMLInputTypeAttribute;
 	errorMessage?: string;
+	before?: ReactNode;
+	after?: ReactNode;
 }
 
-export function FieldInput({
+export function FieldInput<T extends FieldValues = QuizFormData>({
 	errorMessage = "",
 	label,
 	id,
 	inputType = "text",
 	register,
+	className = "flex col",
 	...rest
-}: Props) {
-	const test = register ? register(id) : "";
+}: Props<T>) {
+	const registerFormActions = register ? register(id) : "";
 	const errorId = `err-${id}`;
 
 	return (
-		<div className="flex col">
+		<div className={className}>
 			<label htmlFor={id} className={errorMessage ? "error" : ""}>
 				{label}
 			</label>
@@ -38,7 +42,7 @@ export function FieldInput({
 				type={inputType}
 				id={id}
 				{...rest}
-				{...test}
+				{...registerFormActions}
 				aria-invalid={errorMessage ? "true" : "false"}
 				aria-errormessage={errorId}
 			/>

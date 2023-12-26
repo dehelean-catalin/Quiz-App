@@ -8,24 +8,21 @@
 		line-height: 34px;
 		padding-bottom: var(--p-2);
 		overflow: hidden;
-
-		& p {
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
-
-		& span {
-			/* float: left; */
-			overflow: hidden;
-			word-break: break-all;
-		}
 	}
 
-	& button {
-		float: right;
-		margin-left: var(--m-1);
-		background-color: var(--primary-blue);
+	& span {
+		overflow: hidden;
+		word-break: break-all;
+
+		& svg {
+			min-width: 24px;
+		}
 	}
+}
+
+.btns {
+	float: right;
+	margin-left: var(--m-1);
 }
 
 .question {
@@ -42,7 +39,8 @@
 	border: 1px solid var(--secondary-gray);
 
 	& svg {
-		margin-right: 4px;
+		margin: 0px 4px;
+		min-width: 18px;
 	}
 }
 
@@ -51,6 +49,7 @@
 	justify-content: space-between;
 	align-items: center;
 	background-color: var(--primary-blue);
+	border-color: var(--primary-blue);
 }
 
 .points {

@@ -1,27 +1,27 @@
 import { DetailedHTMLProps, TextareaHTMLAttributes } from "react";
-import { UseFormRegister } from "react-hook-form";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { QuizFormData } from "../schemas/quiz.schema";
 
-interface Props
+interface Props<T extends FieldValues = QuizFormData>
 	extends DetailedHTMLProps<
 		TextareaHTMLAttributes<HTMLTextAreaElement>,
 		HTMLTextAreaElement
 	> {
 	label: string;
-	id: keyof QuizFormData;
-	register: UseFormRegister<QuizFormData>;
+	id: Path<T>;
+	register: UseFormRegister<T>;
 	errorMessage?: string;
 }
 
-export function FieldTextarea({
+export function FieldTextarea<T extends FieldValues = QuizFormData>({
 	label,
 	id,
 	errorMessage = "",
 	cols = 30,
-	rows = 10,
+	rows = 6,
 	register,
 	...rest
-}: Props) {
+}: Props<T>) {
 	const errorId = `err-${id}`;
 
 	return (

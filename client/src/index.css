@@ -11,6 +11,7 @@
 	--primary-white: #f4f4f4;
 
 	--primary-red: #ff3333;
+	--secondary-red: #fb7f7f;
 
 	--border-1: 2px;
 	--border-2: 4px;
@@ -64,6 +65,7 @@ h4 {
 
 input,
 textarea {
+	font-family: inherit;
 	color: var(--secondary-gray);
 	background-color: var(--primary-gray);
 

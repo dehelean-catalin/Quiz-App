@@ -1,8 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { GoPlus } from "react-icons/go";
+import { GoPlus, GoTrash } from "react-icons/go";
+import { IconButton } from "../../../../components";
 import { QuestionFormData, questionSchema } from "../../schemas";
+import { FieldInput } from "../FieldInput";
+import { FieldTextarea } from "../FieldTextarea";
 import styles from "./QuestionActionDialog.module.css";
 
 type Props = {
@@ -58,67 +61,80 @@ export default function QuestionActionDialog({ concat }: Props) {
 
 	return (
 		<>
-			<button className={styles.iconBtn} type="button" onClick={handleOpen}>
-				<GoPlus size={20} />
-				<span>Create</span>
-			</button>
+			<IconButton
+				icon={<GoPlus size={20} />}
+				text="Create"
+				onClick={handleOpen}
+			/>
 			<dialog className={styles.dialog} open={isOpen}>
 				<div className={styles.container}>
-					<label htmlFor="title">Title</label>
-					<textarea
+					<FieldTextarea<QuestionFormData>
+						label="Title"
 						id="title"
-						{...register("title")}
+						register={register}
 						placeholder="Enter question title..."
+						rows={4}
+						errorMessage={errors.title?.message}
 					/>
-					<span>{errors.title?.message}</span>
-
-					<label htmlFor="points">Points</label>
-					<input
+					<FieldInput<QuestionFormData>
+						label="Points"
 						id="points"
-						type="number"
-						{...register("points")}
+						inputType="number"
+						register={register}
 						placeholder="Enter number of points"
+						errorMessage={errors.points?.message}
 					/>
-					<span>{errors.points?.message}</span>
-				</div>
-				<span>
-					{errors.answers?.root?.type == "min" && errors.answers.root.message}
-					{errors.answers?.type == "min" && errors.answers.message}
-				</span>
+					{fields.map((field, index) => (
+						<div className={styles.field} key={field.id}>
+							<input
+								className={styles.checkbox}
+								type="checkbox"
+								{...register(`answers.${index}.isValid`)}
+								placeholder="Enter answer"
+							/>
+							<FieldTextarea
+								label=""
+								id={`answers.${index}.answer`}
+								register={register}
+								placeholder="Enter new answer"
+								rows={2}
+								errorMessage={
+									errors.answers && errors.answers[index]?.answer?.message
+								}
+							/>
 
-				{fields.map((field, index) => (
-					<div key={field.id}>
-						<input
-							type="checkbox"
-							{...register(`answers.${index}.isValid`)}
-							placeholder="Enter answer"
-						/>
-						<input
-							type="text"
-							{...register(`answers.${index}.answer`)}
-							placeholder="Enter answer"
-						/>
-						<span>
-							{errors.answers && errors.answers[index]?.answer?.message}
-						</span>
-						<button type="button" onClick={() => remove(index)}>
-							Remove
-						</button>
-					</div>
-				))}
-				<button
-					type="button"
-					onClick={() => append({ answer: "", isValid: false })}
-				>
-					Add
-				</button>
-				<div>
-					<button type="button" onClick={handleClose}>
-						Close
-					</button>
-					<button type="button" onClick={handleSubmit(onSubmit)}>
-						Submit
-					</button>
+							<IconButton
+								icon={<GoTrash size={16} />}
+								onClick={() => remove(index)}
+								severity="info"
+							/>
+						</div>
+					))}
+					<span className="error error-message">
+						{errors.answers?.root?.type == "min" && errors.answers.root.message}
+						{errors.answers?.type == "min" && errors.answers.message}
+					</span>
+				</div>
+
+				<div className={styles.footer}>
+					<IconButton
+						disabled={fields.length > 8}
+						text="Add answer"
+						icon={<GoPlus size={18} />}
+						onClick={() => append({ answer: "", isValid: false })}
+					/>
+
+					<IconButton
+						text="Close"
+						severity="submit"
+						className="m-l-auto"
+						onClick={handleClose}
+					/>
+					<IconButton
+						text="Submit"
+						severity="submit"
+						onClick={handleSubmit(onSubmit)}
+					/>
 				</div>
 			</dialog>
 		</>

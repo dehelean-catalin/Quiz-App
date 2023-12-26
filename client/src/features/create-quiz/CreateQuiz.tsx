@@ -65,30 +65,29 @@ export function CreateQuiz() {
 				id="title"
 				register={register}
 				errorMessage={errors.title?.message}
+				placeholder="Enter quiz title"
 			/>
 			<FieldTextarea
 				id="description"
 				label="Description *"
 				register={register}
 				errorMessage={errors.description?.message}
+				placeholder="Enter quiz description"
 			/>
 			<Controller
 				control={control}
 				name="difficulty"
 				render={({ field: { onChange, onBlur, value } }) => (
-					<div>
-						<FieldInput
-							label="Difficulty"
-							id="difficulty"
-							inputType="range"
-							min="0"
-							max="3"
-							defaultValue={0}
-							onChange={onChange}
-							onBlur={onBlur}
-						/>
-						{Difficulty[value as "0"] || "Beginner"}
-					</div>
+					<FieldInput
+						label={`Difficulty ${Difficulty[value as "0"] || "Beginner"}`}
+						id="difficulty"
+						inputType="range"
+						min="0"
+						max="3"
+						defaultValue={0}
+						onChange={onChange}
+						onBlur={onBlur}
+					/>
 				)}
 			/>
 
@@ -107,7 +106,7 @@ export function CreateQuiz() {
 				errorMessage={errors.questionsPerPage?.message}
 			/>
 			<FieldInput
-				label="Allow check previous questions"
+				label="Allow to check previous questions"
 				id="checkPrevious"
 				inputType="checkbox"
 				onChange={handleCheckChange}
