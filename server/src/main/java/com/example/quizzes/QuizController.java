@@ -28,7 +28,7 @@ public class QuizController {
     }
 
     @GetMapping("/{id}")
-    public Quiz findById(@PathVariable String id) {
+    public QuizSummaryDTO findById(@PathVariable String id) {
         return quizService.findById(id);
     }
 

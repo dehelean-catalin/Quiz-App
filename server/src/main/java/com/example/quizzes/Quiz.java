@@ -1,6 +1,9 @@
 package com.example.quizzes;
 
+import com.example.categories.QuizCategories;
 import com.example.questions.Question;
+import com.example.subCategories.QuizSubCategories;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -43,8 +46,10 @@ public class Quiz {
     @Column(name = "check_previous")
     private Boolean checkPrevious;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "quiz")
+
     private List<Question> questions = new ArrayList<>();
 
     @OneToMany

@@ -1,5 +1,6 @@
-package com.example.quizzes;
+package com.example.categories;
 
+import com.example.subCategories.QuizSubCategories;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

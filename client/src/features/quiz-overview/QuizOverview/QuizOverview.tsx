@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router";
 import { FetchError } from "../../../components/FetchError/FetchError";
 import { ROUTES } from "../../../config/axios.config";
-import { useFetch } from "../../../hooks";
+import { useFetch } from "../../../shared/hooks";
 import { QuizSummary } from "../../quizzes/types/quizType";
 
 export default function QuizOverview() {
@@ -12,7 +12,7 @@ export default function QuizOverview() {
 	);
 
 	function handleClick() {
-		navigate(ROUTES.QUESTIONS);
+		navigate(`${ROUTES.QUESTIONS}?page=0&size=${2}`);
 	}
 
 	if (isLoading) return <>Loading</>;

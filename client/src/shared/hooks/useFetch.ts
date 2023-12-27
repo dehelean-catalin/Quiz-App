@@ -1,17 +1,21 @@
+import { AxiosRequestConfig } from "axios";
 import { useEffect, useRef, useState } from "react";
-import { axiosInstance } from "../config/axios.config";
+import { axiosInstance } from "../../config/axios.config";
 
-export function useFetch<TData = unknown>(url: string) {
+export function useFetch<TData = unknown>(
+	url: string,
+	params?: AxiosRequestConfig
+) {
 	const [data, setData] = useState<TData | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
 
 	const cancelRequest = useRef(false);
-
+	console.log(params);
 	async function fetchData() {
 		setIsLoading(true);
 		try {
-			const response = await axiosInstance.get<TData>(url);
+			const response = await axiosInstance.get<TData>(url, params);
 
 			if (cancelRequest.current) return;
 

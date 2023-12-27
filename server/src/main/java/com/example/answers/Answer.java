@@ -14,11 +14,11 @@ public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String title;
+    private String answer;
     private Boolean isValid;
 
-    public Answer(String title, Boolean isValid) {
-        this.title = title;
+    public Answer(String answer, Boolean isValid) {
+        this.answer = answer;
         this.isValid = isValid;
     }
 }

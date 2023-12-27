@@ -1,5 +1,7 @@
 package com.example.questions;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +16,9 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> findAll() {
-        return questionRepo.findAll();
+    public List<Question> findAllByQuizId(String id, Integer pageNumber, Integer pageSize) {
+        Pageable pages = PageRequest.of(pageNumber, pageSize);
+        return questionRepo.findAllByQuizId(id, pages);
     }
 
     @Override

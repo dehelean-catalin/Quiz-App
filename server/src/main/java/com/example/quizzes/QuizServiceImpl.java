@@ -2,13 +2,11 @@ package com.example.quizzes;
 
 import com.example.answers.Answer;
 import com.example.dtos.CreateQuizDTO;
-import com.example.dtos.QuestionDTO;
 import com.example.dtos.QuizSummaryDTO;
 import com.example.questions.Question;
 import com.example.questions.QuestionRepo;
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +18,7 @@ public class QuizServiceImpl implements QuizService {
 
     private final QuizRepo quizRepo;
     private final QuestionRepo questionRepo;
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public QuizServiceImpl(QuizRepo quizRepo, QuestionRepo questionRepo) {
         this.quizRepo = quizRepo;
@@ -27,23 +26,24 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<Quiz> findAll() {
-        return quizRepo.findAll();
-    }
+    public QuizSummaryDTO findById(String id) {
 
-    @Override
-    public Quiz findById(String id) {
-        return quizRepo.findById(id).orElseThrow(() ->
+        Quiz quiz = quizRepo.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Quiz with id - " + id +
                         " was not found"));
+
+        QuizSummaryDTO quizSummaryDTO = modelMapper.map(quiz,
+                QuizSummaryDTO.class);
+        Long numberOfQuestions = questionRepo.countByQuizId(quiz.getId());
+        quizSummaryDTO.setNumberOfQuestions(numberOfQuestions);
+
+        return quizSummaryDTO;
     }
 
     @Override
     public List<QuizSummaryDTO> findAllSummary() {
         List<Quiz> quizzes = quizRepo.findAll();
-        ModelMapper modelMapper = new ModelMapper();
         List<QuizSummaryDTO> quizSummaryDTOS = new ArrayList<>();
-
 
         quizzes.forEach((quiz) -> {
             QuizSummaryDTO quizSummaryDTO = modelMapper.map(quiz,
@@ -56,12 +56,7 @@ public class QuizServiceImpl implements QuizService {
 
         return quizSummaryDTOS;
     }
-
-    @Override
-    public List<QuestionDTO> findQuestionsByPage(String id, Pageable pageable) {
-        return null;
-    }
-
+    
     @Override
     public String save(CreateQuizDTO quiz) throws BadRequestException {
 
@@ -81,7 +76,7 @@ public class QuizServiceImpl implements QuizService {
             }
 
             for (Answer answer : question.getAnswers()) {
-                Answer newAnswer = new Answer(answer.getTitle(),
+                Answer newAnswer = new Answer(answer.getAnswer(),
                         answer.getIsValid());
                 newQuestion.addAnswer(newAnswer);
             }

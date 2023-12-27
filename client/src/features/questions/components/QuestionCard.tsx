@@ -1,8 +1,8 @@
 import { FormEvent, useState } from "react";
-import { Question } from "../types/quizTestTypes";
+import { IQuestion } from "../../../shared";
 import styles from "./QuestionCard.module.css";
 
-type Props = { value: Question; onNext: () => void; count: string };
+type Props = { value: IQuestion; onNext: () => void; count: string };
 
 const INITIAL_STATE: string[] = [];
 
@@ -38,7 +38,7 @@ export function QuestionCard({ value, onNext, count }: Props) {
 				<h1>{value.title}</h1>
 			</header>
 			<section>
-				{value.options.map(({ option, id }) => (
+				{value.answers.map((val, id) => (
 					<label htmlFor={`option-${id}`} className="block tag">
 						<input
 							id={`option-${id}`}
@@ -47,7 +47,7 @@ export function QuestionCard({ value, onNext, count }: Props) {
 							onClick={() => handleClick(id)}
 							checked={selectedOptions.includes(id)}
 						/>
-						{option}
+						{val}
 					</label>
 				))}
 			</section>

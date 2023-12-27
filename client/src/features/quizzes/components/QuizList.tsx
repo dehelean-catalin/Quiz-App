@@ -1,5 +1,5 @@
 import { FetchError } from "../../../components";
-import { useFetch } from "../../../hooks";
+import { useFetch } from "../../../shared/hooks";
 import { QuizSummary } from "../types/quizType";
 import { QuizCard } from "./QuizCard/QuizCard";
 import styles from "./QuizList.module.css";

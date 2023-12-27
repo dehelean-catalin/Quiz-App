@@ -1,4 +1,4 @@
-package com.example.quizzes;
+package com.example.subCategories;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
