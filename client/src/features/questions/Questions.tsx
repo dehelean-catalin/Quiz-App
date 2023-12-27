@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { FetchError } from "../../components/FetchError/FetchError";
 import { ROUTES, axiosInstance } from "../../config/axios.config";
-import useFetch from "../../hooks/useFetch";
+import { useFetch } from "../../hooks";
 import { QuestionCard } from "./components/QuestionCard";
 import { Question } from "./types/quizTestTypes";
 

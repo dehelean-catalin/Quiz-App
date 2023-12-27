@@ -1,4 +1,8 @@
-export type QuizDifficulty = "easy" | "intermediate" | "pro";
+export enum Difficulty {
+	"Easy",
+	"Medium",
+	"Hard",
+}
 
 export type QuizCategory =
 	| "Web Development"
@@ -13,11 +17,11 @@ export type QuizSubCategory =
 	| "React js"
 	| "Node js";
 
-export type Quiz = {
+export type QuizSummary = {
 	id: string;
 	title: string;
 	description: string;
-	difficulty: QuizDifficulty;
+	difficulty: Difficulty;
 	duration: number;
 	numberOfQuestions: number;
 	categories: QuizCategory[];

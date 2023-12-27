@@ -1,5 +1,7 @@
 package com.example.quizzes;
 
+import com.example.dtos.CreateQuizDTO;
+import com.example.dtos.QuizSummaryDTO;
 import com.example.utils.ResponseMessage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,8 +23,8 @@ public class QuizController {
     }
 
     @GetMapping()
-    public List<Quiz> findAll() {
-        return quizService.findAll();
+    public List<QuizSummaryDTO> findAllSummary() {
+        return quizService.findAllSummary();
     }
 
     @GetMapping("/{id}")
@@ -32,9 +34,11 @@ public class QuizController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseMessage save(@Valid @RequestBody QuizDTO quiz) throws BadRequestException {
+    public ResponseMessage save(@Valid @RequestBody CreateQuizDTO quiz) throws BadRequestException {
 
         String message = quizService.save(quiz);
         return new ResponseMessage(message);
     }
+
+
 }

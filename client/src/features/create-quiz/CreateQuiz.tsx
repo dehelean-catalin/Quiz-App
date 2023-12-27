@@ -3,6 +3,7 @@ import { ChangeEvent } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { ROUTES } from "../../config/axios.config";
+import { Difficulty } from "../quizzes/types/quizType";
 import styles from "./CreateQuiz.module.css";
 import { FieldInput } from "./components/FieldInput";
 import { FieldTextarea } from "./components/FieldTextarea";
@@ -10,15 +11,8 @@ import QuestionList from "./components/QuestionList/QuestionList";
 import { QuizFormData, quizSchema } from "./schemas";
 import { postQuiz } from "./services/postQuiz.service";
 
-enum Difficulty {
-	"Beginner",
-	"Intermediate",
-	"Advance",
-	"Expert",
-}
-
 const DEFAULT_VALUES = {
-	difficulty: "Beginner",
+	difficulty: "Easy",
 	duration: 5,
 	questionsPerPage: 2,
 	checkPrevious: false,
@@ -43,6 +37,8 @@ export function CreateQuiz() {
 		const input = e.target.value == "on" ? true : false;
 		setValue("checkPrevious", input);
 	}
+
+	console.log(errors);
 
 	async function onSubmit(data: QuizFormData) {
 		try {
@@ -79,11 +75,18 @@ export function CreateQuiz() {
 				name="difficulty"
 				render={({ field: { onChange, onBlur, value } }) => (
 					<FieldInput
-						label={`Difficulty ${Difficulty[value as "0"] || "Beginner"}`}
+						label={
+							<>
+								Difficulty
+								<span className={styles.difficulty}>
+									({Difficulty[value as "0"] || "Easy"})
+								</span>
+							</>
+						}
 						id="difficulty"
 						inputType="range"
 						min="0"
-						max="3"
+						max="2"
 						defaultValue={0}
 						onChange={onChange}
 						onBlur={onBlur}
@@ -113,6 +116,7 @@ export function CreateQuiz() {
 				errorMessage={errors.checkPrevious?.message}
 			/>
 			<QuestionList control={control} register={register} errors={errors} />
+			<span className="error error-message">{errors.questions?.message}</span>
 
 			<button type="submit">Submit</button>
 		</form>

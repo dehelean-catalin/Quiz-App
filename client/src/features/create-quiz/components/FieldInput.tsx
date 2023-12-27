@@ -12,7 +12,7 @@ interface Props<T extends FieldValues = QuizFormData>
 		InputHTMLAttributes<HTMLInputElement>,
 		HTMLInputElement
 	> {
-	label: string;
+	label: ReactNode;
 	id: Path<T>;
 	register?: UseFormRegister<T>;
 	inputType?: HTMLInputTypeAttribute;

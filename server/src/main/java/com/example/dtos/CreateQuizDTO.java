@@ -1,7 +1,9 @@
-package com.example.quizzes;
+package com.example.dtos;
 
 import com.example.questions.Question;
-import jakarta.persistence.*;
+import com.example.quizzes.Difficulty;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuizDTO {
+public class CreateQuizDTO {
 
     @NotBlank(message = "Title is invalid")
     private String title;
@@ -30,14 +32,18 @@ public class QuizDTO {
     private Integer duration;
 
     @Min(value = 1, message = "Questions per page is invalid")
-    @Column(name = "questions_per_page")
     private Integer questionsPerPage;
 
     @NotNull(message = "Check previous is invalid")
-    @Column(name = "check_previous")
     private Boolean checkPrevious;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            orphanRemoval = true)
+    @NotNull(message = "Questions are invalid")
     private List<Question> questions = new ArrayList<>();
+
+    @NotNull(message = "Questions are invalid")
+    private List<String> categories = new ArrayList<>();
+    
+    @NotNull(message = "Questions are invalid")
+    private List<String> subCategories = new ArrayList<>();
+
 }

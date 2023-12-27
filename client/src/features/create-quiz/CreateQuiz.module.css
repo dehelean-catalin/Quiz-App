@@ -1,6 +1,6 @@
 .form {
 	display: grid;
-	grid-template-columns: repeat(2, minmax(200px, 0.4fr)) 1fr;
+	grid-template-columns: repeat(2, minmax(200px, 0.4fr)) 1fr 1fr;
 	gap: 0 var(--gap-1);
 
 	width: var(--screen-lg);
@@ -30,11 +30,21 @@
 		grid-row: 3/4;
 	}
 	> :nth-child(7) {
-		grid-column: 3/4;
+		grid-column: 3/5;
 		grid-row: 1/5;
 	}
 	> :nth-child(8) {
-		grid-column: 1/-1;
+		grid-column: 3/4;
 		grid-row: 5/6;
 	}
+	> :nth-child(9) {
+		grid-column: 4/5;
+		grid-row: 6/7;
+	}
+}
+
+.difficulty {
+	margin-left: var(--m-1);
+	font-style: italic;
+	font-size: 0.75em;
 }

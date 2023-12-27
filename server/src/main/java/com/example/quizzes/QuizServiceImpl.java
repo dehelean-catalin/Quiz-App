@@ -1,20 +1,29 @@
 package com.example.quizzes;
 
 import com.example.answers.Answer;
+import com.example.dtos.CreateQuizDTO;
+import com.example.dtos.QuestionDTO;
+import com.example.dtos.QuizSummaryDTO;
 import com.example.questions.Question;
+import com.example.questions.QuestionRepo;
 import org.apache.coyote.BadRequestException;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class QuizServiceImpl implements QuizService {
 
     private final QuizRepo quizRepo;
+    private final QuestionRepo questionRepo;
 
-    public QuizServiceImpl(QuizRepo quizRepo) {
+    public QuizServiceImpl(QuizRepo quizRepo, QuestionRepo questionRepo) {
         this.quizRepo = quizRepo;
+        this.questionRepo = questionRepo;
     }
 
     @Override
@@ -30,7 +39,31 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public String save(QuizDTO quiz) throws BadRequestException {
+    public List<QuizSummaryDTO> findAllSummary() {
+        List<Quiz> quizzes = quizRepo.findAll();
+        ModelMapper modelMapper = new ModelMapper();
+        List<QuizSummaryDTO> quizSummaryDTOS = new ArrayList<>();
+
+
+        quizzes.forEach((quiz) -> {
+            QuizSummaryDTO quizSummaryDTO = modelMapper.map(quiz,
+                    QuizSummaryDTO.class);
+            Long numberOfQuestions = questionRepo.countByQuizId(quiz.getId());
+            quizSummaryDTO.setNumberOfQuestions(numberOfQuestions);
+
+            quizSummaryDTOS.add(quizSummaryDTO);
+        });
+
+        return quizSummaryDTOS;
+    }
+
+    @Override
+    public List<QuestionDTO> findQuestionsByPage(String id, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public String save(CreateQuizDTO quiz) throws BadRequestException {
 
         Quiz newQuiz = new Quiz(quiz.getTitle(),
                 quiz.getDescription(),

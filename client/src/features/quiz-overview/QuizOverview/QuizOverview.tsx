@@ -1,13 +1,15 @@
 import { useNavigate, useParams } from "react-router";
 import { FetchError } from "../../../components/FetchError/FetchError";
 import { ROUTES } from "../../../config/axios.config";
-import useFetch from "../../../hooks/useFetch";
-import { Quiz } from "../../quizzes/types/quizType";
+import { useFetch } from "../../../hooks";
+import { QuizSummary } from "../../quizzes/types/quizType";
 
 export default function QuizOverview() {
 	const { id } = useParams();
 	const navigate = useNavigate();
-	const { data, isLoading, error } = useFetch<Quiz>(`${ROUTES.QUIZ}/${id}`);
+	const { data, isLoading, error } = useFetch<QuizSummary>(
+		`${ROUTES.QUIZ}/${id}`
+	);
 
 	function handleClick() {
 		navigate(ROUTES.QUESTIONS);

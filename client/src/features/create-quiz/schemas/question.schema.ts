@@ -1,18 +1,26 @@
 import * as yup from "yup";
 
+function isAtLeastOneAnswerValid(
+	value: { isValid: boolean; answer: string }[]
+) {
+	return value?.some((obj) => obj.isValid === true);
+}
+
 const answerSchema = yup
 	.array(
-		yup.object({
-			answer: yup.string().trim().required("Answer is required"),
+		yup.object().shape({
 			isValid: yup.boolean().required(),
+			answer: yup.string().trim().required("Answer is required"),
 		})
 	)
 	.min(2, "At least two answers are required")
 	.max(8, "At most 8 answers are allowed")
-	.test("atLeastOneTrue", "At least one valid answer is required", (value) =>
-		value?.some((obj) => obj.isValid === true)
-	)
-	.required();
+	.required()
+	.test(
+		"atLeastOneTrue",
+		"At least one valid answer is required",
+		isAtLeastOneAnswerValid
+	);
 
 export const questionSchema = yup
 	.object({

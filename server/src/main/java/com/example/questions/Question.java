@@ -1,6 +1,7 @@
 package com.example.questions;
 
 import com.example.answers.Answer;
+import com.example.quizzes.Quiz;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,11 @@ public class Question {
 
     private Integer points;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "quiz_id")
+    private Quiz quiz;
+    
     @OneToMany(cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 

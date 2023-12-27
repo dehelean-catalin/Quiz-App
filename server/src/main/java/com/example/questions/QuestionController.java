@@ -1,5 +1,6 @@
 package com.example.questions;
 
+import com.example.quizzes.QuizService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +14,11 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final QuizService quizService;
 
-    public QuestionController(QuestionService questionService) {
+    public QuestionController(QuestionService questionService, QuizService quizService) {
         this.questionService = questionService;
+        this.quizService = quizService;
     }
 
     @GetMapping("/")

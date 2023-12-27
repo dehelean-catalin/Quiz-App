@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { axiosInstance } from "../config/axios.config";
 
-export default function useFetch<TData = unknown>(url: string) {
+export function useFetch<TData = unknown>(url: string) {
 	const [data, setData] = useState<TData | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<Error | null>(null);

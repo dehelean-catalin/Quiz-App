@@ -49,6 +49,7 @@ export default function QuestionActionDialog({ concat }: Props) {
 		reset(DEFAULT_VALUES, {
 			keepIsSubmitted: false,
 			keepTouched: false,
+			keepErrors: false,
 		});
 		setIsOpen(false);
 		document.querySelector("dialog")?.close();
@@ -56,9 +57,9 @@ export default function QuestionActionDialog({ concat }: Props) {
 
 	function onSubmit(data: QuestionFormData) {
 		concat(data);
+
 		handleClose();
 	}
-	console.log(errors.root?.type);
 	return (
 		<>
 			<IconButton
@@ -121,7 +122,9 @@ export default function QuestionActionDialog({ concat }: Props) {
 						disabled={fields.length > 7}
 						text="Add answer"
 						icon={<GoPlus size={18} />}
-						onClick={() => append({ answer: "", isValid: false })}
+						onClick={() => {
+							append({ answer: "", isValid: false });
+						}}
 					/>
 
 					<IconButton

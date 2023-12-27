@@ -20,7 +20,14 @@ export const quizSchema = yup
 			.positive(POSITIVE_NUMBER_MESSAGE)
 			.required(),
 		checkPrevious: yup.boolean().required(),
-		questions: yup.array(),
+		questions: yup
+			.array()
+			.test(
+				"questionsLength",
+				"At least one question is required",
+				(value) => value?.length !== 0
+			)
+			.required(),
 		categories: yup.array(yup.string()).optional(),
 		subCategories: yup.array(yup.string()).optional(),
 	})
