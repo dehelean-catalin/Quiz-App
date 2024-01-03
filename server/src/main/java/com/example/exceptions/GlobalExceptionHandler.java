@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -20,7 +21,7 @@ public class GlobalExceptionHandler {
         return errorMessage;
     }
 
-    @ExceptionHandler(BadRequestException.class)
+    @ExceptionHandler({BadRequestException.class, HttpClientErrorException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessage handleBadRequestException(BadRequestException ex) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST.value(),
@@ -34,7 +35,7 @@ public class GlobalExceptionHandler {
     public ErrorMessage handleException(Exception ex) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "An unexpected error occurred: " + ex.getMessage());
-        
+
         return errorMessage;
     }
 

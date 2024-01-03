@@ -5,10 +5,11 @@ import com.example.dtos.CreateQuizDTO;
 import com.example.dtos.QuizSummaryDTO;
 import com.example.questions.Question;
 import com.example.questions.QuestionRepo;
-import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +57,9 @@ public class QuizServiceImpl implements QuizService {
 
         return quizSummaryDTOS;
     }
-    
+
     @Override
-    public String save(CreateQuizDTO quiz) throws BadRequestException {
+    public String save(CreateQuizDTO quiz) {
 
         Quiz newQuiz = new Quiz(quiz.getTitle(),
                 quiz.getDescription(),
@@ -69,9 +70,10 @@ public class QuizServiceImpl implements QuizService {
 
         for (Question question : quiz.getQuestions()) {
             Question newQuestion = new Question(question.getTitle(), question.getPoints());
-
             if (!question.getAnswers().stream().anyMatch(answer -> answer.getIsValid() == true)) {
-                throw new BadRequestException("At least one valid answer is " +
+                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "At least one " +
+                        "valid " +
+                        "answer is " +
                         "required");
             }
 

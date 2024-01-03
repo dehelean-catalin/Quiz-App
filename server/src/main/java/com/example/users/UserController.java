@@ -1,39 +1,37 @@
 package com.example.users;
 
-import com.example.utils.ResponseMessage;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
 @RestController
 @CrossOrigin
+@RequiredArgsConstructor
 //@Tag(name = "user", description = "Endpoints for user actions")
 public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @GetMapping("/")
-    public String showWelcomeMessage() {
-        return "Welcome";
-    }
-
-    @GetMapping("/sign-up")
-    public String showMessage(Authentication authentication) {
-        return getName(authentication);
-    }
-
     @PostMapping("/sign-up")
-    public ResponseMessage signUp(@Valid @RequestBody SignUpUserDTO signUpUserDTO) throws BadRequestException {
-        var response = userService.signUp(signUpUserDTO);
-        return new ResponseMessage(response);
+    public AuthenticationResponse signUp(@Valid @RequestBody RegisterRequest signUpUserDTO) throws BadRequestException {
+        String token = userService.signUp(signUpUserDTO);
+
+        return new AuthenticationResponse(token);
+    }
+
+    @PostMapping("/authenticate")
+    public AuthenticationResponse authenticate(@Valid @RequestBody AuthenticateRequest authenticateRequest) throws BadRequestException {
+        String token = userService.login(authenticateRequest);
+
+        return new AuthenticationResponse(token);
     }
 
     private static String getName(Authentication authentication) {

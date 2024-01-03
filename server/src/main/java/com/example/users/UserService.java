@@ -3,7 +3,7 @@ package com.example.users;
 import org.apache.coyote.BadRequestException;
 
 public interface UserService {
-    String signUp(SignUpUserDTO userDTO) throws BadRequestException;
+    String signUp(RegisterRequest request) throws BadRequestException;
 
-    String login(User user);
+    String login(AuthenticateRequest request);
 }
