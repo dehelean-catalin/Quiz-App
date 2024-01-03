@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { FetchError } from "../../components/FetchError/FetchError";
-import { ROUTES } from "../../config/axios.config";
+import { ROUTES } from "../../config/routes";
 import { useFetch } from "../../shared/hooks";
 import { IQuestion } from "../../shared/types/quizTypes";
 

@@ -1,5 +1,6 @@
 import { HttpResponse, http } from "msw";
-import { BASE_URL, ROUTES } from "../../config/axios.config";
+import { BASE_URL } from "../../config/axios.config";
+import { ROUTES } from "../../config/routes";
 import { QUESTIONS } from "../data/questions";
 
 const getQuestionIDs = http.get(`${BASE_URL}${ROUTES.QUESTIONS}`, () => {

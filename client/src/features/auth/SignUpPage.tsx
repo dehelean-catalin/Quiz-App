@@ -1,7 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { NavLink } from "react-router-dom";
 import { FieldInput } from "../../components";
 import { axiosInstance } from "../../config/axios.config";
+import { ROUTES } from "../../config/routes";
 import styles from "./SignUpPage.module.css";
 import { RegiserFormData, registerSchema } from "./schemas/register.schema";
 
@@ -16,13 +18,7 @@ export function SignUpPage() {
 
 	async function onSubmit(data: RegiserFormData) {
 		try {
-			await axiosInstance.post("/sign-up", data, {
-				headers: {
-					Authorization:
-						"Basic dXNlcjoyM2Y0NDY1MS1lYWQ1LTQ5ZTYtODhkYS03MzIwYjJlYjIyMGI=",
-				},
-			});
-			close();
+			await axiosInstance.post("/sign-up", data);
 		} catch (error) {
 			alert(error);
 		}
@@ -77,6 +73,11 @@ export function SignUpPage() {
 				<button className="btn" type="submit">
 					Sign up
 				</button>
+
+				<p>
+					Already have an account? Try to
+					<NavLink to={ROUTES.LOGIN}> Login</NavLink>
+				</p>
 			</form>
 		</>
 	);

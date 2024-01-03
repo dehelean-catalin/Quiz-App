@@ -4,7 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { FieldInput } from "../../components/FieldInput";
 import { FieldTextarea } from "../../components/FieldTextarea";
-import { ROUTES } from "../../config/axios.config";
+import { ROUTES } from "../../config/routes";
 import { Difficulty } from "../quizzes/types/quizType";
 import styles from "./CreateQuiz.module.css";
 import QuestionList from "./components/QuestionList/QuestionList";

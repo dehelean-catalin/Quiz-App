@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { ROUTES } from "../../config/axios.config";
+import { ROUTES } from "../../config/routes";
 import styles from "./LandingPage.module.css";
 
 export default function LandingPage() {
