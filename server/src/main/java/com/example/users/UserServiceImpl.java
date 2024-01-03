@@ -4,6 +4,7 @@ import com.example.config.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(AuthenticateRequest authenticateRequest) {
+    public String login(
+            AuthenticateRequest authenticateRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticateRequest.getEmail(),
@@ -50,8 +52,9 @@ public class UserServiceImpl implements UserService {
         );
 
         var user = userRepo.findByEmail(authenticateRequest.getEmail())
-                .orElseThrow();
-        
+                .orElseThrow(() -> new BadCredentialsException("Invalid " +
+                        "Credentials"));
+
         return jwtService.generateToken(user);
     }
 }

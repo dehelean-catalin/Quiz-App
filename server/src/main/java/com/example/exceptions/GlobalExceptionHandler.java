@@ -3,6 +3,7 @@ package com.example.exceptions;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,7 +22,8 @@ public class GlobalExceptionHandler {
         return errorMessage;
     }
 
-    @ExceptionHandler({BadRequestException.class, HttpClientErrorException.class})
+    @ExceptionHandler({BadRequestException.class,
+            BadCredentialsException.class, HttpClientErrorException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessage handleBadRequestException(BadRequestException ex) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST.value(),

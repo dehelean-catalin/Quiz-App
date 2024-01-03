@@ -1,6 +1,6 @@
 package com.example.users;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthenticateRequest {
-    @NotBlank
+    @NotNull(message = "Email is mandatory")
+    @Email(message = "Invalid credentials",
+            regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                    + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
+            flags = Pattern.Flag.CASE_INSENSITIVE
+    )
     private String email;
-    @NotBlank
+
+    @NotBlank(message = "Password is mandatory")
+    @Min(8)
     private String password;
 }
