@@ -3,7 +3,6 @@ package com.example.quizzes;
 import com.example.dtos.CreateQuizDTO;
 import com.example.dtos.QuizSummaryDTO;
 import com.example.utils.ResponseMessage;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/quizzes")
-@Tag(name = "Quiz", description = "Quiz management apis")
+//@Tag(name = "Quiz", description = "Quiz management apis")
 public class QuizController {
     private final QuizService quizService;
 

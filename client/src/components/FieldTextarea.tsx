@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, TextareaHTMLAttributes } from "react";
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
-import { QuizFormData } from "../schemas/quiz.schema";
+import { QuizFormData } from "../features/create-quiz/schemas/quiz.schema";
 
 interface Props<T extends FieldValues = QuizFormData>
 	extends DetailedHTMLProps<

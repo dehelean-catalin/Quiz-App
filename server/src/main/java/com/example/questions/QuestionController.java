@@ -35,7 +35,7 @@ public class QuestionController {
         List<QuestionDTO> questionDTOList =
                 questions.stream().map((question) -> modelMapper.map(question,
                         QuestionDTO.class)).collect(Collectors.toList());
-        
+
         return questionDTOList;
     }
 

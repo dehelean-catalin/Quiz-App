@@ -8,6 +8,10 @@ html {
 	scroll-behavior: smooth;
 }
 
+input {
+	width: 100%;
+}
+
 input[type="range"] {
 	outline: none;
 	padding-left: 0 !important;
@@ -24,6 +28,7 @@ dialog {
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
+
 ::backdrop {
 	backdrop-filter: blur(5px);
 }

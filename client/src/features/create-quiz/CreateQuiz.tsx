@@ -2,11 +2,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ChangeEvent } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { FieldInput } from "../../components/FieldInput";
+import { FieldTextarea } from "../../components/FieldTextarea";
 import { ROUTES } from "../../config/axios.config";
 import { Difficulty } from "../quizzes/types/quizType";
 import styles from "./CreateQuiz.module.css";
-import { FieldInput } from "./components/FieldInput";
-import { FieldTextarea } from "./components/FieldTextarea";
 import QuestionList from "./components/QuestionList/QuestionList";
 import { QuizFormData, quizSchema } from "./schemas";
 import { postQuiz } from "./services/postQuiz.service";
@@ -37,8 +37,6 @@ export function CreateQuiz() {
 		const input = e.target.value == "on" ? true : false;
 		setValue("checkPrevious", input);
 	}
-
-	console.log(errors);
 
 	async function onSubmit(data: QuizFormData) {
 		try {

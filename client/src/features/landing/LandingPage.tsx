@@ -10,9 +10,9 @@ export default function LandingPage() {
 				Dive into the world of software wizardry with our quiz app, where every
 				question unlocks a new level of programming prowess.
 			</p>
-			<button className="btn" disabled={true}>
+			<NavLink className="btn" to={ROUTES.SIGN_UP}>
 				Sign up
-			</button>
+			</NavLink>
 			<NavLink className="btn" to={ROUTES.QUIZ}>
 				For developers
 			</NavLink>

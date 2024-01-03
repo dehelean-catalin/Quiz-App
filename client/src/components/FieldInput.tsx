@@ -5,7 +5,7 @@ import {
 	ReactNode,
 } from "react";
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
-import { QuizFormData } from "../schemas";
+import { QuizFormData } from "../features/create-quiz/schemas";
 
 interface Props<T extends FieldValues = QuizFormData>
 	extends DetailedHTMLProps<

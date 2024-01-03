@@ -11,7 +11,6 @@
 		grid-column: 1/-1;
 		align-self: flex-end;
 		font-size: clamp(1.5rem, 8vw, 3.5rem);
-		line-height: normal;
 	}
 
 	& p {
@@ -19,12 +18,11 @@
 		max-width: var(--screen-sm);
 		margin: 0 auto;
 	}
-	& > button {
+	& a:nth-child(odd) {
 		grid-column: 1/2;
-		flex: 1 0 50%;
 		justify-self: end;
 	}
-	& > a {
+	& a:nth-child(even) {
 		grid-column: 2/-1;
 		justify-self: start;
 	}

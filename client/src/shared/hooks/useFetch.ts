@@ -11,7 +11,7 @@ export function useFetch<TData = unknown>(
 	const [error, setError] = useState<Error | null>(null);
 
 	const cancelRequest = useRef(false);
-	console.log(params);
+
 	async function fetchData() {
 		setIsLoading(true);
 		try {

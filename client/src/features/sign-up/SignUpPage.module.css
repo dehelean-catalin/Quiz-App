@@ -1,0 +1,24 @@
+.form {
+	--width: 430px;
+	margin: auto;
+	max-width: var(--width);
+	display: flex;
+	flex-direction: column;
+
+	& h1 {
+		text-align: center;
+		margin: var(--m-25) 0 var(--m-10) 0;
+	}
+
+	& button {
+		margin-top: var(--m-10);
+	}
+}
+
+.container {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--gap-2);
+
+	margin-top: var(--m-10);
+}

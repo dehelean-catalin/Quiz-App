@@ -1,11 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { GoPlus, GoTrash } from "react-icons/go";
 import { IconButton } from "../../../../components";
+import { FieldInput } from "../../../../components/FieldInput";
+import { FieldTextarea } from "../../../../components/FieldTextarea";
+import { useDialog } from "../../../../shared/hooks";
 import { QuestionFormData, questionSchema } from "../../schemas";
-import { FieldInput } from "../FieldInput";
-import { FieldTextarea } from "../FieldTextarea";
 import styles from "./QuestionActionDialog.module.css";
 
 type Props = {
@@ -16,14 +16,12 @@ const DEFAULT_VALUES: QuestionFormData = {
 	title: "",
 	points: 1,
 	answers: [
-		{ answer: "", isValid: false },
-		{ answer: "", isValid: false },
+		{ answer: "True", isValid: true },
+		{ answer: "False", isValid: false },
 	],
 };
 
 export default function QuestionActionDialog({ concat }: Props) {
-	const [isOpen, setIsOpen] = useState(false);
-
 	const {
 		register,
 		handleSubmit,
@@ -40,34 +38,23 @@ export default function QuestionActionDialog({ concat }: Props) {
 		name: "answers",
 	});
 
-	function handleOpen() {
-		setIsOpen(true);
-		document.querySelector("dialog")?.showModal();
-	}
-
-	function handleClose() {
+	const { ref, isOpen, open, close } = useDialog<QuestionFormData>(() =>
 		reset(DEFAULT_VALUES, {
 			keepIsSubmitted: false,
 			keepTouched: false,
 			keepErrors: false,
-		});
-		setIsOpen(false);
-		document.querySelector("dialog")?.close();
-	}
+		})
+	);
 
 	function onSubmit(data: QuestionFormData) {
 		concat(data);
-
-		handleClose();
+		close();
 	}
+
 	return (
 		<>
-			<IconButton
-				icon={<GoPlus size={20} />}
-				text="Create"
-				onClick={handleOpen}
-			/>
-			<dialog className={styles.dialog} open={isOpen}>
+			<IconButton icon={<GoPlus size={20} />} text="Create" onClick={open} />
+			<dialog ref={ref} className={styles.dialog} open={isOpen}>
 				<div className={styles.container}>
 					<FieldTextarea<QuestionFormData>
 						label="Title"
@@ -131,7 +118,7 @@ export default function QuestionActionDialog({ concat }: Props) {
 						text="Close"
 						severity="submit"
 						className="m-l-auto"
-						onClick={handleClose}
+						onClick={close}
 					/>
 					<IconButton
 						text="Submit"

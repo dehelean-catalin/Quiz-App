@@ -41,6 +41,6 @@
 	align-items: center;
 
 	> button:last-child {
-		margin-left: var(--m-1);
+		margin-left: var(--m-5);
 	}
 }

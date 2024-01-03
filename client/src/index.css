@@ -11,7 +11,6 @@
 	--primary-white: #f4f4f4;
 
 	--primary-red: #ff3333;
-	--secondary-red: #fb7f7f;
 
 	--border-1: 2px;
 	--border-2: 4px;
@@ -25,8 +24,9 @@
 	--p-6: 1.5rem;
 
 	--m-1: 0.5rem;
-	--m-2: 1rem;
-	--m-3: 2rem;
+	--m-10: 1rem;
+	--m-20: 2rem;
+	--m-25: 2.5rem;
 
 	--gap-1: 1rem;
 	--gap-2: 1.5rem;
@@ -122,7 +122,6 @@ a {
 }
 
 h1 {
-	font-size: clamp(2rem, 8vw, 4rem);
 	line-height: normal;
 }
 

@@ -11,5 +11,6 @@
 			"database": "quiz",
 			"password": "asalta89"
 		}
-	]
+	],
+	"java.compile.nullAnalysis.mode": "automatic"
 }

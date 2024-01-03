@@ -34,6 +34,5 @@ public class OpenAPIConfig {
                 .license(license);
 
         return new OpenAPI().info(info).servers(List.of(devServer));
-
     }
 }

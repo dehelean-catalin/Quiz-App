@@ -5,6 +5,7 @@ import LandingPage from "./features/landing/LandingPage";
 import { Questions } from "./features/questions/Questions";
 import QuizOverview from "./features/quiz-overview/QuizOverview/QuizOverview";
 import { Quizzes } from "./features/quizzes/Quizzes/Quizzes";
+import { SignUpPage } from "./features/sign-up/SignUpPage";
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 import { QuizLayout } from "./pages/QuizLayout/QuizLayout";
 
@@ -13,6 +14,7 @@ function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path={ROUTES.LANDING} element={<LandingPage />} />
+				<Route path={ROUTES.SIGN_UP} element={<SignUpPage />} />
 				<Route path={ROUTES.QUIZ} element={<QuizLayout />}>
 					<Route index element={<Quizzes />} />
 					<Route path="create" element={<CreateQuiz />} />
