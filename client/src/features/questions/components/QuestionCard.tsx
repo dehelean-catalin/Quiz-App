@@ -1,62 +1,28 @@
-import { FormEvent, useState } from "react";
 import { IQuestion } from "../../../shared";
 import styles from "./QuestionCard.module.css";
 
-type Props = { value: IQuestion; onNext: () => void; count: string };
+type Props = { value: IQuestion };
 
-const INITIAL_STATE: string[] = [];
-
-export function QuestionCard({ value, onNext, count }: Props) {
-	const [selectedOptions, setSelectedOptions] =
-		useState<string[]>(INITIAL_STATE);
-
-	const nextBtnDisabled = !selectedOptions.length;
-
-	function handleClick(index: string) {
-		if (selectedOptions.includes(index)) {
-			const filteredOptions = selectedOptions.filter(
-				(option) => option != index
-			);
-			setSelectedOptions(filteredOptions);
-		} else {
-			setSelectedOptions([...selectedOptions, index]);
-		}
-	}
-
-	function handleSubmit(e: FormEvent) {
-		e.preventDefault();
-
-		if (nextBtnDisabled) return;
-
-		setSelectedOptions(INITIAL_STATE);
-		onNext();
-	}
-
+export function QuestionCard({ value }: Props) {
 	return (
-		<form className={`card m-auto ${styles.container}`} onSubmit={handleSubmit}>
-			<header>
-				<h1>{value.title}</h1>
-			</header>
-			<section>
-				{value.answers.map((val, id) => (
-					<label htmlFor={`option-${id}`} className="block tag">
-						<input
-							id={`option-${id}`}
-							type="checkbox"
-							key={id}
-							onClick={() => handleClick(id)}
-							checked={selectedOptions.includes(id)}
-						/>
-						{val}
-					</label>
-				))}
-			</section>
-			<footer>
-				{count} questions
-				<button type="submit" disabled={nextBtnDisabled}>
-					Next
-				</button>
-			</footer>
-		</form>
+		<div className={`card ${styles.container}`}>
+			<h1>{value.title}</h1>
+			<span>{value.points}</span>
+			{value.answers.map((answer) => (
+				<label
+					htmlFor={`option-${answer.id}`}
+					key={answer.id}
+					className="block tag"
+				>
+					<input
+						id={`option-${answer.id}`}
+						type="checkbox"
+						// onClick={() => handleClick(id)}
+						// checked={selectedOptions.includes(id)}
+					/>
+					{answer.answer}
+				</label>
+			))}
+		</div>
 	);
 }

@@ -95,6 +95,7 @@ export default function QuestionActionDialog({ concat }: Props) {
 								icon={<GoTrash size={16} />}
 								onClick={() => remove(index)}
 								severity="info"
+								className={styles.remove}
 							/>
 						</div>
 					))}

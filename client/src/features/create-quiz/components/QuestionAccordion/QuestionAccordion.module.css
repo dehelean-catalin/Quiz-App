@@ -22,7 +22,7 @@
 
 .btns {
 	float: right;
-	margin-left: var(--m-5);
+	margin-left: var(--m-1);
 }
 
 .question {
@@ -32,7 +32,7 @@
 
 .answer {
 	padding: var(--p-2);
-	margin-bottom: var(--m-5);
+	margin-bottom: var(--m-1);
 
 	border-radius: var(--border-2);
 

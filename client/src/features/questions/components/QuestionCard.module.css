@@ -1,38 +1,29 @@
 .container {
 	--padding: var(--p-2) var(--p-6);
 	--border: 2px solid var(--primary-gray);
-	--gap: 0.5rem;
 
-	width: max(568px, 40%);
-	padding: 0 !important;
+	margin-bottom: var(--p-4);
 
 	& h1 {
 		font-size: 1.25em;
+		font-weight: 400;
 	}
 	& label {
+		display: flex;
+		align-items: center;
+		gap: var(--p-2);
+
+		padding: var(--p-3) var(--p-2);
+		margin-bottom: var(--p-3);
 		border: var(--border);
+
+		cursor: pointer;
 	}
 	& label:has(input:checked) {
 		border-color: var(--primary-blue);
 	}
+
 	& input {
-		margin-right: var(--p-2);
-	}
-	& header {
-		padding: var(--padding);
-		border-bottom: var(--border);
-	}
-	& section {
-		display: flex;
-		flex-direction: column;
-		gap: var(--gap);
-		padding: var(--p-6);
-	}
-	& footer {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		border-top: var(--border);
-		padding: var(--p-2) var(--p-4);
+		flex: 0 0 5%;
 	}
 }

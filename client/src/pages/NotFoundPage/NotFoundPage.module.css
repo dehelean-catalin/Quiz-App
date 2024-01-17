@@ -32,7 +32,4 @@
 		grid-template-columns: 1fr;
 		column-gap: 0;
 	}
-	svg {
-		display: none;
-	}
 }

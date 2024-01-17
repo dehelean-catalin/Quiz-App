@@ -44,7 +44,7 @@
 }
 
 .difficulty {
-	margin-left: var(--m-5);
+	margin-left: var(--m-1);
 	font-style: italic;
 	font-size: 0.75em;
 }

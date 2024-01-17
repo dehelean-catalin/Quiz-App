@@ -3,6 +3,8 @@ import { FetchError } from "../../components/FetchError/FetchError";
 import { ROUTES } from "../../config/routes";
 import { useFetch } from "../../shared/hooks";
 import { IQuestion } from "../../shared/types/quizTypes";
+import styles from "./Questions.module.css";
+import { QuestionCard } from "./components/QuestionCard";
 
 export function Questions() {
 	const { id } = useParams();
@@ -16,19 +18,15 @@ export function Questions() {
 	if (error) return <FetchError error={error} />;
 
 	if (!data) return;
-	console.log(data);
+
 	return (
-		<>
-			{data.map((question) => (
-				<article>
-					{question.title}
-					{question.points}
-					{question.answers.map((answer) => (
-						<p>{answer.answer}</p>
-					))}
-				</article>
-				// <QuestionCard value={val} onNext={console.log} count={""} />
-			))}
-		</>
+		<div className={styles.container}>
+			<form onSubmit={console.log}>
+				{data.map((question) => (
+					<QuestionCard value={question} />
+				))}
+				<button type="submit">Next</button>
+			</form>
+		</div>
 	);
 }
