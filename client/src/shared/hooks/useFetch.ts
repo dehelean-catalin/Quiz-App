@@ -38,7 +38,7 @@ export function useFetch<TData = unknown>(
 		return () => {
 			cancelRequest.current = true;
 		};
-	}, [url]);
+	}, [url, JSON.stringify(params)]);
 
 	return { data, isLoading, error };
 }

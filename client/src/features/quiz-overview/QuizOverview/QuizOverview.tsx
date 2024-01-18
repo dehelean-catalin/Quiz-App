@@ -1,5 +1,7 @@
+import { AxiosResponse } from "axios";
 import { useNavigate, useParams } from "react-router";
 import { FetchError } from "../../../components/FetchError/FetchError";
+import { axiosInstance } from "../../../config/axios.config";
 import { ROUTES } from "../../../config/routes";
 import { useFetch } from "../../../shared/hooks";
 import { QuizSummary } from "../../quizzes/types/quizType";
@@ -11,8 +13,20 @@ export default function QuizOverview() {
 		`${ROUTES.QUIZ}/${id}`
 	);
 
-	function handleClick() {
-		navigate(`${ROUTES.QUESTIONS}?page=0&size=${2}`);
+	async function startAttempt() {
+		let attemptId = null;
+		try {
+			attemptId = await axiosInstance.post<AxiosResponse<string>>(
+				`${ROUTES.ATTEMPTS}/${id}`
+			);
+		} catch (error) {
+			alert(error?.message ?? "Something went wrong");
+			return;
+		}
+
+		navigate(
+			`${ROUTES.QUESTIONS}/${attemptId.data}?page=0&size=${data?.questionsPerPage}`
+		);
 	}
 
 	if (isLoading) return <>Loading</>;
@@ -30,7 +44,7 @@ export default function QuizOverview() {
 			<p>{data.numberOfQuestions} questions</p>
 
 			<footer>
-				<button onClick={handleClick}>Start</button>
+				<button onClick={startAttempt}>Start</button>
 			</footer>
 		</article>
 	);

@@ -26,4 +26,5 @@ export type QuizSummary = {
 	numberOfQuestions: number;
 	categories: QuizCategory[];
 	subCategories: QuizSubCategory[];
+	questionsPerPage: number;
 };

@@ -6,6 +6,7 @@ import { CreateQuiz } from "./features/create-quiz/CreateQuiz";
 import LandingPage from "./features/landing/LandingPage";
 import { Questions } from "./features/questions/Questions";
 import QuizOverview from "./features/quiz-overview/QuizOverview/QuizOverview";
+import { QuizResult } from "./features/quiz-result/QuizResult";
 import { Quizzes } from "./features/quizzes/Quizzes/Quizzes";
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 import { QuizLayout } from "./pages/QuizLayout/QuizLayout";
@@ -21,8 +22,13 @@ function App() {
 					<Route index element={<Quizzes />} />
 					<Route path="create" element={<CreateQuiz />} />
 					<Route path=":id" element={<QuizOverview />} />
-					<Route path={`:id/${ROUTES.QUESTIONS}`} element={<Questions />} />
+					<Route
+						path={`:id/${ROUTES.QUESTIONS}/:attemptId`}
+						element={<Questions />}
+					/>
+					<Route path={`:attemptId/results`} element={<QuizResult />} />
 				</Route>
+
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</BrowserRouter>
