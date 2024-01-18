@@ -1,9 +1,7 @@
 package com.example.attemps;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
@@ -11,10 +9,20 @@ import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "attempt_answers")
-public class AttemptAnswers {
+public class AttemptQuestions {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
+
+    @Column(name = "question_id")
     private String questionId;
+
     private List<String> answersId = new ArrayList<>();
+
+    public AttemptQuestions(String questionId, List<String> answersId) {
+        this.questionId = questionId;
+        this.answersId = answersId;
+    }
 }

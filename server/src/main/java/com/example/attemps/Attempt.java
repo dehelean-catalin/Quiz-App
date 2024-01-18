@@ -1,21 +1,42 @@
 package com.example.attemps;
 
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+@Entity
 @Data
-@Table(name = "attemps")
-public class Attemp {
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "attempts")
+public class Attempt {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String quiz_id;
+    @NotBlank
+    @Column(name = "quiz_id")
+    private String quizId;
 
-    private String start_time;
+    @NotBlank
+    @Column(name = "start_time")
+    private String startTime;
 
-    private Map<String, List<String>> answers = new HashMap<>();
+    @Column(name = "end_time")
+    private String endTime = null;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<AttemptQuestions> attemptAnswers = new ArrayList<>();
+
+    public void addAnswer(AttemptQuestions attemptQuestions) {
+        attemptAnswers.add(attemptQuestions);
+    }
+
+
 }

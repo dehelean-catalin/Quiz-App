@@ -14,4 +14,5 @@ public class QuizSummaryDTO {
     private String description;
     private Integer duration;
     private Long numberOfQuestions;
+    private Integer questionsPerPage;
 }

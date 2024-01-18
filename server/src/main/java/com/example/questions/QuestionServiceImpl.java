@@ -1,8 +1,8 @@
 package com.example.questions;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,9 +22,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question findById(String id) {
-        return questionRepo.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Questions not founded"));
+    public Question findById(String id) throws BadRequestException {
+        return questionRepo.findById(id).orElseThrow(() -> new BadRequestException("Question not found"));
     }
 
     @Override

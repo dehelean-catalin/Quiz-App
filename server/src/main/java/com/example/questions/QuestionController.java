@@ -1,9 +1,10 @@
 package com.example.questions;
 
+import com.example.dtos.QuizSummaryDTO;
 import com.example.quizzes.QuizService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,22 +26,33 @@ public class QuestionController {
 
 
     @GetMapping("/{id}")
-    public List<QuestionDTO> findAllByQuizId(@PathVariable String id,
-                                             @RequestParam String page,
-                                             @RequestParam String size) {
-        ModelMapper modelMapper = new ModelMapper();
-        List<Question> questions = questionService.findAllByQuizId(id,
-                Integer.parseInt(page),
-                Integer.parseInt(size));
-        List<QuestionDTO> questionDTOList =
-                questions.stream().map((question) -> modelMapper.map(question,
-                        QuestionDTO.class)).collect(Collectors.toList());
+    public QuestionPerPageResponse findAllByQuizId(@PathVariable String id, @RequestParam String page,
+                                                   @RequestParam String size) {
 
-        return questionDTOList;
+        int numericPage = Integer.parseInt(page);
+        int numericSize = Integer.parseInt(size);
+
+        List<Question> questions = questionService.findAllByQuizId(id, numericPage, numericSize);
+        QuizSummaryDTO quiz = quizService.findById(id);
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        List<QuestionResponse> questionDTOList = questions.stream().map(
+                (question) -> modelMapper.map(question, QuestionResponse.class)).collect(Collectors.toList());
+
+        QuestionPerPageResponse questionPerPageResponse = new QuestionPerPageResponse();
+        questionPerPageResponse.getQuestions().addAll(questionDTOList);
+
+        if (quiz.getNumberOfQuestions() <= (numericPage + 1) * numericSize) {
+            questionPerPageResponse.setFinish(true);
+        }
+
+        return questionPerPageResponse;
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> save(@RequestBody Question question) {
-        return ResponseEntity.ok(questionService.save(question));
+    @ResponseStatus(HttpStatus.CREATED)
+    public String save(@RequestBody Question question) {
+        return questionService.save(question);
     }
 }
