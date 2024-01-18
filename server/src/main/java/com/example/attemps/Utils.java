@@ -25,8 +25,6 @@ class Utils {
                     .map(Answer::getId)
                     .toList();
 
-            System.out.println(correctAnswers);
-
             Optional<AttemptQuestions> first = attempt.getAttemptAnswers().stream()
                     .filter(attemptQuestions ->
                             attemptQuestions.getQuestionId().equals(question.getId())
@@ -34,7 +32,6 @@ class Utils {
 
             if (first.isPresent()) {
                 List<String> myAnswers = first.get().getAnswersId();
-                System.out.println(myAnswers);
                 questionResult.setYourAnswers(myAnswers);
 
                 if (myAnswers.equals(correctAnswers)) {
