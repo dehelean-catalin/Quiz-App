@@ -23,7 +23,7 @@ public class AttemptController {
     }
 
     @PostMapping("/{id}")
-    public String save(@PathVariable String id) {
+    public String save(@PathVariable String id) throws BadRequestException {
         return attemptService.save(id);
     }
 
@@ -32,6 +32,13 @@ public class AttemptController {
             List<String>> attemptQuestionsAnswers) throws BadRequestException {
 
         return attemptService.saveAnswers(attemptId, attemptQuestionsAnswers);
+    }
+
+    @PostMapping("/{attemptId}/finish")
+    public String finishAttempt(@PathVariable String attemptId, @RequestBody Map<String,
+            List<String>> attemptQuestionsAnswers) throws BadRequestException {
+
+        return attemptService.finishAttempt(attemptId, attemptQuestionsAnswers);
     }
 
 }

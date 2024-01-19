@@ -15,8 +15,16 @@ public class QuestionResult {
     private String title;
 
     private int score = 0;
+    private int points = 0;
 
     private List<String> yourAnswers = new ArrayList<>();
 
     private List<Answer> answers = new ArrayList<>();
+
+    public QuestionResult(String id, String title, List<Answer> answers) {
+
+        this.id = id;
+        this.title = title;
+        this.answers = answers;
+    }
 }

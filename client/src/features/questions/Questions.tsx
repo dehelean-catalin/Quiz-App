@@ -43,16 +43,20 @@ export function Questions() {
 		// TODO NO MORE GO BACK IF QUIZ IS FINISHED or you are not allowed to bo back.
 
 		try {
-			await axiosInstance.post(
-				`${ROUTES.ATTEMPTS}/${attemptId}/questions`,
-				formValues
-			);
-
 			if (data?.finish) {
-				await axiosInstance.get(`${ROUTES.ATTEMPTS}/${attemptId}`);
+				await axiosInstance.post(
+					`${ROUTES.ATTEMPTS}/${attemptId}/finish`,
+					formValues
+				);
+
 				const path = `/quizzes/${attemptId}/results`;
 				navigate(path, { replace: true });
 				return;
+			} else {
+				await axiosInstance.post(
+					`${ROUTES.ATTEMPTS}/${attemptId}/questions`,
+					formValues
+				);
 			}
 		} catch (error) {
 			console.log(error);

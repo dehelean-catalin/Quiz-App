@@ -8,8 +8,4 @@ import lombok.Data;
 public class ErrorMessage {
     private int statusCode;
     private String message;
-
-    private static void test() {
-
-    }
 }

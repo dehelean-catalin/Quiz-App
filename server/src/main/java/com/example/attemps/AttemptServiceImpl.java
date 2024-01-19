@@ -1,5 +1,6 @@
 package com.example.attemps;
 
+import com.example.exceptions.ResourceUpdateNotAllowedException;
 import com.example.quizzes.Quiz;
 import com.example.quizzes.QuizRepo;
 import org.apache.coyote.BadRequestException;
@@ -23,24 +24,22 @@ public class AttemptServiceImpl implements AttemptService {
 
     @Override
     public QuizResultResponse findQuizResult(String attemptId) throws BadRequestException {
-        Attempt attempt =
-                attemptRepository.findById(attemptId).orElseThrow(() -> new BadRequestException(
-                        "Attempt" +
-                                " not found"));
 
-        Quiz quiz = quizRepo.findById(attempt.getQuizId()).orElseThrow(() -> new BadRequestException(
-                "Quiz " +
-                        "not " +
-                        "found"));
+        Attempt attempt = attemptRepository.findById(attemptId)
+                .orElseThrow(() -> new BadRequestException("Attempt not found"));
+
+        Quiz quiz = quizRepo.findById(attempt.getQuizId())
+                .orElseThrow(() -> new BadRequestException("Quiz not found"));
 
         return Utils.convertAttemptToQuizResult(quiz, attempt);
     }
 
     @Override
-    public String save(String id) {
-        Attempt attempt = new Attempt();
-        attempt.setQuizId(id);
-        attempt.setStartTime(LocalDateTime.now().toString());
+    public String save(String quizId) throws BadRequestException {
+
+        Quiz quiz = quizRepo.findById(quizId).orElseThrow(() -> new BadRequestException("Quiz not found"));
+
+        Attempt attempt = new Attempt(quizId, LocalDateTime.now().toString(), quiz.getDuration());
 
         Attempt save = attemptRepository.save(attempt);
 
@@ -50,24 +49,53 @@ public class AttemptServiceImpl implements AttemptService {
     @Override
     public String saveAnswers(String attemptId, Map<String, List<String>> answers) throws BadRequestException {
 
-        Attempt attempt =
-                attemptRepository.findById(attemptId).orElseThrow(() -> new BadRequestException());
+        Attempt attempt = attemptRepository.findById(attemptId)
+                .orElseThrow(() -> new BadRequestException("Attempt not found"));
 
-        answers.forEach((questionId, answersId) ->
-                {
-                    Optional<AttemptQuestions> existingAnswer = attempt.getAttemptAnswers().stream()
-                            .filter(ans -> ans.getQuestionId().equals(questionId)).findAny();
+        LocalDateTime localEndDateTime = LocalDateTime.parse(attempt.getEndTime());
 
-                    if (existingAnswer.isPresent()) {
-                        existingAnswer.get().setAnswersId(answersId);
-                    } else {
-                        attempt.addAnswer(new AttemptQuestions(questionId, answersId));
-                    }
-                }
-        );
+        if (attempt.getIsCompleted() || Utils.hasExpired(localEndDateTime)) {
+            throw new ResourceUpdateNotAllowedException("Quiz attempt is completed");
+        }
+
+        answers.forEach((questionId, answersId) -> updateSavedAnswers(questionId, answersId, attempt));
 
         attemptRepository.save(attempt);
 
         return "Success";
+    }
+
+    @Override
+    public String finishAttempt(String attemptId, Map<String, List<String>> answers) throws BadRequestException {
+
+        Attempt attempt = attemptRepository.findById(attemptId)
+                .orElseThrow(() -> new BadRequestException("Attempt not found"));
+
+        LocalDateTime localEndDateTime = LocalDateTime.parse(attempt.getEndTime());
+
+        if (attempt.getIsCompleted() || Utils.hasExpired(localEndDateTime)) {
+            throw new ResourceUpdateNotAllowedException("Quiz attempt is completed");
+        }
+
+        answers.forEach((questionId, answersId) -> updateSavedAnswers(questionId, answersId, attempt));
+
+        attempt.setIsCompleted(true);
+        attempt.setCompletedAt(LocalDateTime.now().toString());
+
+        attemptRepository.save(attempt);
+
+        return "Success";
+    }
+
+    private static void updateSavedAnswers(String questionId, List<String> answersId, Attempt attempt) {
+
+        Optional<AttemptQuestions> first = attempt.getAttemptAnswers().stream()
+                .filter(ans -> ans.getQuestionId().equals(questionId))
+                .findFirst();
+
+        first.ifPresentOrElse(
+                existingAnswer -> existingAnswer.setAnswersId(answersId),
+                () -> attempt.addAnswer(new AttemptQuestions(questionId, answersId))
+        );
     }
 }

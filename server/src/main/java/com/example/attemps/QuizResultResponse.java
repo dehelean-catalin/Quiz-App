@@ -13,21 +13,34 @@ public class QuizResultResponse {
     private String title;
 
     private String startTime;
-    private String endTime;
+    private String completedAt;
+    private long timeDeltaInSeconds;
 
     private int totalScore = 0;
+    private int totalPoints = 0;
 
-    public QuizResultResponse(String id, String title, String startTime, String endTime) {
-        this.endTime = endTime;
-        this.startTime = startTime;
+    private float scorePercentage;
+
+    public QuizResultResponse(String id, String title, String startTime, String completedAt,
+                              long timeDeltaInSeconds) {
         this.id = id;
         this.title = title;
+        this.startTime = startTime;
+        this.completedAt = completedAt;
+        this.timeDeltaInSeconds = timeDeltaInSeconds;
     }
 
     private List<QuestionResult> questions = new ArrayList<>();
 
     public void addQuestionResult(QuestionResult questionResult) {
-        totalScore += questionResult.getScore();
+        this.totalScore += questionResult.getScore();
+        this.totalPoints += questionResult.getPoints();
         questions.add(questionResult);
     }
+
+    public void setScorePercentage() {
+        float scorePercentage = ((float) totalScore / totalPoints) * 100;
+        this.scorePercentage = Math.round(scorePercentage);
+    }
+
 }

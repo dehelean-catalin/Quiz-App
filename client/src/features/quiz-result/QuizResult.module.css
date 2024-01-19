@@ -1,0 +1,6 @@
+.results {
+	max-width: var(--screen-sm);
+	margin: 0 auto;
+
+	padding: var(--p-6);
+}

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +30,27 @@ public class Attempt {
     private String startTime;
 
     @Column(name = "end_time")
-    private String endTime = null;
+    private String endTime;
+
+    @Column(name = "is_completed")
+    private Boolean isCompleted = false;
+
+    @Column(name = "completed_at")
+    private String completedAt = null;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<AttemptQuestions> attemptAnswers = new ArrayList<>();
 
+    public Attempt(String quizId, String startTime, int duration) {
+        String endTime = LocalDateTime.now().plusMinutes(duration).toString();
+
+        this.quizId = quizId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
     public void addAnswer(AttemptQuestions attemptQuestions) {
         attemptAnswers.add(attemptQuestions);
     }
-
 
 }

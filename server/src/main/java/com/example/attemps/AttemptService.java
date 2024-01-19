@@ -9,7 +9,9 @@ public interface AttemptService {
 
     QuizResultResponse findQuizResult(String id) throws BadRequestException;
 
-    String save(String attempt);
+    String save(String attempt) throws BadRequestException;
 
     String saveAnswers(String id, Map<String, List<String>> answers) throws BadRequestException;
+
+    String finishAttempt(String id, Map<String, List<String>> answers) throws BadRequestException;
 }
