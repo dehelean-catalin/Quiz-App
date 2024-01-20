@@ -1,4 +1,5 @@
 import { FieldValues, UseFormRegister } from "react-hook-form";
+import { QuestionHeader } from "../../../components/QuestionCard";
 import { IQuestion } from "../../../shared";
 import styles from "./QuestionCard.module.css";
 
@@ -10,10 +11,10 @@ type Props = {
 
 export function QuestionCard({ value, register, errorMessage }: Props) {
 	const errorId = `err-${value.title}`;
+
 	return (
 		<div className={`card ${styles.container}`}>
-			<h1>{value.title}</h1>
-			<span>{value.points}</span>
+			<QuestionHeader title={value.title} points={String(value.points)} />
 
 			{value.answers.map((answer) => {
 				const id = `${value.id}/${answer.id}`;
@@ -22,7 +23,7 @@ export function QuestionCard({ value, register, errorMessage }: Props) {
 					<label
 						htmlFor={id}
 						key={answer.id}
-						className="block tag"
+						className="answer-card"
 						aria-invalid={errorMessage ? "true" : "false"}
 						aria-errormessage={errorId}
 					>

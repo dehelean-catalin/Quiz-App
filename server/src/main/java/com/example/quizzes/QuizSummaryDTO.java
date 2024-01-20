@@ -1,4 +1,4 @@
-package com.example.dtos;
+package com.example.quizzes;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,4 +15,5 @@ public class QuizSummaryDTO {
     private Integer duration;
     private Long numberOfQuestions;
     private Integer questionsPerPage;
+    private Boolean allowBack;
 }

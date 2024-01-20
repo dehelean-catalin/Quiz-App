@@ -1,0 +1,13 @@
+.header {
+	display: flex;
+	align-items: center;
+
+	margin: var(--p-1) 0 var(--p-2) 0;
+
+	& p {
+		font-size: 0.75em;
+	}
+	& h3 {
+		margin-right: auto;
+	}
+}

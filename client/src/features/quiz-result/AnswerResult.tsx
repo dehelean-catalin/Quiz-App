@@ -16,7 +16,8 @@ export function AnswerResult({ answer, yourAnswers }: Props) {
 			[styles.green]: answer.isValid,
 			[styles.red]: isAnswerInValid,
 		},
-		styles.answer
+		styles.answer,
+		"answer-card"
 	);
 
 	return (

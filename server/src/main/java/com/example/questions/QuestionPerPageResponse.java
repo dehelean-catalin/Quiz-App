@@ -12,7 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestionPerPageResponse {
 
-    boolean finish = false;
+    private boolean finish;
+    private boolean allowBack;
     List<QuestionResponse> questions = new ArrayList<>();
 
+    public QuestionPerPageResponse(Boolean allowBack) {
+        this.allowBack = allowBack;
+    }
 }

@@ -11,6 +11,7 @@ import { QuestionCard } from "./components/QuestionCard";
 
 type QuestionPerPageResponse = {
 	finish: boolean;
+	allowBack: boolean;
 	questions: IQuestion[];
 };
 
@@ -86,6 +87,7 @@ export function Questions() {
 					/>
 				))}
 
+				{data.allowBack && <button>Back</button>}
 				<button type="submit">{data.finish ? "Finish" : "Next"}</button>
 			</form>
 		</div>

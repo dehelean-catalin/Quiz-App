@@ -1,14 +1,13 @@
 package com.example.questions;
 
-import com.example.dtos.QuizSummaryDTO;
 import com.example.quizzes.QuizService;
+import com.example.quizzes.QuizSummaryDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -33,17 +32,18 @@ public class QuestionController {
         int numericSize = Integer.parseInt(size);
 
         List<Question> questions = questionService.findAllByQuizId(id, numericPage, numericSize);
-        QuizSummaryDTO quiz = quizService.findById(id);
+        QuizSummaryDTO quizSummary = quizService.findById(id);
 
         ModelMapper modelMapper = new ModelMapper();
 
         List<QuestionResponse> questionDTOList = questions.stream().map(
-                (question) -> modelMapper.map(question, QuestionResponse.class)).collect(Collectors.toList());
+                question -> modelMapper.map(question, QuestionResponse.class)).toList();
 
-        QuestionPerPageResponse questionPerPageResponse = new QuestionPerPageResponse();
+        QuestionPerPageResponse questionPerPageResponse =
+                new QuestionPerPageResponse(quizSummary.getAllowBack());
         questionPerPageResponse.getQuestions().addAll(questionDTOList);
 
-        if (quiz.getNumberOfQuestions() <= (numericPage + 1) * numericSize) {
+        if (quizSummary.getNumberOfQuestions() <= (numericPage + 1) * numericSize) {
             questionPerPageResponse.setFinish(true);
         }
 

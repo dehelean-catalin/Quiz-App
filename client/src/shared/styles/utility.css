@@ -11,24 +11,17 @@
 	box-shadow: 0px 0px 5px -2px var(--tertiary-gray);
 }
 
-.pointer {
-	cursor: pointer;
-}
+.answer-card {
+	--space: var(--p-3);
 
-.tag {
-	padding: var(--p-5);
-	border-radius: var(--border-2);
-}
+	display: flex;
+	align-items: center;
+	gap: var(--space);
 
-.block {
-	display: block;
-}
-
-.m-auto {
-	margin: auto;
-}
-.m-l-auto {
-	margin-left: auto;
+	border-radius: 4px;
+	border: 1px solid var(--secondary-gray);
+	margin-top: var(--m-1);
+	padding: var(--p-2) var(--space);
 }
 
 .error {
@@ -39,6 +32,17 @@
 	min-height: 1.675rem;
 	margin-bottom: var(--m-1);
 	font-size: 0.8em;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.m-auto {
+	margin: auto;
+}
+.m-l-auto {
+	margin-left: auto;
 }
 
 .flex {

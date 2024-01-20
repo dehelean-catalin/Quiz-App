@@ -2,7 +2,6 @@
 	background-color: var(--primary-gray);
 	border-radius: var(--border-2);
 	padding: var(--p-2);
-	padding-bottom: 0px;
 
 	& summary {
 		line-height: 34px;
@@ -28,20 +27,6 @@
 .question {
 	display: flex;
 	justify-content: space-between;
-}
-
-.answer {
-	padding: var(--p-2);
-	margin-bottom: var(--m-1);
-
-	border-radius: var(--border-2);
-
-	border: 1px solid var(--secondary-gray);
-
-	& svg {
-		margin: 0px 4px;
-		min-width: 18px;
-	}
 }
 
 .isValid {

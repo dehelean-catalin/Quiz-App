@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { GoCheckCircleFill, GoPencil, GoTrash } from "react-icons/go";
 import { IconButton } from "../../../../components";
 import { QuestionFormData } from "../../schemas/quiz.schema";
@@ -37,8 +38,8 @@ export default function QuestionAccordion({
 			</summary>
 			{field.answers?.map((answer, key) => (
 				<div
-					className={`${styles.answer} ${answer.isValid ? styles.isValid : ""}`}
 					key={key}
+					className={clsx("answer-card", { [styles.isValid]: answer.isValid })}
 				>
 					<span>{answer.answer}</span>
 					{answer.isValid ? <GoCheckCircleFill size={20} /> : ""}

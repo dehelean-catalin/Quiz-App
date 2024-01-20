@@ -1,7 +1,6 @@
-package com.example.dtos;
+package com.example.quizzes;
 
 import com.example.questions.Question;
-import com.example.quizzes.Difficulty;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Min;
@@ -34,15 +33,15 @@ public class CreateQuizDTO {
     @Min(value = 1, message = "Questions per page is invalid")
     private Integer questionsPerPage;
 
-    @NotNull(message = "Check previous is invalid")
-    private Boolean checkPrevious;
+    @NotNull(message = "Allow Back is invalid")
+    private Boolean allowBack;
 
     @NotNull(message = "Questions are invalid")
     private List<Question> questions = new ArrayList<>();
 
     @NotNull(message = "Questions are invalid")
     private List<String> categories = new ArrayList<>();
-    
+
     @NotNull(message = "Questions are invalid")
     private List<String> subCategories = new ArrayList<>();
 

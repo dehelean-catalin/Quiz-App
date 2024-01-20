@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Table(name = "quizzes")
 public class Quiz {
+
     @Id()
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -40,7 +41,7 @@ public class Quiz {
 
     @NotNull(message = "Check previous is invalid")
     @Column(name = "check_previous")
-    private Boolean checkPrevious;
+    private Boolean allowBack;
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL,
@@ -48,13 +49,13 @@ public class Quiz {
     private List<Question> questions = new ArrayList<>();
 
     public Quiz(String title, String description, Difficulty difficulty,
-                Integer duration, Integer questionsPerPage, Boolean checkPrevious) {
+                Integer duration, Integer questionsPerPage, Boolean allowBack) {
         this.title = title;
         this.description = description;
         this.difficulty = difficulty;
         this.duration = duration;
         this.questionsPerPage = questionsPerPage;
-        this.checkPrevious = checkPrevious;
+        this.allowBack = allowBack;
     }
 
     public void addQuestion(Question tempQuestion) {

@@ -1,7 +1,5 @@
 package com.example.quizzes;
 
-import com.example.dtos.CreateQuizDTO;
-import com.example.dtos.QuizSummaryDTO;
 import com.example.utils.ResponseMessage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -34,7 +32,7 @@ public class QuizController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseMessage save(@Valid @RequestBody CreateQuizDTO quiz) throws BadRequestException {
+    public ResponseMessage createQuiz(@Valid @RequestBody CreateQuizDTO quiz) throws BadRequestException {
 
         String message = quizService.save(quiz);
         return new ResponseMessage(message);

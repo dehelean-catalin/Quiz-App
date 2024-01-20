@@ -1,8 +1,6 @@
 package com.example.quizzes;
 
 import com.example.answers.Answer;
-import com.example.dtos.CreateQuizDTO;
-import com.example.dtos.QuizSummaryDTO;
 import com.example.questions.Question;
 import com.example.questions.QuestionRepo;
 import org.apache.coyote.BadRequestException;
@@ -25,16 +23,20 @@ public class QuizServiceImpl implements QuizService {
         this.questionRepo = questionRepo;
     }
 
+    private static RuntimeException get() throws BadRequestException {
+        throw new BadRequestException("A valid answer is required");
+    }
+
     @Override
     public QuizSummaryDTO findById(String id) {
 
-        Quiz quiz = quizRepo.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Quiz with id - " + id +
-                        " was not found"));
+        Quiz quiz = quizRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Quiz with id - " + id +
+                " was not found"));
 
-        QuizSummaryDTO quizSummaryDTO = modelMapper.map(quiz,
-                QuizSummaryDTO.class);
+        QuizSummaryDTO quizSummaryDTO = modelMapper.map(quiz, QuizSummaryDTO.class);
+
         Long numberOfQuestions = questionRepo.countByQuizId(quiz.getId());
+
         quizSummaryDTO.setNumberOfQuestions(numberOfQuestions);
 
         return quizSummaryDTO;
@@ -46,8 +48,9 @@ public class QuizServiceImpl implements QuizService {
         List<QuizSummaryDTO> quizSummaryDTOS = new ArrayList<>();
 
         quizzes.forEach((quiz) -> {
-            QuizSummaryDTO quizSummaryDTO = modelMapper.map(quiz,
-                    QuizSummaryDTO.class);
+
+            QuizSummaryDTO quizSummaryDTO = modelMapper.map(quiz, QuizSummaryDTO.class);
+
             Long numberOfQuestions = questionRepo.countByQuizId(quiz.getId());
             quizSummaryDTO.setNumberOfQuestions(numberOfQuestions);
 
@@ -65,22 +68,16 @@ public class QuizServiceImpl implements QuizService {
                 quiz.getDifficulty(),
                 quiz.getDuration(),
                 quiz.getQuestionsPerPage(),
-                quiz.getCheckPrevious());
+                quiz.getAllowBack());
 
         for (Question question : quiz.getQuestions()) {
             Question newQuestion = new Question(question.getTitle(), question.getPoints());
-            if (!question.getAnswers().stream().anyMatch(answer -> answer.getIsValid() == true)) {
-                throw new BadRequestException("At least one " +
-                        "valid " +
-                        "answer is " +
-                        "required");
-            }
 
-            for (Answer answer : question.getAnswers()) {
-                Answer newAnswer = new Answer(answer.getAnswer(),
-                        answer.getIsValid());
-                newQuestion.addAnswer(newAnswer);
-            }
+            question.getAnswers().stream()
+                    .filter(Answer::getIsValid)
+                    .findFirst()
+                    .orElseThrow(() -> new BadRequestException("At least one valid answer is " +
+                            "required"));
 
             newQuiz.addQuestion(newQuestion);
         }

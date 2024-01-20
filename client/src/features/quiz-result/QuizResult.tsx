@@ -1,5 +1,6 @@
 import { useParams } from "react-router";
 import { NavLink } from "react-router-dom";
+import { QuestionHeader } from "../../components/QuestionCard";
 import { ROUTES } from "../../config/routes";
 import { useFetch } from "../../shared/hooks";
 import { AnswerResult } from "./AnswerResult";
@@ -38,13 +39,10 @@ export function QuizResult() {
 
 			{data.questions.map((question) => (
 				<article className={`card ${styles.question}`}>
-					<header className={styles.header}>
-						<h3>{question.title}</h3>
-						<p>
-							{question.score} / {question.points} points
-						</p>
-					</header>
-
+					<QuestionHeader
+						title={question.title}
+						points={`${question.score} / ${question.points}`}
+					/>
 					{question.answers.map((answer) => (
 						<AnswerResult
 							key={answer.id}

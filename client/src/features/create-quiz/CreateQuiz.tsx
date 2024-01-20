@@ -15,7 +15,7 @@ const DEFAULT_VALUES = {
 	difficulty: "Easy",
 	duration: 5,
 	questionsPerPage: 2,
-	checkPrevious: false,
+	allowBack: false,
 	questions: [],
 };
 
@@ -35,7 +35,7 @@ export function CreateQuiz() {
 
 	function handleCheckChange(e: ChangeEvent<HTMLInputElement>) {
 		const input = e.target.value == "on" ? true : false;
-		setValue("checkPrevious", input);
+		setValue("allowBack", input);
 	}
 
 	async function onSubmit(data: QuizFormData) {
@@ -111,7 +111,7 @@ export function CreateQuiz() {
 				id="checkPrevious"
 				inputType="checkbox"
 				onChange={handleCheckChange}
-				errorMessage={errors.checkPrevious?.message}
+				errorMessage={errors.allowBack?.message}
 			/>
 			<QuestionList control={control} register={register} errors={errors} />
 			<span className="error error-message">{errors.questions?.message}</span>

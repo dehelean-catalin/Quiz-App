@@ -19,7 +19,7 @@ export const quizSchema = yup
 			.typeError(GENERIC_TYPE_NUMBER_MESSAGE)
 			.positive(POSITIVE_NUMBER_MESSAGE)
 			.required(),
-		checkPrevious: yup.boolean().required(),
+		allowBack: yup.boolean().required(),
 		questions: yup
 			.array()
 			.test(
