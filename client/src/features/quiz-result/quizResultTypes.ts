@@ -2,8 +2,10 @@ export type QuizResult = {
 	id: string;
 	title: string;
 	startTime: string;
-	endTime: string;
 	totalScore: number;
+	completedAt: string;
+	isCompleted: boolean;
+	timeDeltaInSeconds: number;
 	totalPoints: number;
 	scorePercentage: number;
 	questions: QuestionResult[];

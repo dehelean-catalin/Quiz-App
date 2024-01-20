@@ -4,3 +4,8 @@
 
 	padding: var(--p-6);
 }
+
+.title {
+	font-size: 1.25em;
+	font-weight: 500;
+}

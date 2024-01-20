@@ -65,7 +65,7 @@ export function Questions() {
 		const nextPage = Number(page) + 1;
 		const path = `/quizzes/${id}/${ROUTES.QUESTIONS}/${attemptId}`;
 
-		navigate(`${path}?page=${nextPage}&size=${size}`);
+		navigate(`${path}?page=${nextPage}&size=${size}`, { replace: true });
 	}
 
 	if (isLoading) return <>Loading...</>;
