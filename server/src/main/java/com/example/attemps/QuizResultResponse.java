@@ -10,6 +10,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuizResultResponse {
     private String id;
+    private String quizId;
     private String title;
 
     private String startTime;
@@ -21,9 +22,11 @@ public class QuizResultResponse {
 
     private float scorePercentage;
 
-    public QuizResultResponse(String id, String title, String startTime, String completedAt,
+    public QuizResultResponse(String id, String quizId, String title, String startTime,
+                              String completedAt,
                               long timeDeltaInSeconds) {
         this.id = id;
+        this.quizId = quizId;
         this.title = title;
         this.startTime = startTime;
         this.completedAt = completedAt;

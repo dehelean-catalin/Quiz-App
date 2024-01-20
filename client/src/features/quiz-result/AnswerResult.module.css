@@ -1,0 +1,31 @@
+.answer {
+	--space: var(--p-3);
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space);
+
+	border-radius: 4px;
+	border: 1px solid var(--secondary-gray);
+	margin-top: var(--m-1);
+	padding: var(--p-2) var(--space);
+}
+
+.green {
+	border: none;
+	background-color: #d4edda;
+
+	& svg {
+		color: #43a058;
+	}
+}
+
+.red {
+	border: none;
+	background: #f8d7da;
+
+	& svg {
+		color: #b32f3c;
+	}
+}

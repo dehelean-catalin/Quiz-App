@@ -1,11 +1,38 @@
 .results {
 	max-width: var(--screen-sm);
-	margin: 0 auto;
 
+	display: flex;
+	flex-direction: column;
+	gap: var(--p-6);
+
+	margin: 0 auto;
 	padding: var(--p-6);
 }
 
 .title {
 	font-size: 1.25em;
 	font-weight: 500;
+}
+
+.question {
+	& header {
+		display: flex;
+		align-items: center;
+
+		margin: var(--p-1) 0 var(--p-2) 0;
+	}
+	& p {
+		font-size: 0.75em;
+	}
+	& h3 {
+		margin-right: auto;
+	}
+}
+
+.points {
+	margin-left: auto;
+}
+
+.finish {
+	margin-left: auto;
 }

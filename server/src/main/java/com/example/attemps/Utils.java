@@ -16,6 +16,7 @@ class Utils {
 
         QuizResultResponse quizResultResponse = new QuizResultResponse(
                 attempt.getId(),
+                quiz.getId(),
                 quiz.getTitle(),
                 attempt.getStartTime(),
                 attempt.getCompletedAt(),

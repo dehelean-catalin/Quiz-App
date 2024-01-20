@@ -1,5 +1,6 @@
 export type QuizResult = {
 	id: string;
+	quizId: string;
 	title: string;
 	startTime: string;
 	totalScore: number;
