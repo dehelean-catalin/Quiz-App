@@ -113,6 +113,7 @@ export function CreateQuiz() {
 				onChange={handleCheckChange}
 				errorMessage={errors.allowBack?.message}
 			/>
+
 			<QuestionList control={control} register={register} errors={errors} />
 			<span className="error error-message">{errors.questions?.message}</span>
 

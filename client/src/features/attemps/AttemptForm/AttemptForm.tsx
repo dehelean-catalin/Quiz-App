@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import { useSearchParams } from "react-router-dom";
-import { FetchError } from "../../components/FetchError/FetchError";
-import { axiosInstance } from "../../config/axios.config";
-import { ROUTES } from "../../config/routes";
-import { useFetch } from "../../shared/hooks";
-import { IQuestion } from "../../shared/types/quizTypes";
-import styles from "./Questions.module.css";
-import { QuestionCard } from "./components/QuestionCard";
+import { FetchError } from "../../../components/FetchError/FetchError";
+import { ROUTES } from "../../../config/routes";
+import { useFetch } from "../../../shared/hooks";
+import { IQuestion } from "../../../shared/types/quizTypes";
+import { AttemptField } from "../AttemptField/AttemptField";
+import { attemptService } from "../services/attemptService";
+import styles from "./AttemptForm.module.css";
 
 type QuestionPerPageResponse = {
 	lastPage: boolean;
@@ -15,7 +15,7 @@ type QuestionPerPageResponse = {
 	questions: IQuestion[];
 };
 
-export function Questions() {
+export function AttemptForm() {
 	const { id, attemptId } = useParams();
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
@@ -34,6 +34,7 @@ export function Questions() {
 	);
 
 	const path = `/quizzes/${id}/${ROUTES.QUESTIONS}/${attemptId}`;
+	const showBackBtn = data?.allowBack && Number(page) !== 0;
 
 	const defaultValues = initializeFormValues(data?.questions);
 
@@ -44,34 +45,27 @@ export function Questions() {
 	} = useForm({ defaultValues });
 
 	async function onSubmit(formValues: Record<string, string[]>) {
-		// TODO AUTO-FINISH IF TIME EXPIRES
+		if (!attemptId) {
+			console.error("Invalid attempt id");
+			return;
+		}
 
 		clearState(formValues, defaultValues);
 
-		try {
-			if (data?.lastPage) {
-				await axiosInstance.post(
-					`${ROUTES.ATTEMPTS}/${attemptId}/finish`,
-					formValues
-				);
+		if (data?.lastPage) {
+			await attemptService.postFinishAttempt(formValues, attemptId);
 
-				const path = `/quizzes/${attemptId}/results`;
-				navigate(path, { replace: true });
-				return;
-			} else {
-				await axiosInstance.post(
-					`${ROUTES.ATTEMPTS}/${attemptId}/questions`,
-					formValues
-				);
-			}
-
-			const nextPage = Number(page) + 1;
-			const replace = !data?.allowBack;
-
-			navigate(`${path}?page=${nextPage}&size=${size}`, { replace });
-		} catch (error) {
-			console.log(error);
+			const path = `/quizzes/${attemptId}/results`;
+			navigate(path, { replace: true });
+			return;
 		}
+
+		await attemptService.postAnswers(formValues, attemptId);
+
+		const nextPage = Number(page) + 1;
+		const replace = !data?.allowBack;
+
+		navigate(`${path}?page=${nextPage}&size=${size}`, { replace });
 	}
 
 	function onGoBack() {
@@ -90,7 +84,7 @@ export function Questions() {
 		<div className={styles.container}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				{data.questions.map((question) => (
-					<QuestionCard
+					<AttemptField
 						key={question.id}
 						value={question}
 						register={register}
@@ -98,7 +92,7 @@ export function Questions() {
 					/>
 				))}
 
-				{data.allowBack && Number(page) !== 0 && (
+				{showBackBtn && (
 					<button type="button" onClick={onGoBack}>
 						Back
 					</button>

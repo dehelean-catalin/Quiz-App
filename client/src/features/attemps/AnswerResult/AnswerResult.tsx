@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { GoCheckCircleFill, GoXCircleFill } from "react-icons/go";
+import { Answer } from "../types/attemptResultTypes";
 import styles from "./AnswerResult.module.css";
-import { Answer } from "./quizResultTypes";
 
 type Props = {
 	answer: Answer;

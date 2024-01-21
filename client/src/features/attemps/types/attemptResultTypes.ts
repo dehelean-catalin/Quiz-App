@@ -1,4 +1,4 @@
-export type QuizResult = {
+export type AttemptResult = {
 	id: string;
 	quizId: string;
 	title: string;

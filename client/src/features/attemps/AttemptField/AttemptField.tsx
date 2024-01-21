@@ -1,7 +1,7 @@
 import { FieldValues, UseFormRegister } from "react-hook-form";
 import { QuestionHeader } from "../../../components/QuestionCard";
 import { IQuestion } from "../../../shared";
-import styles from "./QuestionCard.module.css";
+import styles from "./AttemptField.module.css";
 
 type Props = {
 	value: IQuestion;
@@ -9,7 +9,7 @@ type Props = {
 	errorMessage: string;
 };
 
-export function QuestionCard({ value, register, errorMessage }: Props) {
+export function AttemptField({ value, register, errorMessage }: Props) {
 	const errorId = `err-${value.title}`;
 
 	return (

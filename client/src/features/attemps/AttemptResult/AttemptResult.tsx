@@ -1,23 +1,23 @@
 import { useParams } from "react-router";
 import { NavLink } from "react-router-dom";
-import { QuestionHeader } from "../../components/QuestionCard";
-import { ROUTES } from "../../config/routes";
-import { useFetch } from "../../shared/hooks";
-import { AnswerResult } from "./AnswerResult";
-import styles from "./QuizResult.module.css";
-import { QuizResult } from "./quizResultTypes";
-import { convertTimeDeltaIntoMinutes } from "./utils/convertTimeDeltaIntoMinutes";
-import { formatDateTimeString } from "./utils/dateUtil";
+import { QuestionHeader } from "../../../components/QuestionCard";
+import { ROUTES } from "../../../config/routes";
+import { useFetch } from "../../../shared/hooks";
+import { AnswerResult } from "../AnswerResult/AnswerResult";
+import { AttemptResult } from "../types/attemptResultTypes";
+import { convertTimeDeltaIntoMinutes } from "../utils/convertTimeDeltaIntoMinutes";
+import { formatDateTimeString } from "../utils/dateUtil";
+import styles from "./AttemptResult.module.css";
 
-export function QuizResult() {
+export function AttemptResult() {
 	const { attemptId } = useParams();
-	const { data, isLoading, error } = useFetch<QuizResult>(
+	const { data, isLoading, error } = useFetch<AttemptResult>(
 		`${ROUTES.ATTEMPTS}/${attemptId}`
 	);
 
 	if (isLoading) return <>Loading...</>;
 	if (error) return <>Error...</>;
-	if (!data) return;
+	if (!data) return <>No data</>;
 
 	return (
 		<div className={styles.results}>
@@ -38,7 +38,7 @@ export function QuizResult() {
 			</article>
 
 			{data.questions.map((question) => (
-				<article className={`card ${styles.question}`}>
+				<article key={question.id} className={`card ${styles.question}`}>
 					<QuestionHeader
 						title={question.title}
 						points={`${question.score} / ${question.points}`}
