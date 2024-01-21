@@ -20,7 +20,7 @@ export function AttemptResult() {
 	if (!data) return <>No data</>;
 
 	return (
-		<div className={styles.results}>
+		<div className={`${styles.results} desktop-container`}>
 			<article className="card">
 				<h1 className={styles.title}>{data.title}</h1>
 

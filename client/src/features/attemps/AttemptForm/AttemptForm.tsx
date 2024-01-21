@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { useNavigate, useParams } from "react-router";
 import { useSearchParams } from "react-router-dom";
+import { IconButton } from "../../../components";
 import { FetchError } from "../../../components/FetchError/FetchError";
 import { ROUTES } from "../../../config/routes";
 import { useFetch } from "../../../shared/hooks";
@@ -23,7 +25,7 @@ export function AttemptForm() {
 	const size = searchParams.get("size");
 	const page = searchParams.get("page");
 
-	const { data, isLoading, error } = useFetch<QuestionPerPageResponse>(
+	const { data, error } = useFetch<QuestionPerPageResponse>(
 		`${ROUTES.QUESTIONS}/${id}/attempts/${attemptId}`,
 		{
 			params: {
@@ -74,14 +76,12 @@ export function AttemptForm() {
 		navigate(`${path}?page=${prevPage}&size=${size}`);
 	}
 
-	if (isLoading) return <>Loading...</>;
-
 	if (error) return <FetchError error={error} />;
 
 	if (!data) return <>No data</>;
 
 	return (
-		<div className={styles.container}>
+		<div className="desktop-container">
 			<form onSubmit={handleSubmit(onSubmit)}>
 				{data.questions.map((question) => (
 					<AttemptField
@@ -91,14 +91,19 @@ export function AttemptForm() {
 						errorMessage={errors[question.id]?.message as string}
 					/>
 				))}
-
+				<IconButton
+					type="submit"
+					className={styles["next-btn"]}
+					text={data.lastPage ? "Submit" : "Next"}
+					iconRight={data.lastPage ? <></> : <GoArrowRight />}
+				/>
 				{showBackBtn && (
-					<button type="button" onClick={onGoBack}>
-						Back
-					</button>
+					<IconButton
+						text="Back"
+						iconLeft={<GoArrowLeft />}
+						onClick={onGoBack}
+					/>
 				)}
-
-				<button type="submit">{data.lastPage ? "Finish" : "Next"}</button>
 			</form>
 		</div>
 	);

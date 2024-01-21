@@ -53,7 +53,11 @@ export default function QuestionActionDialog({ concat }: Props) {
 
 	return (
 		<>
-			<IconButton icon={<GoPlus size={20} />} text="Create" onClick={open} />
+			<IconButton
+				iconLeft={<GoPlus size={20} />}
+				text="Create"
+				onClick={open}
+			/>
 			<dialog ref={ref} className={styles.dialog} open={isOpen}>
 				<div className={styles.container}>
 					<FieldTextarea<QuestionFormData>
@@ -92,7 +96,7 @@ export default function QuestionActionDialog({ concat }: Props) {
 							/>
 
 							<IconButton
-								icon={<GoTrash size={16} />}
+								iconLeft={<GoTrash size={16} />}
 								onClick={() => remove(index)}
 								severity="info"
 								className={styles.remove}
@@ -109,7 +113,7 @@ export default function QuestionActionDialog({ concat }: Props) {
 					<IconButton
 						disabled={fields.length > 7}
 						text="Add answer"
-						icon={<GoPlus size={18} />}
+						iconLeft={<GoPlus size={18} />}
 						onClick={() => {
 							append({ answer: "", isValid: false });
 						}}

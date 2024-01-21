@@ -21,13 +21,13 @@ export default function QuestionAccordion({
 				<IconButton
 					className={styles.btns}
 					onClick={handleRemove}
-					icon={<GoTrash size={16} />}
+					iconLeft={<GoTrash size={16} />}
 					severity="info"
 				/>
 				<IconButton
 					className={styles.btns}
 					onClick={handleRemove}
-					icon={<GoPencil size={16} />}
+					iconLeft={<GoPencil size={16} />}
 					severity="info"
 					disabled={true}
 				/>

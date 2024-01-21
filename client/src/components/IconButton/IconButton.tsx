@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { DetailedHTMLProps } from "react";
 import styles from "./IconButton.module.css";
 interface Props
@@ -6,27 +7,28 @@ interface Props
 		HTMLButtonElement
 	> {
 	text?: string;
-	icon?: JSX.Element;
+	iconRight?: JSX.Element;
+	iconLeft?: JSX.Element;
 	severity?: "info" | "primary" | "submit";
 }
 
 export function IconButton({
 	text,
-	icon,
+	iconLeft,
+	iconRight,
 	className,
 	severity = "primary",
 	...rest
 }: Props) {
+	const btnClassName = clsx(styles.iconBtn, styles[severity], {
+		[String(className)]: !!className,
+	});
+
 	return (
-		<button
-			className={`${styles.iconBtn} ${className ? className : ""} ${
-				styles[severity]
-			}`}
-			type="button"
-			{...rest}
-		>
-			{icon}
+		<button className={btnClassName} type="button" {...rest}>
+			{iconLeft}
 			{text}
+			{iconRight}
 		</button>
 	);
 }

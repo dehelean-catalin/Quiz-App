@@ -29,23 +29,25 @@ export default function QuizOverview() {
 		);
 	}
 
-	if (isLoading) return <>Loading</>;
+	if (isLoading) return <>Loading...</>;
 
 	if (error) return <FetchError error={error} />;
 
 	if (!data) return <>NO DATA</>;
 
 	return (
-		<article className="card pointer m-auto">
-			<h3>{data.title}</h3>
-			<p>{data.description}</p>
+		<div className="desktop-container">
+			<article className="card pointer">
+				<h3>{data.title}</h3>
+				<p>{data.description}</p>
 
-			<p>{data.duration} minutes</p>
-			<p>{data.numberOfQuestions} questions</p>
+				<p>{data.duration} minutes</p>
+				<p>{data.numberOfQuestions} questions</p>
 
-			<footer>
-				<button onClick={startAttempt}>Start</button>
-			</footer>
-		</article>
+				<footer>
+					<button onClick={startAttempt}>Start</button>
+				</footer>
+			</article>
+		</div>
 	);
 }

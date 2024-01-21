@@ -1,6 +1,13 @@
+.desktop-container {
+	width: max(var(--screen-sm), 40%);
+
+	margin: var(--p-6) auto;
+	gap: var(--p-6);
+}
+
 .container {
 	display: flex;
-	margin: 0 var(--m-20);
+	margin: 0 var(--m-15);
 }
 
 .card {
