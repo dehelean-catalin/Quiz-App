@@ -1,3 +1,5 @@
+import { IQuestion } from "../../../shared";
+
 export type AttemptResult = {
 	id: string;
 	quizId: string;
@@ -25,4 +27,12 @@ export type Answer = {
 	id: string;
 	isValid: boolean;
 	answer: string;
+};
+
+export type QuestionPerPageResponse = {
+	lastPage: boolean;
+	allowBack: boolean;
+	title: string;
+	numberOfQuestions: number;
+	questions: IQuestion[];
 };

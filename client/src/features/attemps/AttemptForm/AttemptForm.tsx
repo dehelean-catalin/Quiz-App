@@ -9,13 +9,8 @@ import { useFetch } from "../../../shared/hooks";
 import { IQuestion } from "../../../shared/types/quizTypes";
 import { AttemptField } from "../AttemptField/AttemptField";
 import { attemptService } from "../services/attemptService";
+import { QuestionPerPageResponse } from "../types/attemptResultTypes";
 import styles from "./AttemptForm.module.css";
-
-type QuestionPerPageResponse = {
-	lastPage: boolean;
-	allowBack: boolean;
-	questions: IQuestion[];
-};
 
 export function AttemptForm() {
 	const { id, attemptId } = useParams();

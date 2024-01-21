@@ -2,13 +2,18 @@ import { AxiosRequestConfig } from "axios";
 import { useEffect, useRef, useState } from "react";
 import { axiosInstance } from "../../config/axios.config";
 
+export type IErrorResponse = {
+	message: string;
+	statusCode: number;
+};
+
 export function useFetch<TData = unknown>(
 	url: string,
 	params?: AxiosRequestConfig
 ) {
 	const [data, setData] = useState<TData | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState<Error | null>(null);
+	const [error, setError] = useState<IErrorResponse | null>(null);
 
 	const cancelRequest = useRef(false);
 
@@ -22,7 +27,8 @@ export function useFetch<TData = unknown>(
 			setData(response.data);
 		} catch (err) {
 			if (cancelRequest.current) return;
-			setError(err as Error);
+
+			setError(err?.response?.data as IErrorResponse);
 		} finally {
 			setIsLoading(false);
 		}

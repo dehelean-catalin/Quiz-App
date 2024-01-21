@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ROUTES } from "./config/routes";
-import { AttemptForm } from "./features/attemps/AttemptForm/AttemptForm";
+import { Attempt } from "./features/attemps/Attempt/Attempt";
 import { AttemptResult } from "./features/attemps/AttemptResult/AttemptResult";
 import { LoginPage } from "./features/auth/LoginPage";
 import { SignUpPage } from "./features/auth/SignUpPage";
@@ -24,7 +24,7 @@ function App() {
 					<Route path=":id" element={<QuizOverview />} />
 					<Route
 						path={`:id/${ROUTES.QUESTIONS}/:attemptId`}
-						element={<AttemptForm />}
+						element={<Attempt />}
 					/>
 					<Route path={`:attemptId/results`} element={<AttemptResult />} />
 				</Route>

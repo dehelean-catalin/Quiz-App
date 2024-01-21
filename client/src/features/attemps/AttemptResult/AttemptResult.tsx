@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { useParams } from "react-router";
 import { NavLink } from "react-router-dom";
 import { QuestionHeader } from "../../../components/QuestionCard";
 import { ROUTES } from "../../../config/routes";
 import { useFetch } from "../../../shared/hooks";
 import { AnswerResult } from "../AnswerResult/AnswerResult";
+import { useQuestionStore } from "../store/questionStore";
 import { AttemptResult } from "../types/attemptResultTypes";
 import { convertTimeDeltaIntoMinutes } from "../utils/convertTimeDeltaIntoMinutes";
 import { formatDateTimeString } from "../utils/dateUtil";
@@ -11,9 +13,12 @@ import styles from "./AttemptResult.module.css";
 
 export function AttemptResult() {
 	const { attemptId } = useParams();
+	const reset = useQuestionStore((state) => state.reset);
 	const { data, isLoading, error } = useFetch<AttemptResult>(
 		`${ROUTES.ATTEMPTS}/${attemptId}`
 	);
+
+	useEffect(reset, [reset]);
 
 	if (isLoading) return <>Loading...</>;
 	if (error) return <>Error...</>;
