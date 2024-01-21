@@ -1,4 +1,8 @@
 .container {
 	width: max(568px, 40%);
 	margin: auto;
+
+	& button[type="submit"] {
+		float: right;
+	}
 }

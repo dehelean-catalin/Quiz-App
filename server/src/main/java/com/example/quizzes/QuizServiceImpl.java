@@ -73,11 +73,20 @@ public class QuizServiceImpl implements QuizService {
         for (Question question : quiz.getQuestions()) {
             Question newQuestion = new Question(question.getTitle(), question.getPoints());
 
-            question.getAnswers().stream()
+            List<Answer> answers = question.getAnswers();
+
+            answers.stream()
                     .filter(Answer::getIsValid)
                     .findFirst()
                     .orElseThrow(() -> new BadRequestException("At least one valid answer is " +
                             "required"));
+
+            answers.stream().forEach((answer) -> {
+                Answer newAnswer = new Answer(answer.getAnswer(), answer.getIsValid());
+
+                newQuestion.addAnswer(newAnswer);
+
+            });
 
             newQuiz.addQuestion(newQuestion);
         }

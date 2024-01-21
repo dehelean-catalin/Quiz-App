@@ -31,11 +31,13 @@ export default function QuestionAccordion({
 					severity="info"
 					disabled={true}
 				/>
+
 				<span>
 					{index + 1}. {field.title}
 				</span>
 				<span className={styles.points}> ({field.points} points)</span>
 			</summary>
+
 			{field.answers?.map((answer, key) => (
 				<div
 					key={key}

@@ -35,6 +35,13 @@ public class AttemptServiceImpl implements AttemptService {
     }
 
     @Override
+    public Attempt findById(String attemptId) throws BadRequestException {
+
+        return attemptRepository.findById(attemptId)
+                .orElseThrow(() -> new BadRequestException("Attempt not found"));
+    }
+
+    @Override
     public String save(String quizId) throws BadRequestException {
 
         Quiz quiz = quizRepo.findById(quizId).orElseThrow(() -> new BadRequestException("Quiz not found"));
