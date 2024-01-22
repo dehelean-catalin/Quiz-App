@@ -42,14 +42,15 @@ export function CountDown({
 	}, []);
 
 	const closeAttempt = useCallback(async () => {
-		console.log(getValues(), defaultValues);
+		if (!attemptId) {
+			return;
+		}
 		const newValues = clearState(getValues(), defaultValues);
+		const path = `/${ROUTES.QUIZ}/${attemptId}/results`;
 
 		return await attemptService
 			.postFinishAttempt(newValues, attemptId)
-			.then(() =>
-				navigate(`/${ROUTES.QUIZ}/${attemptId}/results`, { replace: true })
-			)
+			.then(() => navigate(path, { replace: true }))
 			.finally(() => clearInterval(intervalRef.current));
 	}, [attemptId, defaultValues, getValues]);
 
