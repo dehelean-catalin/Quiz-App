@@ -1,4 +1,4 @@
-package com.example.attemps;
+package com.example.attempts;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,10 +38,9 @@ public class Attempt {
     private String completedAt = null;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<AttemptQuestions> attemptAnswers = new ArrayList<>();
+    private List<AttemptQuestions> attemptQuestions = new ArrayList<>();
 
-    public Attempt(String quizId, String startTime, int duration) {
-        String endTime = LocalDateTime.now().plusMinutes(duration).toString();
+    public Attempt(String quizId, String startTime, String endTime) {
 
         this.quizId = quizId;
         this.startTime = startTime;
@@ -50,7 +48,7 @@ public class Attempt {
     }
 
     public void addAnswer(AttemptQuestions attemptQuestions) {
-        attemptAnswers.add(attemptQuestions);
+        this.attemptQuestions.add(attemptQuestions);
     }
 
 }

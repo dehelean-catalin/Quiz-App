@@ -1,7 +1,7 @@
 package com.example.questions;
 
-import com.example.attemps.Attempt;
-import com.example.attemps.AttemptService;
+import com.example.attempts.Attempt;
+import com.example.attempts.AttemptService;
 import com.example.exceptions.ResourceUpdateNotAllowedException;
 import com.example.quizzes.QuizService;
 import com.example.quizzes.QuizSummaryDTO;
@@ -57,6 +57,7 @@ public class QuestionController {
 
         QuestionPerPageResponse questionPerPageResponse =
                 new QuestionPerPageResponse(quizSummary.getAllowBack());
+
         questionPerPageResponse.getQuestions().addAll(questionDTOList);
 
         if (quizSummary.getNumberOfQuestions() <= (numericPage + 1) * numericSize) {

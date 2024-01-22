@@ -22,10 +22,11 @@ export function Attempt() {
 				<header className={styles.header}>
 					<h1>{question.title}</h1>
 					<p>
-						{questionsCount}/{question.numberOfQuestions}
+						{questionsCount}/{question.numberOfQuestions} questions
 					</p>
 				</header>
 			)}
+
 			<AttemptForm />
 		</div>
 	);

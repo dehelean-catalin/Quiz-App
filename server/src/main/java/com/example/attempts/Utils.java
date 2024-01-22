@@ -1,4 +1,4 @@
-package com.example.attemps;
+package com.example.attempts;
 
 import com.example.answers.Answer;
 import com.example.questions.Question;
@@ -29,18 +29,20 @@ class Utils {
             QuestionResult questionResult = new QuestionResult(
                     question.getId(),
                     question.getTitle(),
-                    question.getAnswers()
+                    question.getAnswers(),
+                    question.getPoints()
             );
 
             List<String> correctAnswers = findCorrectAnswerIds(question.getAnswers());
 
-            attempt.getAttemptAnswers().stream()
+            attempt.getAttemptQuestions().stream()
                     .filter(attemptQuestions ->
                             attemptQuestions.getQuestionId().equals(question.getId())
                     )
                     .findFirst()
                     .ifPresent(result ->
-                            setScoreAndPoints(question, result, questionResult, correctAnswers)
+                            setScoreAndPoints(result, questionResult, correctAnswers,
+                                    questionResult.getPoints())
                     );
 
             quizResultResponse.addQuestionResult(questionResult);
@@ -52,15 +54,15 @@ class Utils {
         return quizResultResponse;
     }
 
-    private static void setScoreAndPoints(Question question, AttemptQuestions result, QuestionResult questionResult, List<String> correctAnswers) {
+    private static void setScoreAndPoints(AttemptQuestions result, QuestionResult questionResult,
+                                          List<String> correctAnswers, Integer points) {
         List<String> myAnswers = result.getAnswersId();
         questionResult.setYourAnswers(myAnswers);
 
-        Integer points = question.getPoints();
+        if (myAnswers.equals(correctAnswers)) {
+            questionResult.setScore(points);
+        }
 
-        if (myAnswers.equals(correctAnswers)) questionResult.setScore(points);
-
-        questionResult.setPoints(points);
     }
 
     private static List<String> findCorrectAnswerIds(List<Answer> answers) {

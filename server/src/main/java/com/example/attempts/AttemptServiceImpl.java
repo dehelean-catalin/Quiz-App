@@ -1,4 +1,4 @@
-package com.example.attemps;
+package com.example.attempts;
 
 import com.example.exceptions.ResourceUpdateNotAllowedException;
 import com.example.quizzes.Quiz;
@@ -42,27 +42,34 @@ public class AttemptServiceImpl implements AttemptService {
     }
 
     @Override
-    public String save(String quizId) throws BadRequestException {
+    public CreateAttemptResponse save(String quizId) throws BadRequestException {
 
         Quiz quiz = quizRepo.findById(quizId).orElseThrow(() -> new BadRequestException("Quiz not found"));
 
-        Attempt attempt = new Attempt(quizId, LocalDateTime.now().toString(), quiz.getDuration());
+        LocalDateTime startDate = LocalDateTime.now();
+        String endDate = startDate.plusMinutes(quiz.getDuration()).toString();
+
+        Attempt attempt = new Attempt(quizId, startDate.toString(), endDate);
 
         Attempt save = attemptRepository.save(attempt);
 
-        return save.getId();
+        return new CreateAttemptResponse(save.getId(), startDate.toString());
     }
 
     @Override
     public String saveAnswers(String attemptId, Map<String, List<String>> answers) throws BadRequestException {
 
-        Attempt attempt = attemptRepository.findById(attemptId)
-                .orElseThrow(() -> new BadRequestException("Attempt not found"));
+        Attempt attempt = attemptRepository.findById(attemptId).orElseThrow(() -> new BadRequestException("Attempt not found"));
 
         LocalDateTime localEndDateTime = LocalDateTime.parse(attempt.getEndTime());
 
-        if (attempt.getIsCompleted() || Utils.hasExpired(localEndDateTime)) {
-            throw new ResourceUpdateNotAllowedException("Quiz attempt is completed");
+        if (attempt.getIsCompleted()) {
+            throw new ResourceUpdateNotAllowedException("Attempt is closed");
+        }
+
+        if (Utils.hasExpired(localEndDateTime)) {
+            attempt.setIsCompleted(true);
+            throw new ResourceUpdateNotAllowedException("Attempt is closed");
         }
 
         answers.forEach((questionId, answersId) -> updateSavedAnswers(questionId, answersId, attempt));
@@ -81,7 +88,7 @@ public class AttemptServiceImpl implements AttemptService {
         LocalDateTime localEndDateTime = LocalDateTime.parse(attempt.getEndTime());
 
         if (attempt.getIsCompleted() || Utils.hasExpired(localEndDateTime)) {
-            throw new ResourceUpdateNotAllowedException("Quiz attempt is completed");
+            throw new ResourceUpdateNotAllowedException("Attempt is closed");
         }
 
         answers.forEach((questionId, answersId) -> updateSavedAnswers(questionId, answersId, attempt));
@@ -94,9 +101,10 @@ public class AttemptServiceImpl implements AttemptService {
         return "Success";
     }
 
+
     private static void updateSavedAnswers(String questionId, List<String> answersId, Attempt attempt) {
 
-        Optional<AttemptQuestions> first = attempt.getAttemptAnswers().stream()
+        Optional<AttemptQuestions> first = attempt.getAttemptQuestions().stream()
                 .filter(ans -> ans.getQuestionId().equals(questionId))
                 .findFirst();
 

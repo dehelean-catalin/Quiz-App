@@ -1,4 +1,4 @@
-package com.example.attemps;
+package com.example.attempts;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

@@ -8,7 +8,9 @@ import { ROUTES } from "../../../config/routes";
 import { useFetch } from "../../../shared/hooks";
 import { IQuestion } from "../../../shared/types/quizTypes";
 import { AttemptField } from "../AttemptField/AttemptField";
+import { CountDown } from "../CountDown/CountDown";
 import { attemptService } from "../services/attemptService";
+import { useQuestionStore } from "../store/questionStore";
 import { QuestionPerPageResponse } from "../types/attemptResultTypes";
 import styles from "./AttemptForm.module.css";
 
@@ -16,6 +18,7 @@ export function AttemptForm() {
 	const { id, attemptId } = useParams();
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
+	const question = useQuestionStore((state) => state.question);
 
 	const size = searchParams.get("size");
 	const page = searchParams.get("page");
@@ -39,6 +42,7 @@ export function AttemptForm() {
 		register,
 		handleSubmit,
 		formState: { errors },
+		getValues,
 	} = useForm({ defaultValues });
 
 	async function onSubmit(formValues: Record<string, string[]>) {
@@ -47,17 +51,17 @@ export function AttemptForm() {
 			return;
 		}
 
-		clearState(formValues, defaultValues);
+		const newValues = clearState(formValues, defaultValues);
 
 		if (data?.lastPage) {
-			await attemptService.postFinishAttempt(formValues, attemptId);
+			await attemptService.postFinishAttempt(newValues, attemptId);
 
 			const path = `/quizzes/${attemptId}/results`;
 			navigate(path, { replace: true });
 			return;
 		}
 
-		await attemptService.postAnswers(formValues, attemptId);
+		await attemptService.postAnswers(newValues, attemptId);
 
 		const nextPage = Number(page) + 1;
 		const replace = !data?.allowBack;
@@ -77,6 +81,14 @@ export function AttemptForm() {
 
 	return (
 		<div className="desktop-container">
+			{question.duration && question.startDate && (
+				<CountDown
+					durationInMins={1}
+					startDate={question.startDate}
+					defaultValues={defaultValues}
+					getValues={getValues}
+				/>
+			)}
 			<form onSubmit={handleSubmit(onSubmit)}>
 				{data.questions.map((question) => (
 					<AttemptField
@@ -116,13 +128,17 @@ function initializeFormValues(questions: IQuestion[] | undefined) {
 	return defaultValues;
 }
 
-function clearState(
+export function clearState(
 	formValues: Record<string, string[]>,
 	defaultValues: Record<string, string[]>
 ) {
+	const newFormValues: Record<string, string[]> = {};
+
 	Object.keys(formValues).map((key) => {
-		if (!defaultValues[key]) {
-			delete formValues[key];
+		if (defaultValues[key]) {
+			newFormValues[key] = formValues[key];
 		}
 	});
+
+	return newFormValues;
 }

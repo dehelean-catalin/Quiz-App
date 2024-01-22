@@ -4,6 +4,8 @@ import { persist } from "zustand/middleware";
 interface QuestionInfo {
 	title: string | null;
 	numberOfQuestions: number | null;
+	duration: number | null;
+	startDate: string | null;
 }
 
 interface QuestionState {
@@ -15,6 +17,8 @@ interface QuestionState {
 const initialState = {
 	title: null,
 	numberOfQuestions: null,
+	duration: null,
+	startDate: null,
 };
 
 export const useQuestionStore = create(

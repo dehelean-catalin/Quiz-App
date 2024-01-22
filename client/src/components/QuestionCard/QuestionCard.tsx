@@ -7,12 +7,14 @@ function QuestionCard() {
 type HeaderProps = {
 	title: string;
 	points: string;
+	additionalInfo?: string;
 };
 
-export function QuestionHeader({ title, points }: HeaderProps) {
+export function QuestionHeader({ title, points, additionalInfo }: HeaderProps) {
 	return (
 		<header className={styles.header}>
 			<h3>{title}</h3>
+			<span>{additionalInfo}</span>
 			<p>{points} points</p>
 		</header>
 	);

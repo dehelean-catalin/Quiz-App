@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router";
 import { NavLink } from "react-router-dom";
-import { QuestionHeader } from "../../../components/QuestionCard";
+import { QuestionHeader } from "../../../components/QuestionCard/QuestionCard";
 import { ROUTES } from "../../../config/routes";
 import { useFetch } from "../../../shared/hooks";
 import { AnswerResult } from "../AnswerResult/AnswerResult";
@@ -47,6 +47,7 @@ export function AttemptResult() {
 					<QuestionHeader
 						title={question.title}
 						points={`${question.score} / ${question.points}`}
+						additionalInfo={question.yourAnswers.length ? "" : "(no answer)"}
 					/>
 					{question.answers.map((answer) => (
 						<AnswerResult

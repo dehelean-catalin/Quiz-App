@@ -1,4 +1,4 @@
-package com.example.attemps;
+package com.example.attempts;
 
 import org.apache.coyote.BadRequestException;
 
@@ -10,9 +10,10 @@ public interface AttemptService {
 
     QuizResultResponse findQuizResult(String id) throws BadRequestException;
 
-    String save(String attempt) throws BadRequestException;
+    CreateAttemptResponse save(String attempt) throws BadRequestException;
 
     String saveAnswers(String id, Map<String, List<String>> answers) throws BadRequestException;
 
     String finishAttempt(String id, Map<String, List<String>> answers) throws BadRequestException;
+    
 }

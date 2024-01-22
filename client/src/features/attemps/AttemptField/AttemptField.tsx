@@ -1,5 +1,5 @@
 import { FieldValues, UseFormRegister } from "react-hook-form";
-import { QuestionHeader } from "../../../components/QuestionCard";
+import { QuestionHeader } from "../../../components";
 import { IQuestion } from "../../../shared";
 import styles from "./AttemptField.module.css";
 

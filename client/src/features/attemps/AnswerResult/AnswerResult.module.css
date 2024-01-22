@@ -3,19 +3,25 @@
 }
 
 .green {
+	--green: #d4edda;
+	--green-1: #43a058;
 	border: none;
-	background-color: #d4edda;
+
+	background-color: var(--green);
 
 	& svg {
-		color: #43a058;
+		color: var(--green-1);
 	}
 }
 
 .red {
+	--red: #f8d7da;
+	--red-1: #b32f3c;
+
 	border: none;
-	background: #f8d7da;
+	background: var(--red);
 
 	& svg {
-		color: #b32f3c;
+		color: var(--red-1);
 	}
 }

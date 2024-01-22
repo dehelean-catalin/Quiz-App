@@ -1,4 +1,4 @@
-package com.example.attemps;
+package com.example.attempts;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ public class AttemptController {
     }
 
     @PostMapping("/{id}")
-    public String save(@PathVariable String id) throws BadRequestException {
+    public CreateAttemptResponse createAttempt(@PathVariable String id) throws BadRequestException {
         return attemptService.save(id);
     }
 
