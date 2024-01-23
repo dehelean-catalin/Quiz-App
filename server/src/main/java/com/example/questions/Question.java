@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "questions")
@@ -45,5 +47,9 @@ public class Question {
 
     public void addAnswer(Answer tempAnswer) {
         answers.add(tempAnswer);
+    }
+
+    public void addAllAnswers(List<Answer> answers) {
+        answers.addAll(answers);
     }
 }

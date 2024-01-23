@@ -5,7 +5,6 @@ import com.example.questions.Question;
 import com.example.questions.QuestionRepo;
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,14 +22,10 @@ public class QuizServiceImpl implements QuizService {
         this.questionRepo = questionRepo;
     }
 
-    private static RuntimeException get() throws BadRequestException {
-        throw new BadRequestException("A valid answer is required");
-    }
-
     @Override
-    public QuizSummaryDTO findById(String id) {
+    public QuizSummaryDTO findById(String id) throws BadRequestException {
 
-        Quiz quiz = quizRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Quiz with id - " + id +
+        Quiz quiz = quizRepo.findById(id).orElseThrow(() -> new BadRequestException("Quiz with id " + id +
                 " was not found"));
 
         QuizSummaryDTO quizSummaryDTO = modelMapper.map(quiz, QuizSummaryDTO.class);
@@ -45,7 +40,7 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public List<QuizSummaryDTO> findAllSummary() {
         List<Quiz> quizzes = quizRepo.findAll();
-        List<QuizSummaryDTO> quizSummaryDTOS = new ArrayList<>();
+        List<QuizSummaryDTO> quizSummaryList = new ArrayList<>();
 
         quizzes.forEach((quiz) -> {
 
@@ -54,10 +49,10 @@ public class QuizServiceImpl implements QuizService {
             Long numberOfQuestions = questionRepo.countByQuizId(quiz.getId());
             quizSummaryDTO.setNumberOfQuestions(numberOfQuestions);
 
-            quizSummaryDTOS.add(quizSummaryDTO);
+            quizSummaryList.add(quizSummaryDTO);
         });
 
-        return quizSummaryDTOS;
+        return quizSummaryList;
     }
 
     @Override

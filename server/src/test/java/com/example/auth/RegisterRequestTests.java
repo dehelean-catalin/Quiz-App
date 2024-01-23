@@ -1,3 +1,5 @@
+package com.example.auth;
+
 import com.example.users.RegisterRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

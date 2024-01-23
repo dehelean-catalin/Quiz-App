@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -13,8 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
+@Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
+@Entity
 @Table(name = "quizzes")
 public class Quiz {
 
@@ -29,19 +33,20 @@ public class Quiz {
     @NotBlank(message = "Description is invalid")
     private String description;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    private Difficulty difficulty;
+    private Difficulty difficulty = Difficulty.Easy;
 
     @Min(value = 1, message = "Duration is invalid")
-    private Integer duration;
+    private Integer duration = 5;
 
     @Min(value = 1, message = "Questions per page is invalid")
     @Column(name = "questions_per_page")
-    private Integer questionsPerPage;
+    private Integer questionsPerPage = 2;
 
     @NotNull(message = "Check previous is invalid")
     @Column(name = "check_previous")
-    private Boolean allowBack;
+    private Boolean allowBack = false;
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL,
@@ -57,6 +62,13 @@ public class Quiz {
         this.questionsPerPage = questionsPerPage;
         this.allowBack = allowBack;
     }
+
+    public Quiz(String id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
+
 
     public void addQuestion(Question tempQuestion) {
         questions.add(tempQuestion);

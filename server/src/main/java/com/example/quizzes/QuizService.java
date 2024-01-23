@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface QuizService {
 
-    QuizSummaryDTO findById(String id);
+    QuizSummaryDTO findById(String id) throws BadRequestException;
 
     List<QuizSummaryDTO> findAllSummary();
 

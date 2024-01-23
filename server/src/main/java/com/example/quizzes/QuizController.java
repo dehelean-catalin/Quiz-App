@@ -26,7 +26,7 @@ public class QuizController {
     }
 
     @GetMapping("/{id}")
-    public QuizSummaryDTO findById(@PathVariable String id) {
+    public QuizSummaryDTO findById(@PathVariable String id) throws BadRequestException {
         return quizService.findById(id);
     }
 
