@@ -46,22 +46,20 @@ export function AttemptForm() {
 	} = useForm({ defaultValues });
 
 	async function onSubmit(formValues: Record<string, string[]>) {
-		if (!attemptId) {
+		if (!attemptId || !page) {
 			console.error("Invalid attempt id");
 			return;
 		}
 
 		const newValues = clearState(formValues, defaultValues);
 
-		if (data?.lastPage) {
-			await attemptService.postFinishAttempt(newValues, attemptId);
+		await attemptService.postAnswers(newValues, attemptId, page);
 
+		if (data?.lastPage) {
 			const path = `/quizzes/${attemptId}/results`;
 			navigate(path, { replace: true });
 			return;
 		}
-
-		await attemptService.postAnswers(newValues, attemptId);
 
 		const nextPage = Number(page) + 1;
 		const replace = !data?.allowBack;

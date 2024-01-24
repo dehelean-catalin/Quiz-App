@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { UseFormGetValues } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import { ROUTES } from "../../../config/routes";
 import { attemptService } from "../services/attemptService";
 
@@ -18,6 +19,11 @@ export function CountDown({
 	defaultValues,
 }: Props) {
 	const { attemptId } = useParams();
+	const [searchParams] = useSearchParams();
+
+	// const size = searchParams.get("size");
+	const page = searchParams.get("page");
+
 	const [endTime, setEndTime] = useState<number | null>(null);
 	const [now, setNow] = useState<number | null>(null);
 	const intervalRef = useRef<number | undefined>();
@@ -42,14 +48,15 @@ export function CountDown({
 	}, []);
 
 	const closeAttempt = useCallback(async () => {
-		if (!attemptId) {
+		if (!attemptId || !page) {
 			return;
 		}
+
 		const newValues = clearState(getValues(), defaultValues);
 		const path = `/${ROUTES.QUIZ}/${attemptId}/results`;
 
 		return await attemptService
-			.postFinishAttempt(newValues, attemptId)
+			.postAnswers(newValues, attemptId, page)
 			.then(() => navigate(path, { replace: true }))
 			.finally(() => clearInterval(intervalRef.current));
 	}, [attemptId, defaultValues, getValues]);
