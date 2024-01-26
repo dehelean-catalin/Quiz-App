@@ -1,5 +1,8 @@
-package com.example.quizzes;
+package com.example.quizzes.controller;
 
+import com.example.quizzes.dto.CreateQuizDTO;
+import com.example.quizzes.dto.QuizSummaryDTO;
+import com.example.quizzes.service.QuizService;
 import com.example.utils.ResponseMessage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

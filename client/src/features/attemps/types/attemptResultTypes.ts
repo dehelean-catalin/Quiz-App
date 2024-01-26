@@ -29,10 +29,9 @@ export type Answer = {
 	answer: string;
 };
 
-export type QuestionPerPageResponse = {
+export type PaginatedQuestionsDto = {
 	lastPage: boolean;
 	allowBack: boolean;
-	title: string;
 	numberOfQuestions: number;
 	questions: IQuestion[];
 };

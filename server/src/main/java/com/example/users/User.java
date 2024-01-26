@@ -1,6 +1,6 @@
 package com.example.users;
 
-import com.example.quizzes.Quiz;
+import com.example.quizzes.dao.Quiz;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;

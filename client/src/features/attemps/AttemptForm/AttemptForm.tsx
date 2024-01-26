@@ -9,41 +9,38 @@ import { useFetch } from "../../../shared/hooks";
 import { IQuestion } from "../../../shared/types/quizTypes";
 import { AttemptField } from "../AttemptField/AttemptField";
 import { CountDown } from "../CountDown/CountDown";
+import useFocus from "../hooks/useFocus";
 import { attemptService } from "../services/attemptService";
-import { useQuestionStore } from "../store/questionStore";
-import { QuestionPerPageResponse } from "../types/attemptResultTypes";
+import { PaginatedQuestionsDto } from "../types/attemptResultTypes";
 import styles from "./AttemptForm.module.css";
+import { AttemptHeader } from "./AttemptHeader";
 
 export function AttemptForm() {
 	const { id, attemptId } = useParams();
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
-	const question = useQuestionStore((state) => state.question);
 
-	const size = searchParams.get("size");
-	const page = searchParams.get("page");
+	const page = Number(searchParams.get("page"));
+	useFocus(page, id, attemptId);
 
-	const { data, error } = useFetch<QuestionPerPageResponse>(
-		`${ROUTES.QUESTIONS}/${id}/attempts/${attemptId}`,
+	const { data, error } = useFetch<PaginatedQuestionsDto>(
+		`${ROUTES.ATTEMPTS}/${attemptId}/${ROUTES.QUESTIONS}/${id}`,
 		{
 			params: {
 				page,
-				size,
 			},
 		}
 	);
-
-	const path = `/quizzes/${id}/${ROUTES.QUESTIONS}/${attemptId}`;
-	const showBackBtn = data?.allowBack && Number(page) !== 0;
-
 	const defaultValues = initializeFormValues(data?.questions);
-
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 		getValues,
 	} = useForm({ defaultValues });
+
+	const path = `/quizzes/${id}/${ROUTES.QUESTIONS}/${attemptId}`;
+	const showBackBtn = data?.allowBack && page !== 0;
 
 	async function onSubmit(formValues: Record<string, string[]>) {
 		if (!attemptId || !page) {
@@ -53,24 +50,25 @@ export function AttemptForm() {
 
 		const newValues = clearState(formValues, defaultValues);
 
-		await attemptService.postAnswers(newValues, attemptId, page);
-
 		if (data?.lastPage) {
-			const path = `/quizzes/${attemptId}/results`;
-			navigate(path, { replace: true });
+			const resultsPath = `/quizzes/${attemptId}/results`;
+			await attemptService.closeAttempt(newValues, attemptId, page);
+			navigate(resultsPath, { replace: true });
 			return;
 		}
 
-		const nextPage = Number(page) + 1;
+		await attemptService.postAnswers(newValues, attemptId, page);
+
+		const nextPage = page + 1;
 		const replace = !data?.allowBack;
 
-		navigate(`${path}?page=${nextPage}&size=${size}`, { replace });
+		navigate(`${path}?page=${nextPage}`, { replace });
 	}
 
 	function onGoBack() {
-		const prevPage = Number(page) - 1;
+		const prevPage = page - 1;
 
-		navigate(`${path}?page=${prevPage}&size=${size}`);
+		navigate(`${path}?page=${prevPage}`);
 	}
 
 	if (error) return <FetchError error={error} />;
@@ -79,14 +77,8 @@ export function AttemptForm() {
 
 	return (
 		<div className="desktop-container">
-			{question.duration && question.startDate && (
-				<CountDown
-					durationInMins={1}
-					startDate={question.startDate}
-					defaultValues={defaultValues}
-					getValues={getValues}
-				/>
-			)}
+			<AttemptHeader page={page} />
+			<CountDown defaultValues={defaultValues} getValues={getValues} />
 			<form onSubmit={handleSubmit(onSubmit)}>
 				{data.questions.map((question) => (
 					<AttemptField
@@ -126,7 +118,7 @@ function initializeFormValues(questions: IQuestion[] | undefined) {
 	return defaultValues;
 }
 
-export function clearState(
+function clearState(
 	formValues: Record<string, string[]>,
 	defaultValues: Record<string, string[]>
 ) {

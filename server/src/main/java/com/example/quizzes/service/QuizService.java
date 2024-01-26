@@ -1,5 +1,7 @@
-package com.example.quizzes;
+package com.example.quizzes.service;
 
+import com.example.quizzes.dto.CreateQuizDTO;
+import com.example.quizzes.dto.QuizSummaryDTO;
 import org.apache.coyote.BadRequestException;
 
 import java.util.List;

@@ -9,12 +9,11 @@ import { quizOverviewService } from "../services/quizOverviewService";
 export default function QuizOverview() {
 	const { id } = useParams();
 	const navigate = useNavigate();
+	const setQuestion = useQuestionStore((state) => state.setQuestion);
 
 	const { data, isLoading, error } = useFetch<QuizSummary>(
 		`${ROUTES.QUIZ}/${id}`
 	);
-
-	const setQuestion = useQuestionStore((state) => state.setQuestion);
 
 	async function startAttempt() {
 		if (!data || !id) {
@@ -29,11 +28,10 @@ export default function QuizOverview() {
 			title,
 			duration,
 			startDate: response.startDate,
+			questionsPerPage: data.questionsPerPage,
 		});
 
-		navigate(
-			`${ROUTES.QUESTIONS}/${response.id}?page=0&size=${data?.questionsPerPage}`
-		);
+		navigate(`${ROUTES.QUESTIONS}/${response.id}?page=0`);
 	}
 
 	if (isLoading) return <>Loading...</>;

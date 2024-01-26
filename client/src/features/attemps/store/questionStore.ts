@@ -6,6 +6,7 @@ interface QuestionInfo {
 	numberOfQuestions: number | null;
 	duration: number | null;
 	startDate: string | null;
+	questionsPerPage: number | null;
 }
 
 interface QuestionState {
@@ -19,6 +20,7 @@ const initialState = {
 	numberOfQuestions: null,
 	duration: null,
 	startDate: null,
+	questionsPerPage: null,
 };
 
 export const useQuestionStore = create(

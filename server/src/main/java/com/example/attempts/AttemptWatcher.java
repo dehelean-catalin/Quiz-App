@@ -1,5 +1,7 @@
 package com.example.attempts;
 
+import com.example.attempts.dao.Attempt;
+import com.example.attempts.dao.AttemptRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -25,7 +27,6 @@ public class AttemptWatcher {
         log.warn("Number of expired attempts which are not closed: {}", expiredAttempts.size());
 
         expiredAttempts.forEach(attempt -> {
-            log.info("Attempt with {} is not completed", attempt.getId());
             attempt.setIsCompleted(true);
             attempt.setCompletedAt(attempt.getEndTime());
         });

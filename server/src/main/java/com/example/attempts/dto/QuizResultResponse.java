@@ -1,12 +1,14 @@
-package com.example.attempts;
+package com.example.attempts.dto;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @RequiredArgsConstructor
 public class QuizResultResponse {
     private String id;

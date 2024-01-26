@@ -1,4 +1,4 @@
-package com.example.quizzes;
+package com.example.quizzes.dao;
 
 import com.example.questions.Question;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -6,18 +6,17 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "quizzes")
 public class Quiz {

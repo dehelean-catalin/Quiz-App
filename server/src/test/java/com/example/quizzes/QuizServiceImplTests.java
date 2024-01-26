@@ -1,21 +1,27 @@
 package com.example.quizzes;
 
-import com.example.questions.Question;
 import com.example.questions.QuestionRepo;
+import com.example.quizzes.dao.Quiz;
+import com.example.quizzes.dao.QuizRepo;
+import com.example.quizzes.dto.CreateQuizDTO;
+import com.example.quizzes.dto.QuizSummaryDTO;
+import com.example.quizzes.service.QuizServiceImpl;
 import org.apache.coyote.BadRequestException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static com.example.helpers.QuizMother.*;
+import static com.example.quizzes.service.QuizHelpers.convertQuizDtoToQuiz;
+import static com.example.quizzes.service.QuizHelpers.convertQuizToQuizSummaryDTO;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,9 +32,25 @@ class QuizServiceImplTests {
     @Mock
     private QuestionRepo questionRepo;
 
+    @Mock
+    private ModelMapper modelMapper;
+
     @InjectMocks
     private QuizServiceImpl quizService;
 
+
+    @Test
+    void findById_whenBlankId_thenThrowBadRequestException() {
+
+        String blankId = " ";
+
+        when(quizRepo.findById(blankId)).thenReturn(Optional.empty());
+
+        BadRequestException badRequestException = assertThrows(BadRequestException.class,
+                () -> quizService.findById(blankId));
+        assertEquals("Quiz with id " + blankId + " was not found", badRequestException.getMessage());
+
+    }
 
     @Test
     void findById_whenWrongId_thenThrowBadRequestException() {
@@ -37,36 +59,72 @@ class QuizServiceImplTests {
 
         when(quizRepo.findById(wrongId)).thenReturn(Optional.empty());
 
+        //then
         BadRequestException badRequestException = assertThrows(BadRequestException.class, () -> quizService.findById(wrongId));
         assertEquals("Quiz with id " + wrongId + " was not found", badRequestException.getMessage());
 
     }
 
     @Test
-    void findAllSummary() {
-        List<Quiz> quizzes = new ArrayList<>();
-        quizzes.add(new Quiz());
+    void findById_whenValidId_thenReturnQuizSummaryDTO() throws BadRequestException {
 
-        when(quizRepo.findAll()).thenReturn(quizzes);
+        String validId = "1234";
 
-        List<QuizSummaryDTO> quizSummary = quizService.findAllSummary();
+        Quiz quiz = createQuizMock(validId, 2);
+        when(quizRepo.findById(validId)).thenReturn(Optional.ofNullable(quiz));
 
-        assertThat(quizSummary.size()).isEqualTo(1);
+        QuizSummaryDTO expectedDto = convertQuizToQuizSummaryDTO(quiz);
+
+        QuizSummaryDTO resultDto = quizService.findById(validId);
+
+        // Then
+        assertNotNull(resultDto);
+        assertEquals(expectedDto, resultDto);
+    }
+
+
+    @Test
+    void findAllSummary_whenQuizzesFound_thenReturnQuizSummaryDTO() {
+        List<Quiz> mockQuizzes = createListOfQuizzesMock(3);
+
+        when(quizRepo.findAll()).thenReturn(mockQuizzes);
+
+        List<QuizSummaryDTO> expectedDto = createExpectedQuizSummaries(mockQuizzes);
+
+        List<QuizSummaryDTO> resultDto = quizService.findAllSummary();
+
+        //then
+        assertEquals(expectedDto, resultDto);
     }
 
     @Test
-    void saveQuiz() throws BadRequestException {
-        Quiz quiz = new Quiz("0123", "hehe", "Hheheh");
+    void findAllSummary_whenQuizzesNotFound_thenReturnEmptyList() {
 
-        quiz.addQuestion(new Question());
-        quiz.addQuestion(new Question());
-        quiz.addQuestion(new Question());
+        when(quizRepo.findAll()).thenReturn(Collections.emptyList());
 
-        when(quizRepo.findById("0123")).thenReturn(Optional.of(quiz));
-        when(questionRepo.countByQuizId(quiz.getId())).thenReturn(3L);
+        List<QuizSummaryDTO> expectedDto = createExpectedQuizSummaries(Collections.emptyList());
 
-        QuizSummaryDTO quizSummary = quizService.findById("0123");
+        List<QuizSummaryDTO> resultDto = quizService.findAllSummary();
 
-        assertThat(quizSummary.getNumberOfQuestions()).isEqualTo(3l);
+        //then
+        assertEquals(expectedDto, resultDto);
     }
+
+    @Test
+    void save_whenQuizIsValid_thenReturnQuizId_1() throws BadRequestException {
+
+        CreateQuizDTO createQuizDTO = createQuizDtoMock(3);
+
+        Quiz quiz = convertQuizDtoToQuiz(createQuizDTO);
+
+        Quiz expectedResult = convertQuizDtoToQuiz(createQuizDTO);
+        expectedResult.setId("1234");
+
+        when(quizRepo.save(quiz)).thenReturn(expectedResult);
+
+        String resultId = quizService.save(createQuizDTO);
+
+        assertEquals(resultId, expectedResult.getId());
+    }
+
 }

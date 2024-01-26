@@ -1,4 +1,4 @@
-package com.example.quizzes;
+package com.example.quizzes.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

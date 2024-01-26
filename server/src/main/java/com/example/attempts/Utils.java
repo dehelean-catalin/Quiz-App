@@ -1,16 +1,20 @@
 package com.example.attempts;
 
 import com.example.answers.Answer;
+import com.example.attempts.dao.Attempt;
+import com.example.attempts.dao.AttemptQuestions;
+import com.example.attempts.dto.QuestionResult;
+import com.example.attempts.dto.QuizResultResponse;
 import com.example.questions.Question;
-import com.example.quizzes.Quiz;
+import com.example.quizzes.dao.Quiz;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-class Utils {
+public class Utils {
 
-    static QuizResultResponse convertAttemptToQuizResult(Quiz quiz, Attempt attempt) {
+    public static QuizResultResponse convertAttemptToQuizResult(Quiz quiz, Attempt attempt) {
 
         long timeDeltaInSeconds = getTimeDeltaInSeconds(attempt.getStartTime(), attempt.getCompletedAt());
 
@@ -41,8 +45,7 @@ class Utils {
                     )
                     .findFirst()
                     .ifPresent(result ->
-                            setScoreAndPoints(result, questionResult, correctAnswers,
-                                    questionResult.getPoints())
+                            setScoreAndPoints(result, questionResult, correctAnswers, questionResult.getPoints())
                     );
 
             quizResultResponse.addQuestionResult(questionResult);
@@ -77,7 +80,7 @@ class Utils {
         return ChronoUnit.SECONDS.between(LocalDateTime.parse(startTime), LocalDateTime.parse(completedAt));
     }
 
-    static boolean hasExpired(LocalDateTime targetDate) {
+    public static boolean hasExpired(LocalDateTime targetDate) {
         return LocalDateTime.now().isAfter(targetDate);
     }
 

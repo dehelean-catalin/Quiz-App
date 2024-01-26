@@ -1,4 +1,4 @@
-package com.example.attempts;
+package com.example.attempts.dao;
 
 import jakarta.persistence.*;
 import lombok.Data;
