@@ -6,12 +6,13 @@ import { IconButton } from "../../../components";
 import { FetchError } from "../../../components/FetchError/FetchError";
 import { ROUTES } from "../../../config/routes";
 import { useFetch } from "../../../shared/hooks";
-import { IQuestion } from "../../../shared/types/quizTypes";
+import { AttemptAlert } from "../AttemptAlert/AttemptAlert";
 import { AttemptField } from "../AttemptField/AttemptField";
 import { CountDown } from "../CountDown/CountDown";
 import useFocus from "../hooks/useFocus";
 import { attemptService } from "../services/attemptService";
 import { PaginatedQuestionsDto } from "../types/attemptResultTypes";
+import { initializeFormValues } from "../utils/initializeFormValues";
 import styles from "./AttemptForm.module.css";
 import { AttemptHeader } from "./AttemptHeader";
 
@@ -43,7 +44,7 @@ export function AttemptForm() {
 	const showBackBtn = data?.allowBack && page !== 0;
 
 	async function onSubmit(formValues: Record<string, string[]>) {
-		if (!attemptId || !page) {
+		if (!attemptId) {
 			console.error("Invalid attempt id");
 			return;
 		}
@@ -69,6 +70,12 @@ export function AttemptForm() {
 		const prevPage = page - 1;
 
 		navigate(`${path}?page=${prevPage}`);
+	}
+
+	async function closeAttempt() {
+		if (!attemptId) return;
+
+		await attemptService.closeAttempt({}, attemptId, 0);
 	}
 
 	if (error) return <FetchError error={error} />;
@@ -102,20 +109,12 @@ export function AttemptForm() {
 					/>
 				)}
 			</form>
+			<AttemptAlert
+				blockCondition={page === 0 || !data?.allowBack}
+				onSubmit={closeAttempt}
+			/>
 		</div>
 	);
-}
-
-function initializeFormValues(questions: IQuestion[] | undefined) {
-	if (!questions || !questions.length) {
-		return {};
-	}
-
-	const defaultValues: Record<string, string[]> = {};
-
-	questions.map(({ id }) => (defaultValues[id] = []));
-
-	return defaultValues;
 }
 
 function clearState(

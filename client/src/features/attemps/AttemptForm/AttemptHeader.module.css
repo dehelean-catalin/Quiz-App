@@ -1,0 +1,11 @@
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	margin-bottom: var(--m-1);
+
+	& h1 {
+		font-weight: 500;
+	}
+}

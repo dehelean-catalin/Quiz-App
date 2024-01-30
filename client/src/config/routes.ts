@@ -5,4 +5,4 @@ export const ROUTES = {
 	LOGIN: "/login",
 	QUESTIONS: "questions",
 	ATTEMPTS: "attempts",
-};
+} as const;

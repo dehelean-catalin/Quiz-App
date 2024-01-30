@@ -1,6 +1,11 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+	Route,
+	RouterProvider,
+	createBrowserRouter,
+	createRoutesFromElements,
+} from "react-router-dom";
 import { ROUTES } from "./config/routes";
-import { Attempt } from "./features/attemps/Attempt/Attempt";
+import { AttemptForm } from "./features/attemps/AttemptForm/AttemptForm";
 import { AttemptResult } from "./features/attemps/AttemptResult/AttemptResult";
 import { LoginPage } from "./features/auth/LoginPage";
 import { SignUpPage } from "./features/auth/SignUpPage";
@@ -12,9 +17,9 @@ import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 import { QuizLayout } from "./pages/QuizLayout/QuizLayout";
 
 function App() {
-	return (
-		<BrowserRouter>
-			<Routes>
+	const router = createBrowserRouter(
+		createRoutesFromElements(
+			<>
 				<Route path={ROUTES.LANDING} element={<LandingPage />} />
 				<Route path={ROUTES.SIGN_UP} element={<SignUpPage />} />
 				<Route path={ROUTES.LOGIN} element={<LoginPage />} />
@@ -24,15 +29,16 @@ function App() {
 					<Route path=":id" element={<QuizOverview />} />
 					<Route
 						path={`:id/${ROUTES.QUESTIONS}/:attemptId`}
-						element={<Attempt />}
+						element={<AttemptForm />}
 					/>
 					<Route path={`:attemptId/results`} element={<AttemptResult />} />
 				</Route>
-
 				<Route path="*" element={<NotFoundPage />} />
-			</Routes>
-		</BrowserRouter>
+			</>
+		)
 	);
+
+	return <RouterProvider router={router} />;
 }
 
 export default App;
