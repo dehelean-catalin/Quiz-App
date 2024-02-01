@@ -1,6 +1,6 @@
 package com.example.attempts.dto;
 
-import com.example.answers.Answer;
+import com.example.quizzes.dao.model.Answer;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

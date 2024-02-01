@@ -1,12 +1,8 @@
 package com.example.attempts;
 
-import com.example.answers.Answer;
-import com.example.attempts.dao.Attempt;
-import com.example.attempts.dao.AttemptQuestions;
+import com.example.attempts.dao.model.AttemptQuestions;
 import com.example.attempts.dto.QuestionResult;
-import com.example.attempts.dto.QuizResultResponse;
-import com.example.questions.Question;
-import com.example.quizzes.dao.Quiz;
+import com.example.quizzes.dao.model.Answer;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -14,51 +10,8 @@ import java.util.List;
 
 public class Utils {
 
-    public static QuizResultResponse convertAttemptToQuizResult(Quiz quiz, Attempt attempt) {
-
-        long timeDeltaInSeconds = getTimeDeltaInSeconds(attempt.getStartTime(), attempt.getCompletedAt());
-
-        QuizResultResponse quizResultResponse = new QuizResultResponse(
-                attempt.getId(),
-                quiz.getId(),
-                quiz.getTitle(),
-                attempt.getStartTime(),
-                attempt.getCompletedAt(),
-                timeDeltaInSeconds
-        );
-
-        List<Question> questions = quiz.getQuestions();
-
-        questions.forEach(question -> {
-            QuestionResult questionResult = new QuestionResult(
-                    question.getId(),
-                    question.getTitle(),
-                    question.getAnswers(),
-                    question.getPoints()
-            );
-
-            List<String> correctAnswers = findCorrectAnswerIds(question.getAnswers());
-
-            attempt.getAttemptQuestions().stream()
-                    .filter(attemptQuestions ->
-                            attemptQuestions.getQuestionId().equals(question.getId())
-                    )
-                    .findFirst()
-                    .ifPresent(result ->
-                            setScoreAndPoints(result, questionResult, correctAnswers, questionResult.getPoints())
-                    );
-
-            quizResultResponse.addQuestionResult(questionResult);
-
-        });
-
-        quizResultResponse.setScorePercentage();
-
-        return quizResultResponse;
-    }
-
-    private static void setScoreAndPoints(AttemptQuestions result, QuestionResult questionResult,
-                                          List<String> correctAnswers, Integer points) {
+    public static void setScoreAndPoints(AttemptQuestions result, QuestionResult questionResult,
+                                         List<String> correctAnswers, Integer points) {
         List<String> myAnswers = result.getAnswersId();
         questionResult.setYourAnswers(myAnswers);
 
@@ -68,14 +21,14 @@ public class Utils {
 
     }
 
-    private static List<String> findCorrectAnswerIds(List<Answer> answers) {
+    public static List<String> findCorrectAnswerIds(List<Answer> answers) {
         return answers.stream()
                 .filter(Answer::getIsValid)
                 .map(Answer::getId)
                 .toList();
     }
 
-    static long getTimeDeltaInSeconds(String startTime, String completedAt) {
+    public static long getTimeDeltaInSeconds(String startTime, String completedAt) {
 
         return ChronoUnit.SECONDS.between(LocalDateTime.parse(startTime), LocalDateTime.parse(completedAt));
     }

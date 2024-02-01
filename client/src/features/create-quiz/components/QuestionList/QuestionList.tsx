@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {
 	Control,
 	FieldErrors,
@@ -22,7 +23,12 @@ export default function QuestionList({ control }: Props) {
 	});
 
 	return (
-		<article className={styles.container}>
+		<article
+			className={clsx(
+				styles.container,
+				"col-start-3 col-end-6 row-start-1 row-end-6"
+			)}
+		>
 			<header>
 				Questions
 				{!!fields.length && <QuestionActionDialog concat={append} />}

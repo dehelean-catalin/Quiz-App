@@ -1,6 +1,6 @@
-package com.example.questions;
+package com.example.quizzes.dto;
 
-import com.example.answers.AnswerDTO;
+import com.example.attempts.dto.AnswerDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +11,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionResponse {
+public class QuestionResponseDto {
 
     private String id;
     private String title;
     private Integer points;
-    private List<AnswerDTO> answers = new ArrayList<>();
+    private List<AnswerDto> answers = new ArrayList<>();
 
 }

@@ -1,7 +1,7 @@
-package com.example.questions;
+package com.example.quizzes.controller;
 
-import com.example.attempts.service.AttemptService;
-import com.example.quizzes.service.QuizService;
+import com.example.quizzes.dao.model.Question;
+import com.example.quizzes.service.QuestionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class QuestionController {
 
     private final QuestionService questionService;
-    private final QuizService quizService;
 
-    private final AttemptService attemptService;
-
-    public QuestionController(QuestionService questionService, QuizService quizService, AttemptService attemptService) {
+    public QuestionController(QuestionService questionService) {
         this.questionService = questionService;
-        this.quizService = quizService;
-        this.attemptService = attemptService;
     }
 
     @PostMapping("/")

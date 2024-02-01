@@ -1,15 +1,13 @@
 package com.example.quizzes.dto;
 
-import com.example.quizzes.dao.Difficulty;
+import com.example.quizzes.dao.model.QuizDifficulty;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,27 +16,28 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CreateQuizDTO {
 
-    @NotBlank(message = "Title is invalid")
+    @NotBlank
     private String title;
 
-    @NotBlank(message = "Description is invalid")
+    @NotBlank
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private Difficulty difficulty;
+    private QuizDifficulty quizDifficulty;
 
-    @Min(value = 1, message = "Duration is invalid")
+    @Min(1)
     private Integer duration;
 
-    @Min(value = 1, message = "Questions per page is invalid")
+    @Min(1)
     private Integer questionsPerPage;
 
-    @NotNull(message = "Allow Back is invalid")
+    @NotNull
     private Boolean allowBack;
 
-    @NotNull(message = "Questions are invalid")
+    @NotEmpty
     private List<QuestionDto> questions = new ArrayList<>();
 
 }

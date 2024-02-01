@@ -1,6 +1,6 @@
 package com.example.quizzes.dto;
 
-import com.example.quizzes.dao.Difficulty;
+import com.example.quizzes.dao.model.QuizDifficulty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.Setter;
 public class QuizSummaryDTO {
     private String id;
     private String title;
-    private Difficulty difficulty;
+    private QuizDifficulty quizDifficulty;
     private String description;
     private int duration;
     private int numberOfQuestions;

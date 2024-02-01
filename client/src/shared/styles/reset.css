@@ -8,7 +8,8 @@ html {
 	scroll-behavior: smooth;
 }
 
-input {
+input,
+textarea {
 	width: 100%;
 }
 

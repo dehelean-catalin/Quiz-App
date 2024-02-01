@@ -1,6 +1,7 @@
 package com.example.quizzes.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,5 +21,6 @@ public class QuestionDto {
     @Positive(message = "Points are invalid")
     private int points;
 
+    @NotEmpty
     private List<AnswerDto> answers;
 }

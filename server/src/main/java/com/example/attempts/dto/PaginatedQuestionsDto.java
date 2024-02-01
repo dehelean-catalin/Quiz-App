@@ -1,6 +1,6 @@
 package com.example.attempts.dto;
 
-import com.example.questions.QuestionResponse;
+import com.example.quizzes.dto.QuestionResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,11 +15,11 @@ public class PaginatedQuestionsDto {
 
     private boolean isLastPage;
     private boolean allowBack;
-    List<QuestionResponse> questions = new ArrayList<>();
+    List<QuestionResponseDto> questions = new ArrayList<>();
 
-    public PaginatedQuestionsDto(Boolean allowBack, List<QuestionResponse> questionResponses) {
+    public PaginatedQuestionsDto(Boolean allowBack, List<QuestionResponseDto> questionResponsDtos) {
         this.allowBack = allowBack;
-        this.questions.addAll(questionResponses);
+        this.questions.addAll(questionResponsDtos);
 
     }
 }

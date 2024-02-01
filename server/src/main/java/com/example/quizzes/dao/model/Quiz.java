@@ -1,17 +1,13 @@
-package com.example.quizzes.dao;
+package com.example.quizzes.dao.model;
 
-import com.example.questions.Question;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.quizzes.dao.model.QuizDifficulty.EASY;
 
 
 @Getter
@@ -19,44 +15,43 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "quizzes")
+@Builder
+@AllArgsConstructor
 public class Quiz {
 
     @Id()
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @NotBlank(message = "Title is invalid")
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String title;
 
-    @NotBlank(message = "Description is invalid")
+    @Column(nullable = false, length = 1000)
     private String description;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    private Difficulty difficulty = Difficulty.Easy;
+    @Column(nullable = false)
+    private QuizDifficulty quizDifficulty = EASY;
 
-    @Min(value = 1, message = "Duration is invalid")
-    private Integer duration = 5;
+    @Column(nullable = false)
+    private Integer duration;
 
-    @Min(value = 1, message = "Questions per page is invalid")
-    @Column(name = "questions_per_page")
-    private Integer questionsPerPage = 2;
+    @Column(nullable = false)
+    private Integer questionsPerPage;
 
-    @NotNull(message = "Check previous is invalid")
-    @Column(name = "check_previous")
-    private Boolean allowBack = false;
+    @Column(name = "check_previous", nullable = false)
+    private Boolean allowBack;
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "quiz")
     private List<Question> questions = new ArrayList<>();
 
-    public Quiz(String title, String description, Difficulty difficulty,
+    public Quiz(String title, String description, QuizDifficulty quizDifficulty,
                 Integer duration, Integer questionsPerPage, Boolean allowBack) {
         this.title = title;
         this.description = description;
-        this.difficulty = difficulty;
+        this.quizDifficulty = quizDifficulty;
         this.duration = duration;
         this.questionsPerPage = questionsPerPage;
         this.allowBack = allowBack;

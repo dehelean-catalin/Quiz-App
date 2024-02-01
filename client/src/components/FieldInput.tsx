@@ -27,7 +27,7 @@ export function FieldInput<T extends FieldValues = QuizFormData>({
 	id,
 	inputType = "text",
 	register,
-	className = "flex col",
+	className,
 	...rest
 }: Props<T>) {
 	const registerFormActions = register ? register(id) : "";

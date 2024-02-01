@@ -1,10 +1,10 @@
 package com.example.quizzes;
 
-import com.example.questions.QuestionRepo;
-import com.example.quizzes.dao.Quiz;
-import com.example.quizzes.dao.QuizRepo;
+import com.example.quizzes.dao.model.Quiz;
+import com.example.quizzes.dao.repository.QuizRepo;
 import com.example.quizzes.dto.CreateQuizDTO;
 import com.example.quizzes.dto.QuizSummaryDTO;
+import com.example.quizzes.dto.converter.QuizConverter;
 import com.example.quizzes.service.QuizServiceImpl;
 import org.apache.coyote.BadRequestException;
 import org.junit.jupiter.api.Test;
@@ -12,15 +12,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static com.example.helpers.QuizMother.*;
-import static com.example.quizzes.service.QuizHelpers.convertQuizDtoToQuiz;
-import static com.example.quizzes.service.QuizHelpers.convertQuizToQuizSummaryDTO;
+import static com.example.quizzes.dto.converter.QuizConverter.quizToQuizSummaryDTO;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -29,11 +27,6 @@ class QuizServiceImplTests {
 
     @Mock
     private QuizRepo quizRepo;
-    @Mock
-    private QuestionRepo questionRepo;
-
-    @Mock
-    private ModelMapper modelMapper;
 
     @InjectMocks
     private QuizServiceImpl quizService;
@@ -73,7 +66,7 @@ class QuizServiceImplTests {
         Quiz quiz = createQuizMock(validId, 2);
         when(quizRepo.findById(validId)).thenReturn(Optional.ofNullable(quiz));
 
-        QuizSummaryDTO expectedDto = convertQuizToQuizSummaryDTO(quiz);
+        QuizSummaryDTO expectedDto = quizToQuizSummaryDTO(quiz);
 
         QuizSummaryDTO resultDto = quizService.findById(validId);
 
@@ -115,9 +108,9 @@ class QuizServiceImplTests {
 
         CreateQuizDTO createQuizDTO = createQuizDtoMock(3);
 
-        Quiz quiz = convertQuizDtoToQuiz(createQuizDTO);
+        Quiz quiz = QuizConverter.createQuizDtoToQuiz(createQuizDTO);
 
-        Quiz expectedResult = convertQuizDtoToQuiz(createQuizDTO);
+        Quiz expectedResult = QuizConverter.createQuizDtoToQuiz(createQuizDTO);
         expectedResult.setId("1234");
 
         when(quizRepo.save(quiz)).thenReturn(expectedResult);

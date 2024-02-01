@@ -1,7 +1,7 @@
 package com.example.quizzes.service;
 
-import com.example.quizzes.dao.Quiz;
-import com.example.quizzes.dao.QuizRepo;
+import com.example.quizzes.dao.model.Quiz;
+import com.example.quizzes.dao.repository.QuizRepo;
 import com.example.quizzes.dto.CreateQuizDTO;
 import com.example.quizzes.dto.QuizSummaryDTO;
 import org.apache.coyote.BadRequestException;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.quizzes.service.QuizHelpers.convertQuizDtoToQuiz;
-import static com.example.quizzes.service.QuizHelpers.convertQuizToQuizSummaryDTO;
+import static com.example.quizzes.dto.converter.QuizConverter.createQuizDtoToQuiz;
+import static com.example.quizzes.dto.converter.QuizConverter.quizToQuizSummaryDTO;
 
 @Service
 public class QuizServiceImpl implements QuizService {
@@ -28,7 +28,7 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = quizRepo.findById(id).orElseThrow(() -> new BadRequestException("Quiz with id " + id +
                 " was not found"));
 
-        return convertQuizToQuizSummaryDTO(quiz);
+        return quizToQuizSummaryDTO(quiz);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class QuizServiceImpl implements QuizService {
         List<Quiz> quizzes = quizRepo.findAll();
         List<QuizSummaryDTO> quizSummaryList = new ArrayList<>();
 
-        quizzes.forEach((quiz) -> quizSummaryList.add(convertQuizToQuizSummaryDTO(quiz)));
+        quizzes.forEach((quiz) -> quizSummaryList.add(quizToQuizSummaryDTO(quiz)));
 
         return quizSummaryList;
     }
@@ -44,7 +44,7 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public String save(CreateQuizDTO quizDto) throws BadRequestException {
 
-        Quiz quiz = convertQuizDtoToQuiz(quizDto);
+        Quiz quiz = createQuizDtoToQuiz(quizDto);
 
         Quiz savedQuiz = quizRepo.save(quiz);
 

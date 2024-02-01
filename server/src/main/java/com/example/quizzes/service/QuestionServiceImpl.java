@@ -1,5 +1,7 @@
-package com.example.questions;
+package com.example.quizzes.service;
 
+import com.example.quizzes.dao.model.Question;
+import com.example.quizzes.dao.repository.QuestionRepo;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,8 +30,8 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public String save(Question question) {
-        questionRepo.save(question);
-        return "Success";
+        Question newQuestion = questionRepo.save(question);
+        return newQuestion.getId();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.attempts;
 
-import com.example.attempts.dao.Attempt;
-import com.example.attempts.dao.AttemptRepository;
+import com.example.attempts.dao.model.Attempt;
+import com.example.attempts.dao.repository.AttemptRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

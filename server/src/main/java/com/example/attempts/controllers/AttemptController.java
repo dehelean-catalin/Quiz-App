@@ -1,8 +1,8 @@
 package com.example.attempts.controllers;
 
+import com.example.attempts.dto.AttemptResultDto;
 import com.example.attempts.dto.CreateAttemptResponse;
 import com.example.attempts.dto.PaginatedQuestionsDto;
-import com.example.attempts.dto.QuizResultResponse;
 import com.example.attempts.service.AttemptService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class AttemptController {
     }
 
     @GetMapping("/{id}")
-    public QuizResultResponse getQuizResult(@PathVariable String id) throws BadRequestException {
+    public AttemptResultDto getQuizResult(@PathVariable String id) throws BadRequestException {
         return attemptService.findQuizResult(id);
     }
 

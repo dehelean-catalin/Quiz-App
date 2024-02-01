@@ -1,24 +1,25 @@
-package com.example.answers;
+package com.example.quizzes.dao.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "answers")
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @NotBlank
+
+    @Column(nullable = false)
     private String answer;
-    @Column(name = "is_valid")
+
+    @Column(nullable = false)
     private Boolean isValid;
 
     public Answer(String answer, Boolean isValid) {

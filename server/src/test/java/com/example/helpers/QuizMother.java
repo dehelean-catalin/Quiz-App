@@ -1,9 +1,8 @@
 package com.example.helpers;
 
-import com.example.answers.Answer;
-import com.example.questions.Question;
-import com.example.quizzes.dao.Difficulty;
-import com.example.quizzes.dao.Quiz;
+import com.example.quizzes.dao.model.Answer;
+import com.example.quizzes.dao.model.Question;
+import com.example.quizzes.dao.model.Quiz;
 import com.example.quizzes.dto.AnswerDto;
 import com.example.quizzes.dto.CreateQuizDTO;
 import com.example.quizzes.dto.QuestionDto;
@@ -12,7 +11,8 @@ import com.example.quizzes.dto.QuizSummaryDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.quizzes.service.QuizHelpers.convertQuizToQuizSummaryDTO;
+import static com.example.quizzes.dao.model.QuizDifficulty.EASY;
+import static com.example.quizzes.dto.converter.QuizConverter.quizToQuizSummaryDTO;
 
 public class QuizMother {
 
@@ -36,7 +36,7 @@ public class QuizMother {
                 .title("HTML")
                 .description("HTML Quiz")
                 .duration(5)
-                .difficulty(Difficulty.Easy)
+                .quizDifficulty(EASY)
                 .allowBack(true)
                 .questionsPerPage(2)
                 .questions(questions)
@@ -50,7 +50,7 @@ public class QuizMother {
                 .title("HTML")
                 .description("HTML Quiz")
                 .duration(5)
-                .difficulty(Difficulty.Easy)
+                .quizDifficulty(EASY)
                 .allowBack(true)
                 .questionsPerPage(2)
                 .questions(questions)
@@ -62,7 +62,7 @@ public class QuizMother {
 
         List<QuizSummaryDTO> quizSummaryDTOS = new ArrayList<>();
 
-        mockQuizzes.forEach(quiz -> quizSummaryDTOS.add(convertQuizToQuizSummaryDTO(quiz)));
+        mockQuizzes.forEach(quiz -> quizSummaryDTOS.add(quizToQuizSummaryDTO(quiz)));
 
         return quizSummaryDTOS;
 

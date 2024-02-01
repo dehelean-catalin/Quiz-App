@@ -1,11 +1,7 @@
-package com.example.questions;
+package com.example.quizzes.dao.model;
 
-import com.example.answers.Answer;
-import com.example.quizzes.dao.Quiz;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,10 +22,10 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @NotBlank(message = "Title is invalid")
+    @Column(nullable = false)
     private String title;
 
-    @Positive(message = "Points are invalid")
+    @Column(nullable = false)
     private Integer points;
 
     @JsonBackReference

@@ -1,4 +1,4 @@
-package com.example.attempts.dao;
+package com.example.attempts.dao.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class AttemptQuestions {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @Column(name = "question_id")
+    @Column(nullable = false)
     private String questionId;
 
     private List<String> answersId = new ArrayList<>();

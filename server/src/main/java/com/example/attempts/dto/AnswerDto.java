@@ -1,4 +1,4 @@
-package com.example.answers;
+package com.example.attempts.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnswerDTO {
+public class AnswerDto {
     private String id;
     private String answer;
 }

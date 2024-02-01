@@ -2,7 +2,7 @@ import { Outlet } from "react-router";
 
 export function QuizLayout() {
 	return (
-		<main className="container">
+		<main className="min-w-full">
 			<Outlet />
 		</main>
 	);

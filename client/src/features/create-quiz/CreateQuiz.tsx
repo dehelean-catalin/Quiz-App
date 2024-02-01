@@ -1,5 +1,5 @@
+import { Switch } from "@headlessui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ChangeEvent } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { FieldInput } from "../../components/FieldInput";
@@ -33,9 +33,9 @@ export function CreateQuiz() {
 		defaultValues: { ...DEFAULT_VALUES },
 	});
 
-	function handleCheckChange(e: ChangeEvent<HTMLInputElement>) {
-		const input = e.target.value == "on" ? true : false;
-		setValue("allowBack", input);
+	function handleCheckChange(e: boolean) {
+		console.log(e);
+		setValue("allowBack", e);
 	}
 
 	async function onSubmit(data: QuizFormData) {
@@ -53,11 +53,18 @@ export function CreateQuiz() {
 	}
 
 	return (
-		<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+		<form
+			className="grid gap-1 grid-cols-5 auto-cols-fr width-lg mx-auto my-20"
+			onSubmit={handleSubmit(onSubmit)}
+		>
+			<h1 className="col-start-1 col-end-3 font-semibold text-xl">
+				Create quiz
+			</h1>
 			<FieldInput
 				label="Title *"
 				id="title"
 				register={register}
+				className="col-start-1 col-end-3"
 				errorMessage={errors.title?.message}
 				placeholder="Enter quiz title"
 			/>
@@ -65,6 +72,7 @@ export function CreateQuiz() {
 				id="description"
 				label="Description *"
 				register={register}
+				className="col-start-1 col-end-3"
 				errorMessage={errors.description?.message}
 				placeholder="Enter quiz description"
 			/>
@@ -81,6 +89,7 @@ export function CreateQuiz() {
 								</span>
 							</>
 						}
+						className="col-start-1 col-end-2"
 						id="difficulty"
 						inputType="range"
 						min="0"
@@ -91,11 +100,36 @@ export function CreateQuiz() {
 					/>
 				)}
 			/>
-
+			<div className="col-start-2 col-end-3">
+				<Switch.Group>
+					<Switch.Description>Check previous question</Switch.Description>
+					<Switch
+						name="terms-of-service"
+						defaultChecked={true}
+						onChange={handleCheckChange}
+					>
+						{({ checked }) => (
+							<button
+								className={`${
+									checked ? "bg-blue-600" : "bg-gray-200"
+								} relative inline-flex h-6 w-11 items-center rounded-full`}
+							>
+								<span className="sr-only">Enable notifications</span>
+								<span
+									className={`${
+										checked ? "translate-x-6" : "translate-x-1"
+									} inline-block h-4 w-4 transform rounded-full bg-white transition`}
+								/>
+							</button>
+						)}
+					</Switch>
+				</Switch.Group>
+			</div>
 			<FieldInput
 				label="Duration *"
 				id="duration"
 				inputType="number"
+				className="col-start-1 col-end-2"
 				register={register}
 				errorMessage={errors.duration?.message}
 			/>
@@ -103,15 +137,9 @@ export function CreateQuiz() {
 				label="Questions per page *"
 				id="questionsPerPage"
 				inputType="number"
+				className="col-start-2 col-end-3"
 				register={register}
 				errorMessage={errors.questionsPerPage?.message}
-			/>
-			<FieldInput
-				label="Allow to check previous questions"
-				id="checkPrevious"
-				inputType="checkbox"
-				onChange={handleCheckChange}
-				errorMessage={errors.allowBack?.message}
 			/>
 
 			<QuestionList control={control} register={register} errors={errors} />

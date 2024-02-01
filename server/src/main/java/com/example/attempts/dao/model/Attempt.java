@@ -1,7 +1,6 @@
-package com.example.attempts.dao;
+package com.example.attempts.dao.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,34 +22,31 @@ public class Attempt {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @NotBlank
-    @Column(name = "quiz_id")
+    @Column(nullable = false)
     private String quizId;
 
-    @NotBlank
-    @Column(name = "start_time")
+    @Column(nullable = false)
     private String startTime;
 
-    @Column(name = "end_time")
+    @Column(nullable = false)
     private String endTime;
 
-    @Column(name = "is_completed")
+    @Column(nullable = false)
     private Boolean isCompleted = false;
 
-    @Column(name = "completed_at")
     private String completedAt;
 
-    @Column(name = "current_page")
+    @Column(nullable = false)
     private int currentPage = -1;
 
-    @Column(name = "number_of_pages")
+    @Column(nullable = false)
     private int numberOfPages;
 
-    @Column(name = "allowed_back")
+    @Column(nullable = false)
     private boolean allowedBack;
 
-    @Column(name = "questions_per_page")
-    private int questionsPerPage = 2;
+    @Column(nullable = false)
+    private int questionsPerPage;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<AttemptQuestions> attemptQuestions = new ArrayList<>();

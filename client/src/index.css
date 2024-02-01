@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
 	--primary-blue: #bec7fc;
 	--secondary-blue: #8091f2;
@@ -60,7 +64,7 @@ h1,
 h2,
 h3,
 h4 {
-	color: var(--tertiary-gray) !important;
+	/* color: var(--tertiary-gray) !important; */
 }
 
 input,
@@ -127,10 +131,15 @@ h1 {
 
 button {
 	border: 0;
-	padding: var(--p-2);
-	border-radius: var(--border-2);
+
 	cursor: pointer;
 }
 button:disabled {
 	cursor: default;
+}
+
+@layer utilities {
+	.width-lg {
+		width: var(--screen-lg);
+	}
 }

@@ -1,6 +1,6 @@
-package com.example.questions;
+package com.example.quizzes.service;
 
-import org.apache.coyote.BadRequestException;
+import com.example.quizzes.dao.model.Question;
 
 import java.util.List;
 
@@ -8,9 +8,6 @@ public interface QuestionService {
     List<Question> findAllByQuizId(String id, Integer pageNumber,
                                    Integer pageSize);
 
-    Question findById(String id) throws BadRequestException;
-
     String save(Question question);
 
-    String deleteById(String id);
 }

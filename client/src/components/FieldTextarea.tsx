@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { DetailedHTMLProps, TextareaHTMLAttributes } from "react";
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { QuizFormData } from "../features/create-quiz/schemas/quiz.schema";
@@ -11,6 +12,7 @@ interface Props<T extends FieldValues = QuizFormData>
 	id: Path<T>;
 	register: UseFormRegister<T>;
 	errorMessage?: string;
+	className: string;
 }
 
 export function FieldTextarea<T extends FieldValues = QuizFormData>({
@@ -20,12 +22,13 @@ export function FieldTextarea<T extends FieldValues = QuizFormData>({
 	cols = 30,
 	rows = 6,
 	register,
+	className,
 	...rest
 }: Props<T>) {
 	const errorId = `err-${id}`;
 
 	return (
-		<div className="flex col">
+		<div className={clsx({ [className]: !!className })}>
 			<label htmlFor={id} className={errorMessage ? "error" : ""}>
 				{label}
 			</label>

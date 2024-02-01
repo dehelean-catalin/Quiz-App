@@ -1,21 +1,22 @@
 package com.example.attempts.service;
 
-import com.example.attempts.dao.Attempt;
-import com.example.attempts.dao.AttemptQuestions;
-import com.example.attempts.dao.AttemptRepository;
+import com.example.attempts.dao.model.Attempt;
+import com.example.attempts.dao.model.AttemptQuestions;
+import com.example.attempts.dao.repository.AttemptRepository;
+import com.example.attempts.dto.AttemptResultDto;
 import com.example.attempts.dto.CreateAttemptResponse;
 import com.example.attempts.dto.PaginatedQuestionsDto;
-import com.example.attempts.dto.QuizResultResponse;
 import com.example.attempts.exceptions.AttemptIllegalQuestionUpdateException;
 import com.example.attempts.exceptions.AttemptIsCompletedException;
 import com.example.attempts.exceptions.AttemptNotFoundException;
-import com.example.questions.Question;
-import com.example.questions.QuestionResponse;
-import com.example.questions.QuestionService;
-import com.example.quizzes.dao.Quiz;
-import com.example.quizzes.dao.QuizRepo;
+import com.example.quizzes.dao.model.Question;
+import com.example.quizzes.dao.model.Quiz;
+import com.example.quizzes.dao.repository.QuizRepo;
+import com.example.quizzes.dto.QuestionResponseDto;
 import com.example.quizzes.dto.QuizSummaryDTO;
+import com.example.quizzes.dto.converter.QuizConverter;
 import com.example.quizzes.exceptions.QuizNotFoundException;
+import com.example.quizzes.service.QuestionService;
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -25,9 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.example.attempts.Utils.convertAttemptToQuizResult;
 import static com.example.attempts.Utils.hasExpired;
-import static com.example.quizzes.service.QuizHelpers.convertQuizToQuizSummaryDTO;
+import static com.example.attempts.dto.converter.AttemptConverter.attemptToAttemptResultDto;
 
 @Service
 public class AttemptServiceImpl implements AttemptService {
@@ -44,13 +44,13 @@ public class AttemptServiceImpl implements AttemptService {
     }
 
     @Override
-    public QuizResultResponse findQuizResult(String attemptId) throws BadRequestException {
+    public AttemptResultDto findQuizResult(String attemptId) throws BadRequestException {
 
         Attempt attempt = attemptRepository.findById(attemptId).orElseThrow(AttemptNotFoundException::new);
 
         Quiz quiz = quizRepo.findById(attempt.getQuizId()).orElseThrow(QuizNotFoundException::new);
 
-        return convertAttemptToQuizResult(quiz, attempt);
+        return attemptToAttemptResultDto(quiz, attempt);
     }
 
     @Override
@@ -72,16 +72,16 @@ public class AttemptServiceImpl implements AttemptService {
         List<Question> questions = questionService.findAllByQuizId(id, pageNumber, questionsPerPage);
 
         Quiz quiz = quizRepo.findById(id).orElseThrow(QuizNotFoundException::new);
-        QuizSummaryDTO quizSummary = convertQuizToQuizSummaryDTO(quiz);
+        QuizSummaryDTO quizSummary = QuizConverter.quizToQuizSummaryDTO(quiz);
 
         if (attempt.getIsCompleted()) {
             throw new AttemptIsCompletedException();
         }
 
-        List<QuestionResponse> questionResponsesDto = convertQuestionsToQuestionResponseDto(questions);
+        List<QuestionResponseDto> questionResponsesDtoDto = convertQuestionsToQuestionResponseDto(questions);
 
         PaginatedQuestionsDto paginatedQuestionsDto =
-                new PaginatedQuestionsDto(quizSummary.isAllowBack(), questionResponsesDto);
+                new PaginatedQuestionsDto(quizSummary.isAllowBack(), questionResponsesDtoDto);
 
         if (quizSummary.getNumberOfQuestions() <= (pageNumber + 1) * questionsPerPage) {
             paginatedQuestionsDto.setLastPage(true);
@@ -98,7 +98,8 @@ public class AttemptServiceImpl implements AttemptService {
         LocalDateTime startDate = LocalDateTime.now();
         String endDate = startDate.plusMinutes(quiz.getDuration()).toString();
 
-        int numberOfPages = (int) (Math.floor(quiz.getQuestions().size() / quiz.getQuestionsPerPage()));
+        int numberOfPages =
+                (int) (Math.floor((float) quiz.getQuestions().size() / quiz.getQuestionsPerPage()));
 
         Attempt attempt = new Attempt(quizId,
                 startDate.toString(),
@@ -138,7 +139,7 @@ public class AttemptServiceImpl implements AttemptService {
 
         answers.forEach((questionId, answersId) -> updateSavedAnswers(questionId, answersId, attempt));
         attempt.setCurrentPage(previousPage);
-        
+
         Attempt savedAttempt = attemptRepository.save(attempt);
 
         return savedAttempt.getId();
@@ -184,9 +185,9 @@ public class AttemptServiceImpl implements AttemptService {
         );
     }
 
-    private static List<QuestionResponse> convertQuestionsToQuestionResponseDto(List<Question> questions) {
+    private static List<QuestionResponseDto> convertQuestionsToQuestionResponseDto(List<Question> questions) {
         ModelMapper modelMapper = new ModelMapper();
 
-        return questions.stream().map(question -> modelMapper.map(question, QuestionResponse.class)).toList();
+        return questions.stream().map(question -> modelMapper.map(question, QuestionResponseDto.class)).toList();
     }
 }

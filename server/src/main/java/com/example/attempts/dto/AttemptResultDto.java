@@ -10,23 +10,20 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class QuizResultResponse {
+public class AttemptResultDto {
     private String id;
     private String quizId;
     private String title;
-
     private String startTime;
     private String completedAt;
     private long timeDeltaInSeconds;
-
     private int totalScore = 0;
     private int totalPoints = 0;
-
     private float scorePercentage;
 
-    public QuizResultResponse(String id, String quizId, String title, String startTime,
-                              String completedAt,
-                              long timeDeltaInSeconds) {
+    public AttemptResultDto(String id, String quizId, String title, String startTime,
+                            String completedAt,
+                            long timeDeltaInSeconds) {
         this.id = id;
         this.quizId = quizId;
         this.title = title;
@@ -44,8 +41,8 @@ public class QuizResultResponse {
     }
 
     public void setScorePercentage() {
-        float scorePercentage = ((float) totalScore / totalPoints) * 100;
-        this.scorePercentage = Math.round(scorePercentage);
+        int scorePercentage = (totalScore / totalPoints) * 100;
+        this.scorePercentage = (float) Math.round(scorePercentage);
     }
 
 }

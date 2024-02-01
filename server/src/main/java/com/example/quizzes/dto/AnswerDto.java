@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class AnswerDto {
-    @NotBlank(message = "Answer is blank")
+    @NotBlank
     private String answer;
     @NotNull
     private Boolean isValid;

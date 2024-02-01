@@ -1,8 +1,8 @@
-package com.example.quizzes.service;
+package com.example.quizzes.dto.converter;
 
-import com.example.answers.Answer;
-import com.example.questions.Question;
-import com.example.quizzes.dao.Quiz;
+import com.example.quizzes.dao.model.Answer;
+import com.example.quizzes.dao.model.Question;
+import com.example.quizzes.dao.model.Quiz;
 import com.example.quizzes.dto.CreateQuizDTO;
 import com.example.quizzes.dto.QuestionDto;
 import com.example.quizzes.dto.QuizSummaryDTO;
@@ -11,8 +11,8 @@ import org.modelmapper.ModelMapper;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class QuizHelpers {
-    public static QuizSummaryDTO convertQuizToQuizSummaryDTO(Quiz quiz) {
+public class QuizConverter {
+    public static QuizSummaryDTO quizToQuizSummaryDTO(Quiz quiz) {
         ModelMapper modelMapper = new ModelMapper();
         QuizSummaryDTO quizSummaryDTO = modelMapper.map(quiz, QuizSummaryDTO.class);
 
@@ -22,10 +22,10 @@ public class QuizHelpers {
         return quizSummaryDTO;
     }
 
-    public static Quiz convertQuizDtoToQuiz(CreateQuizDTO quizDto) throws BadRequestException {
+    public static Quiz createQuizDtoToQuiz(CreateQuizDTO quizDto) throws BadRequestException {
         Quiz quiz = new Quiz(quizDto.getTitle(),
                 quizDto.getDescription(),
-                quizDto.getDifficulty(),
+                quizDto.getQuizDifficulty(),
                 quizDto.getDuration(),
                 quizDto.getQuestionsPerPage(),
                 quizDto.getAllowBack());
