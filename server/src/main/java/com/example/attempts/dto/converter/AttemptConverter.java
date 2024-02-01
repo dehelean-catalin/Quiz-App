@@ -2,7 +2,7 @@ package com.example.attempts.dto.converter;
 
 import com.example.attempts.dao.model.Attempt;
 import com.example.attempts.dto.AttemptResultDto;
-import com.example.attempts.dto.QuestionResult;
+import com.example.attempts.dto.QuestionResultRDto;
 import com.example.quizzes.dao.model.Question;
 import com.example.quizzes.dao.model.Quiz;
 
@@ -27,7 +27,7 @@ public class AttemptConverter {
         List<Question> questions = quiz.getQuestions();
 
         questions.forEach(question -> {
-            QuestionResult questionResult = new QuestionResult(
+            QuestionResultRDto questionResultRDto = new QuestionResultRDto(
                     question.getId(),
                     question.getTitle(),
                     question.getAnswers(),
@@ -42,10 +42,10 @@ public class AttemptConverter {
                     )
                     .findFirst()
                     .ifPresent(result ->
-                            setScoreAndPoints(result, questionResult, correctAnswers, questionResult.getPoints())
+                            setScoreAndPoints(result, questionResultRDto, correctAnswers, questionResultRDto.getPoints())
                     );
 
-            attemptResultDto.addQuestionResult(questionResult);
+            attemptResultDto.addQuestionResult(questionResultRDto);
 
         });
 

@@ -1,7 +1,7 @@
 package com.example.attempts.controllers;
 
 import com.example.attempts.dto.AttemptResultDto;
-import com.example.attempts.dto.CreateAttemptResponse;
+import com.example.attempts.dto.CreateAttemptResponseDto;
 import com.example.attempts.dto.PaginatedQuestionsDto;
 import com.example.attempts.service.AttemptService;
 import org.apache.coyote.BadRequestException;
@@ -34,7 +34,7 @@ public class AttemptController {
     }
 
     @PostMapping("/{id}")
-    public CreateAttemptResponse createAttempt(@PathVariable String id) throws BadRequestException {
+    public CreateAttemptResponseDto createAttempt(@PathVariable String id) throws BadRequestException {
         return attemptService.save(id);
     }
 

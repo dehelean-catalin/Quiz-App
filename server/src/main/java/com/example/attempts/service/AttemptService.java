@@ -2,7 +2,7 @@ package com.example.attempts.service;
 
 import com.example.attempts.dao.model.Attempt;
 import com.example.attempts.dto.AttemptResultDto;
-import com.example.attempts.dto.CreateAttemptResponse;
+import com.example.attempts.dto.CreateAttemptResponseDto;
 import com.example.attempts.dto.PaginatedQuestionsDto;
 import org.apache.coyote.BadRequestException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +20,7 @@ public interface AttemptService {
                                                  @PathVariable String attemptId,
                                                  @RequestParam String page) throws BadRequestException;
 
-    CreateAttemptResponse save(String attempt) throws BadRequestException;
+    CreateAttemptResponseDto save(String attempt) throws BadRequestException;
 
     String saveAnswers(String attemptId, Map<String, List<String>> answers, String page) throws BadRequestException;
 

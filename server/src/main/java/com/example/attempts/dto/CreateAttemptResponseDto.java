@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class CreateAttemptResponse {
+public class CreateAttemptResponseDto {
     private String id;
     private String startDate;
 }

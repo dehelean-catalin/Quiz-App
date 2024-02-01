@@ -3,6 +3,7 @@ package com.example.exceptions;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,9 +24,10 @@ public class GlobalExceptionHandler {
         return new ErrorMessage(HttpStatus.NOT_FOUND.value(), "Resource not found: " + ex.getMessage());
     }
 
-    @ExceptionHandler({BadRequestException.class, BadCredentialsException.class, HttpClientErrorException.class})
+    @ExceptionHandler({BadRequestException.class, BadCredentialsException.class,
+            HttpMessageNotReadableException.class, HttpClientErrorException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorMessage handleBadRequestException(BadRequestException ex) {
+    public ErrorMessage handleBadRequestException(Exception ex) {
 
         return new ErrorMessage(HttpStatus.BAD_REQUEST.value(), "Bad request: " + ex.getMessage());
     }
@@ -34,20 +36,20 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorMessage handleForbiddenException(ResourceUpdateNotAllowedException exception) {
 
-        return new ErrorMessage(HttpStatus.FORBIDDEN.value(),
-                "Forbidden: " + exception.getMessage());
+        return new ErrorMessage(HttpStatus.FORBIDDEN.value(), "Forbidden: " + exception.getMessage());
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
+
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
+
         return errors;
     }
 
@@ -57,6 +59,5 @@ public class GlobalExceptionHandler {
 
         return new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), "An unexpected error occurred: " + ex.getMessage());
     }
-
-
+    
 }

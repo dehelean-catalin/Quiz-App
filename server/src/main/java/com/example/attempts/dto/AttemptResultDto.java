@@ -19,7 +19,8 @@ public class AttemptResultDto {
     private long timeDeltaInSeconds;
     private int totalScore = 0;
     private int totalPoints = 0;
-    private float scorePercentage;
+    private int scorePercentage;
+    private List<QuestionResultRDto> questions = new ArrayList<>();
 
     public AttemptResultDto(String id, String quizId, String title, String startTime,
                             String completedAt,
@@ -32,17 +33,15 @@ public class AttemptResultDto {
         this.timeDeltaInSeconds = timeDeltaInSeconds;
     }
 
-    private List<QuestionResult> questions = new ArrayList<>();
-
-    public void addQuestionResult(QuestionResult questionResult) {
-        this.totalScore += questionResult.getScore();
-        this.totalPoints += questionResult.getPoints();
-        questions.add(questionResult);
+    public void addQuestionResult(QuestionResultRDto questionResultRDto) {
+        this.totalScore += questionResultRDto.getScore();
+        this.totalPoints += questionResultRDto.getPoints();
+        questions.add(questionResultRDto);
     }
 
     public void setScorePercentage() {
-        int scorePercentage = (totalScore / totalPoints) * 100;
-        this.scorePercentage = (float) Math.round(scorePercentage);
+        float scorePercentage = ((float) totalScore / totalPoints) * 100;
+        this.scorePercentage = Math.round(scorePercentage);
     }
 
 }

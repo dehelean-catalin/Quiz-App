@@ -25,13 +25,16 @@ public class CreateQuizDTO {
     @NotBlank
     private String description;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private QuizDifficulty quizDifficulty;
 
     @Min(1)
+    @NotNull
     private Integer duration;
 
     @Min(1)
+    @NotNull
     private Integer questionsPerPage;
 
     @NotNull

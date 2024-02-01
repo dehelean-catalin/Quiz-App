@@ -1,12 +1,10 @@
 package com.example.quizzes.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,11 +12,13 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class QuestionDto {
-    @NotBlank(message = "Question title is invalid")
+    @NotBlank
     private String title;
 
-    @Positive(message = "Points are invalid")
+    @Min(0)
+    @NotNull
     private int points;
 
     @NotEmpty

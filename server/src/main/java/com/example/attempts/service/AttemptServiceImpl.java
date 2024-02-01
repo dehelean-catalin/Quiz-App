@@ -4,7 +4,7 @@ import com.example.attempts.dao.model.Attempt;
 import com.example.attempts.dao.model.AttemptQuestions;
 import com.example.attempts.dao.repository.AttemptRepository;
 import com.example.attempts.dto.AttemptResultDto;
-import com.example.attempts.dto.CreateAttemptResponse;
+import com.example.attempts.dto.CreateAttemptResponseDto;
 import com.example.attempts.dto.PaginatedQuestionsDto;
 import com.example.attempts.exceptions.AttemptIllegalQuestionUpdateException;
 import com.example.attempts.exceptions.AttemptIsCompletedException;
@@ -91,7 +91,7 @@ public class AttemptServiceImpl implements AttemptService {
     }
 
     @Override
-    public CreateAttemptResponse save(String quizId) throws BadRequestException {
+    public CreateAttemptResponseDto save(String quizId) throws BadRequestException {
 
         Quiz quiz = quizRepo.findById(quizId).orElseThrow(QuizNotFoundException::new);
 
@@ -111,7 +111,7 @@ public class AttemptServiceImpl implements AttemptService {
 
         Attempt save = attemptRepository.save(attempt);
 
-        return new CreateAttemptResponse(save.getId(), startDate.toString());
+        return new CreateAttemptResponseDto(save.getId(), startDate.toString());
     }
 
     @Override

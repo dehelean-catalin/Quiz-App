@@ -24,8 +24,7 @@ public class RegisterRequestTests {
                 "12345678"
         );
 
-        Set<ConstraintViolation<RegisterRequest>> violations =
-                validator.validate(registerRequest);
+        Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
         assertThat(violations.size()).isEqualTo(1);
     }
 

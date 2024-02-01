@@ -3,7 +3,6 @@ package com.example.quizzes.controller;
 import com.example.quizzes.dto.CreateQuizDTO;
 import com.example.quizzes.dto.QuizSummaryDTO;
 import com.example.quizzes.service.QuizService;
-import com.example.utils.ResponseMessage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
@@ -35,11 +34,8 @@ public class QuizController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseMessage createQuiz(@Valid @RequestBody CreateQuizDTO quiz) throws BadRequestException {
-
-        String message = quizService.save(quiz);
-        return new ResponseMessage(message);
+    public String createQuiz(@Valid @RequestBody CreateQuizDTO quiz) throws BadRequestException {
+        return quizService.save(quiz);
     }
-
 
 }
